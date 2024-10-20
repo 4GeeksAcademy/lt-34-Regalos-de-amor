@@ -35,7 +35,7 @@ def get_beneficiary():
 
 @api.route('/beneficiaries/<int:beneficiaries_id>', methods=['GET'])
 def get_user(beneficiaries_id):
-    each_beneficiary = Beneficiary.query.filter_by(id= beneficiaries_id).first()
+    each_beneficiary = Beneficiary.query.filter_by(id=beneficiaries_id).first()
     if not each_beneficiary:
         return jsonify({"error": "Deleted user"}), 400
 
@@ -92,6 +92,7 @@ def update_beneficiary(id):
     beneficiary.name = data.get('name', beneficiary.name)
     beneficiary.wish_gift = data.get('wish_gift', beneficiary.wish_gift)
     beneficiary.history = data.get('history', beneficiary.history)
+    beneficiary.account = data.get('account', beneficiary.account)
     # beneficiary.picture = data.get('picture', beneficiary.picture)
     beneficiary.is_active = data.get('is_active', beneficiary.is_active)
 
