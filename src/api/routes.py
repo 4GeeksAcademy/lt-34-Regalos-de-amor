@@ -92,6 +92,7 @@ def update_beneficiary(id):
     beneficiary.name = data.get('name', beneficiary.name)
     beneficiary.wish_gift = data.get('wish_gift', beneficiary.wish_gift)
     beneficiary.history = data.get('history', beneficiary.history)
+    beneficiary.account = data.get('account', beneficiary.account)
     # beneficiary.picture = data.get('picture', beneficiary.picture)
     beneficiary.is_active = data.get('is_active', beneficiary.is_active)
 
