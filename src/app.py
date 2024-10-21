@@ -6,7 +6,7 @@ from flask import Flask, request, jsonify, url_for, send_from_directory
 from flask_migrate import Migrate
 from flask_swagger import swagger
 from api.utils import APIException, generate_sitemap
-from api.models import db
+from api.models import db, Foundation
 from api.routes import api
 from api.admin import setup_admin
 from api.commands import setup_commands
@@ -67,6 +67,38 @@ def serve_any_other_file(path):
     response.cache_control.max_age = 0  # avoid cache memory
     return response
 
+#Foundation
+@app.route('/foundations', methods=['GET'])
+def Get_Foundation():
+    all_Foundation= Foundation.query.all()
+    print(all_Foundation)
+    results = list(map(lambda name: name.serialize(), all_Foundation))
+    return jsonify(results), 200
+
+@app.route('/foundations/<int:foundations_id>', methods=['GET'])
+def Get_Foundation_id(foundations_id):
+    identification= Foundation.query.filter_by(Foundation_ID = foundations_id).first()
+    return jsonify(identification.serialize()), 200
+
+@app.route('/foundations', methods=['POST'])
+def POST_Foundation():
+    body = request.get_json()
+    box = Foundation(Name=body['Name'],Description=body['Description'],Country=body['Country'],Email=body['Email'],Password=body['Password']
+    )
+    db.session.add(box)
+    db.session.commit()
+    response_body = {
+        "msg": "A donar has been added"
+    }
+    return jsonify(response_body), 200
+
+@app.route('/foundations', methods=['DELETE'])
+def Delete_foundations():
+    body = request.get_json()
+    favorite = Foundation.query.filter_by(Foundation_ID=body['id']).first()
+    db.session.delete(favorite)
+    db.session.commit()
+    return jsonify({"msg": "Donar eliminated"}), 200
 
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
