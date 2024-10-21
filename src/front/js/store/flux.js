@@ -1,8 +1,8 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
-			message: null,
 			demo: [
+				
 				{
 					title: "FIRST",
 					background: "white",
@@ -12,8 +12,15 @@ const getState = ({ getStore, getActions, setStore }) => {
 					title: "SECOND",
 					background: "white",
 					initial: "white"
-				}
-			]
+				},
+				
+			],
+			name : [],
+			wishGift: [],
+			history: [],
+			account: [],
+			isActive: null,
+			// picture: []
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -33,6 +40,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.log("Error loading message from backend", error)
 				}
 			},
+	
+				
+		},
+
+
 			changeColor: (index, color) => {
 				//get the store
 				const store = getStore();
@@ -49,6 +61,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 			}
 		}
 	};
-};
+
 
 export default getState;
