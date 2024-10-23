@@ -65,6 +65,7 @@ def serve_any_other_file(path):
         path = 'index.html'
     response = send_from_directory(static_file_dir, path)
     response.cache_control.max_age = 0  # avoid cache memory
+    response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
 #Foundation
@@ -99,6 +100,25 @@ def Delete_foundations():
     db.session.delete(favorite)
     db.session.commit()
     return jsonify({"msg": "Donar eliminated"}), 200
+
+@app.route('/foundations/<int:foundation_id>', methods=['PUT'])
+def update_foundation(foundation_id):
+    foundation = Foundation.query.filter_by(Foundation_ID=foundation_id).first()
+    if not foundation:
+        return jsonify({"msg": "Foundation not found"}), 404
+
+    body = request.get_json()
+    foundation.Name = body.get('Name', foundation.Name)
+    foundation.Description = body.get('Description', foundation.Description)
+    foundation.Country = body.get('Country', foundation.Country)
+    foundation.Email = body.get('Email', foundation.Email)
+    foundation.Password = body.get('Password', foundation.Password)
+
+    db.session.commit()
+    
+    return jsonify({"msg": "Foundation updated successfully"}), 200
+
+ 
 
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
