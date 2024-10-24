@@ -1,26 +1,121 @@
-import React, { useContext } from "react";
-import { Context } from "../store/appContext";
-import rigoImageUrl from "../../img/rigo-baby.jpg";
-import "../../styles/home.css";
+import React, { useEffect, useState } from 'react';
+import FoundationCard from "./foundationCard";
+import FoundationForm from './foundationForm';
 
-export const Home = () => {
-	const { store, actions } = useContext(Context);
+const Home = () => {
+    const [foundationList, setFoundationList] = useState([]);
+    const [foundationToEdit, setFoundationToEdit] = useState();
 
-	return (
-		<div className="text-center mt-5">
-			<h1>Hello Rigo!!</h1>
-			<p>
-				<img src={rigoImageUrl} />
-			</p>
-			<div className="alert alert-info">
-				{store.message || "Loading message from the backend (make sure your python backend is running)..."}
-			</div>
-			<p>
-				This boilerplate comes with lots of documentation:{" "}
-				<a href="https://start.4geeksacademy.com/starters/react-flask">
-					Read documentation
-				</a>
-			</p>
-		</div>
-	);
+	const getAllFoundations = async () => {
+		try {
+			const response = await fetch('https://laughing-enigma-pjgpx5jpxrv4f75g9-3001.app.github.dev/foundations');
+			if (!response.ok) {
+				throw new Error(`Error: ${response.status} - ${response.statusText}`);
+			}
+			const data = await response.json();
+			setFoundationList(data);
+		} catch (error) {
+			console.error('There was a problem with the fetch operation:', error);
+		}
+	};
+	
+	const addFoundation = async (foundation) => {
+		try {
+			const response = await fetch('https://laughing-enigma-pjgpx5jpxrv4f75g9-3001.app.github.dev/foundations', {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify(foundation)
+			});
+			if (!response.ok) {
+				throw new Error(`Failed to add foundation: ${response.statusText}`);
+			}
+			await getAllFoundations(); // Actualizar la lista
+		} catch (error) {
+			console.error('Error adding foundation:', error);
+		}
+	};
+	
+	const deleteFoundation = async (id) => {
+		try {
+			const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/foundations/${id}`, {
+				method: "DELETE",
+				headers: {
+					"Content-Type": "application/json"
+				},
+			});
+			if (!response.ok) {
+				throw new Error(`Failed to delete foundation: ${response.statusText}`);
+			}
+			await getAllFoundations(); // Actualizar la lista
+		} catch (error) {
+			console.error('Error deleting foundation:', error);
+		}
+	};
+	
+	const updateFoundation = async (foundation) => {
+		try {
+			const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/foundations/${foundation.id}`, {
+				method: "PUT",
+				headers: {
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify(foundation)
+			});
+			if (!response.ok) {
+				throw new Error(`Failed to update foundation: ${response.statusText}`);
+			}
+			await getAllFoundations(); // Actualizar la lista
+		} catch (error) {
+			console.error('Error updating foundation:', error);
+		}
+	};
+	
+
+    // Llamada a getAllFoundations cuando el componente se monta
+    useEffect(() => {
+        getAllFoundations();
+    }, []);
+
+    return (
+        <div>
+            <div className="row col-12 mb-2 mt-2">
+                <button type="button" className="offset-11 col-1 btn btn-success" data-bs-toggle="modal" data-bs-target="#formModal">
+                    Add New Foundation
+                </button>
+            </div>
+            {foundationList.map((foundation) =>
+                <FoundationCard
+                    key={foundation.id}
+                    name={foundation.name}
+                    email={foundation.email}
+                    description={foundation.description}
+                    country={foundation.country}
+                    password={foundation.password}
+                    delete={() => deleteFoundation(foundation.id)}
+                    edit={() => setFoundationToEdit(foundation)}
+                />
+            )}
+
+            <div className="modal fade" id="formModal" tabIndex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
+                <div className="modal-dialog modal-fullscreen">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div className="modal-body">
+                            <FoundationForm
+                                add={addFoundation}
+                                foundationToEdit={foundationToEdit}
+                                update={updateFoundation}
+                            />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
 };
+
+export default Home;
