@@ -5,75 +5,86 @@ import FoundationForm from './foundationForm';
 const Home = () => {
     const [foundationList, setFoundationList] = useState([]);
     const [foundationToEdit, setFoundationToEdit] = useState();
-
+    console.log(process.env.BACKEND_URL)
+	
 	const getAllFoundations = async () => {
 		try {
-			const response = await fetch('https://laughing-enigma-pjgpx5jpxrv4f75g9-3001.app.github.dev/foundations');
+			const response = await fetch(process.env.BACKEND_URL+'/api/foundations');
 			if (!response.ok) {
 				throw new Error(`Error: ${response.status} - ${response.statusText}`);
 			}
 			const data = await response.json();
 			setFoundationList(data);
+			
 		} catch (error) {
 			console.error('There was a problem with the fetch operation:', error);
 		}
 	};
 	
+
+	
 	const addFoundation = async (foundation) => {
 		try {
-			const response = await fetch('https://laughing-enigma-pjgpx5jpxrv4f75g9-3001.app.github.dev/foundations', {
+			const response = await fetch(process.env.BACKEND_URL+'/api/foundations', {
 				method: "POST",
 				headers: {
+		
 					"Content-Type": "application/json"
 				},
-				body: JSON.stringify(foundation)
+				body: JSON.stringify(
+					foundation
+				  )
 			});
+			console.log(foundation)
 			if (!response.ok) {
 				throw new Error(`Failed to add foundation: ${response.statusText}`);
 			}
-			await getAllFoundations(); // Actualizar la lista
+			await getAllFoundations(); 
 		} catch (error) {
 			console.error('Error adding foundation:', error);
 		}
 	};
-	
+
 	const deleteFoundation = async (id) => {
 		try {
-			const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/foundations/${id}`, {
-				method: "DELETE",
-				headers: {
-					"Content-Type": "application/json"
-				},
+			const response = await fetch(`${process.env.BACKEND_URL}/api/foundations/${id}`, {
+				method: 'DELETE'
 			});
 			if (!response.ok) {
 				throw new Error(`Failed to delete foundation: ${response.statusText}`);
 			}
-			await getAllFoundations(); // Actualizar la lista
+			await getAllFoundations(); 
 		} catch (error) {
 			console.error('Error deleting foundation:', error);
 		}
 	};
 	
-	const updateFoundation = async (foundation) => {
-		try {
-			const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/foundations/${foundation.id}`, {
-				method: "PUT",
-				headers: {
-					"Content-Type": "application/json"
-				},
-				body: JSON.stringify(foundation)
-			});
-			if (!response.ok) {
+	const updateFoundation = async (id, foundation) => {
+        try {
+            const response = await fetch(`${process.env.BACKEND_URL}/api/foundations/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(foundation)
+            });
+
+            if (!response.ok) {
 				throw new Error(`Failed to update foundation: ${response.statusText}`);
-			}
-			await getAllFoundations(); // Actualizar la lista
-		} catch (error) {
-			console.error('Error updating foundation:', error);
-		}
-	};
+            }
+
+            console.log('Beneficiary updated');
+			await getAllFoundations(); 
+
+        } catch (error) {
+            console.error('Failed to update beneficiary:', error);
+        }
+    };
+			
+			
 	
 
-    // Llamada a getAllFoundations cuando el componente se monta
+	
     useEffect(() => {
         getAllFoundations();
     }, []);
@@ -94,7 +105,7 @@ const Home = () => {
                     country={foundation.country}
                     password={foundation.password}
                     delete={() => deleteFoundation(foundation.id)}
-                    edit={() => setFoundationToEdit(foundation)}
+                    edit={() => updateFoundation(foundation.id)}
                 />
             )}
 
@@ -108,7 +119,9 @@ const Home = () => {
                             <FoundationForm
                                 add={addFoundation}
                                 foundationToEdit={foundationToEdit}
+								
                                 update={updateFoundation}
+								
                             />
                         </div>
                     </div>

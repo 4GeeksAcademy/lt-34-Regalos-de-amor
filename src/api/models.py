@@ -10,25 +10,24 @@ class User(db.Model):
     is_active = db.Column(db.Boolean(), unique=False, nullable=False)
 
 class Foundation(db.Model):
-    Foundation_ID = db.Column (Integer, primary_key=True)
-    Name = db.Column(String(250), nullable=False)
-    Description = db.Column(String(250), nullable=False)
-    Country= db.Column(String(250), nullable=False)
-    Email = db.Column(String(250), nullable=False)
-    Password = db.Column(String(250), nullable=False)
+    id = db.Column (Integer, primary_key=True)
+    name = db.Column(String(250), nullable=False)
+    description = db.Column(String(250), nullable=False)
+    country= db.Column(String(250), nullable=False)
+    email = db.Column(String(250), nullable=False)
+    password = db.Column(String(250), nullable=False)
 
 
     def __repr__(self):
-        return '<Foundation %r>' % self.Name
+        return '<Foundation %r>' % self.name
 
     def serialize(self):
         return {
-            "id": self.Foundation_ID,
-            "Name": self.Name,
-            "Description": self.Description,
-            "Country": self.Country,
-            "Email": self.Email,
-            "Password": self.Password,
+            "id": self.id,
+            "name": self.name,
+            "description": self.description,
+            "country": self.country,
+            "email": self.email,
             # do not serialize the password, its a security breach
         }
     

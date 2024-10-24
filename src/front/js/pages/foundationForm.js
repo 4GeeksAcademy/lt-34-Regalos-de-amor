@@ -9,7 +9,7 @@ const FoundationForm = (props) => {
     const [password, setPassword] = useState("");
     const [id, setId] = useState();
 
-    const submit = (e) => { 
+    const submit = async (e) => { 
         e.preventDefault();
 
         const foundation = {
@@ -24,9 +24,9 @@ const FoundationForm = (props) => {
 
         
         if (id){
-            props.update(foundation);
+            await props.update(foundation);
         }else{
-            props.add(foundation);
+            await props.add(foundation);
         }
 
 
@@ -40,16 +40,17 @@ const FoundationForm = (props) => {
     }
     
     useEffect(() => {
-        console.log(props.foundationToEdit)
+        console.log("Editing foundation:", props.foundationToEdit);
+
         if (props.foundationToEdit) {
-            setName(props.foundationToEdit.name);
-            setDescription(props.foundationToEdit.description); 
-            setCountry(props.foundationToEdit.country);
-            setEmail(props.foundationToEdit.email);
-            setPassword(props.foundationToEdit.password); 
-            setId(props.foundationToEdit.id); 
+            setName(props.foundationToEdit.name || "");
+            setDescription(props.foundationToEdit.description || ""); 
+            setCountry(props.foundationToEdit.country || "");
+            setEmail(props.foundationToEdit.email || "");
+            setPassword(props.foundationToEdit.password || ""); 
+            setId(props.foundationToEdit.id || null); 
         }
-    },[props.foundationToEdit]);
+    }, [props.foundationToEdit]);
 
 	return (
 		<div className="container">
