@@ -3,7 +3,6 @@ import { Context } from "../store/appContext";
 import "../../styles/home.css";
 import { Form } from "../component/form";
 import { Navigate } from "react-router-dom";
-import { Signup } from "../component/signup";
 
 
 export const Welcome = () => {
