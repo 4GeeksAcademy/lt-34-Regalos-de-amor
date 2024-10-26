@@ -1,34 +1,68 @@
 import { Donors } from "../pages/donors";
 const getState = ({ getStore, getActions, setStore }) => {
-	return {
-		store: {
-			demo: [
-				
-				{
-					title: "FIRST",
-					background: "white",
-					initial: "white"
-				},
-				{
-					title: "SECOND",
-					background: "white",
-					initial: "white"
-				},
-				
-			],
-			name: [],
+    return {
+        store: {
+            demo: [
+                {
+                    title: "FIRST",
+                    background: "white",
+                    initial: "white"
+                },
+                {
+                    title: "SECOND",
+                    background: "white",
+                    initial: "white"
+                },
+            ],
+            name: [],
+            wishGift: [],
+            history: [],
+            account: [],
+            isActive: null,
+            beneficiaries: [],
+            donors: [],
 			last_name: [],
 			email: [],
-			isActive: null,
 			// picture: []
 			message: [],
-		},
-		actions: {
-			// Use getActions to call a function within a function
-			exampleFunction: () => {
-				getActions().changeColor(0, "green");
-			},
+        },
+        actions: {
+            exampleFunction: () => {
+                getActions().changeColor(0, "green");
+            },
 
+            getMessage: async () => {
+                try {
+                    const resp = await fetch(process.env.BACKEND_URL + "/api/hello");
+                    const data = await resp.json();
+                    setStore({ message: data.message });
+                    return data;
+                } catch (error) {
+                    console.log("Error loading message from backend", error);
+                }
+            },
+
+            changeColor: (index, color) => {
+                const store = getStore();
+                const demo = store.demo.map((elm, i) => {
+                    if (i === index) elm.background = color;
+                    return elm;
+                });
+                setStore({ demo: demo });
+            },
+
+            fetchBeneficiaryData: async () => {
+                try {
+                    const response = await fetch(`${process.env.BACKEND_URL}/api/beneficiary`);
+                    if (!response.ok) {
+                        throw new Error(`Error: ${response.status}`);
+                    }
+                    const data = await response.json();
+                    setStore({ beneficiaries: data });
+                } catch (error) {
+                    console.error('Failed to fetch beneficiary data:', error);
+                }
+            },
 			getDonors: async () => {
 				try {
 					// fetching data from the backend
@@ -47,10 +81,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.log("Error loading message from backend", error);
 				}
 			},
-
-			// CRUD Functions for Donor
-
-			// Function to fetch all donors
 			fetchDonorData: async () => {
 				try {
 					const response = await fetch(`${process.env.BACKEND_URL}/api/donor`);
@@ -63,8 +93,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.error('Failed to fetch donor data:', error);
 				}
 			},
-
-			// Function to create a new donor
 			createDonor: async (newDonor) => {
 				try {
 					const response = await fetch(`${process.env.BACKEND_URL}/api/donors`, {
@@ -85,8 +113,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.error('Failed to create donor:', error);
 				}
 			},
-
-			// Function to update an existing donor
 			updateDonor: async (id, updatedDonor) => {
 				try {
 					const response = await fetch(`${process.env.BACKEND_URL}/api/donor/${id}`, {
@@ -106,8 +132,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.error('Failed to update donor:', error);
 				}
 			},
-
-			// Function to delete a donor
 			deleteDonor: async (id) => {
 				try {
 					const response = await fetch(`${process.env.BACKEND_URL}/api/donor/${id}`, {
@@ -126,23 +150,30 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
-			// Example function
-			changeColor: (index, color) => {
-				//get the store
-				const store = getStore();
+            createBeneficiary: async () => {
+                try {
+                    const response = await fetch(`${process.env.BACKEND_URL}/api/beneficiary`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify()
+                    });
 
-				//we have to loop the entire demo array to look for the respective index
-				//and change its color
-				const demo = store.demo.map((elm, i) => {
-					if (i === index) elm.background = color;
-					return elm;
-				});
+                    if (!response.ok) {
+                        throw new Error(`Error: ${response.status}`);
+                    }
 
-				//reset the global store
-				setStore({ demo: demo });
-			},
-		}
-	};
+                    const data = await response.json();
+                    console.log('Beneficiary created:', data);
+                    getActions().fetchBeneficiaryData();
+                } catch (error) {
+                    console.error('Failed to create beneficiary:', error);
+                }
+            },
+
+        }
+    };
 };
 
 export default getState;
