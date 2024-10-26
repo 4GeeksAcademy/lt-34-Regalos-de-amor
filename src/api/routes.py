@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Beneficiary
+from api.models import db, User, Beneficiary, Donor 
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 # from flask_jwt_extended import create_access_token
@@ -35,7 +35,7 @@ def get_beneficiary():
 
 @api.route('/beneficiaries/<int:beneficiaries_id>', methods=['GET'])
 def get_user(beneficiaries_id):
-    each_beneficiary = Beneficiary.query.filter_by(id= beneficiaries_id).first()
+    each_beneficiary = Beneficiary.query.filter_by(id=beneficiaries_id).first()
     if not each_beneficiary:
         return jsonify({"error": "Deleted user"}), 400
 
@@ -99,3 +99,75 @@ def update_beneficiary(id):
     db.session.commit()
 
     return jsonify(beneficiary.serialize()), 200
+
+@api.route('/donor', methods=['GET'])
+def get_donors():
+    donors = Donor.query.all()
+    results = list(map(lambda donor: donor.serialize(), donors))
+
+    return jsonify(results), 200
+
+@api.route('/donors/<int:donor_id>', methods=['GET'])
+def get_donor(donor_id):
+    donor = Donor.query.filter_by(id=donor_id).first()
+    if not donor:
+        return jsonify({"error": "Donor not found"}), 404
+
+    return jsonify(donor.serialize()), 200
+
+@api.route('/donor', methods=['POST'])
+def create_donor():
+    data = request.get_json()
+    if not data:
+        return jsonify({"error": "No input data provided"}), 400
+
+    name = data.get('name')
+    last_name = data.get('last_name')
+    email = data.get('email')
+    password = data.get('password')
+    is_active = data.get('is_active', True)
+
+    new_donor = Donor(
+        name=name,
+        last_name=last_name,
+        email=email,
+        password=password,  # Make sure to handle password securely
+        is_active=is_active
+    )
+
+    db.session.add(new_donor)
+    db.session.commit()
+
+    return jsonify(new_donor.serialize()), 201
+
+@api.route('/donor/<int:id>', methods=['DELETE'])
+def delete_donor(id):
+    donor = Donor.query.get(id)
+    if not donor:
+        return jsonify({"error": "Donor not found"}), 404
+
+    db.session.delete(donor)
+    db.session.commit()
+
+    return jsonify({"message": "Donor deleted successfully"}), 200
+
+@api.route('/donor/<int:id>', methods=['PUT'])
+def update_donor(id):
+    data = request.get_json()
+    if not data:
+        return jsonify({"error": "No input data provided"}), 400
+
+    donor = Donor.query.get(id)
+    if not donor:
+        return jsonify({"error": "Donor not found"}), 404
+
+    donor.name = data.get('name', donor.name)
+    donor.last_name = data.get('last_name', donor.last_name)
+    donor.email = data.get('email', donor.email)
+    donor.password = data.get('password', donor.password)  # Make sure to handle password securely
+    donor.is_active = data.get('is_active', donor.is_active)
+
+    db.session.commit()
+
+    return jsonify(donor.serialize()), 200
+
