@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 
-
 const FoundationForm = (props) => {
     const [Name, setName] = useState("");
     const [description, setDescription] = useState("");
@@ -19,16 +18,13 @@ const FoundationForm = (props) => {
             email: email,
             password: password,
             id: id
-
         };
 
-        
-        if (id){
-            await props.update(foundation);
-        }else{
+        if (id) {
+            await props.update(id, foundation);
+        } else {
             await props.add(foundation);
         }
-
 
         setName("");
         setDescription("");
@@ -36,12 +32,9 @@ const FoundationForm = (props) => {
         setEmail("");
         setPassword("");
         setId(null);
-
     }
     
     useEffect(() => {
-        console.log("Editing foundation:", props.foundationToEdit);
-
         if (props.foundationToEdit) {
             setName(props.foundationToEdit.name || "");
             setDescription(props.foundationToEdit.description || ""); 
@@ -52,10 +45,10 @@ const FoundationForm = (props) => {
         }
     }, [props.foundationToEdit]);
 
-	return (
-		<div className="container">
+    return (
+        <div className="container">
             <div className="row">
-			    <h1 className="text-center">Add a new foundation</h1>
+                <h1 className="text-center">Add a new foundation</h1>
                 <form className="col-8 offset-2" onSubmit={submit}>
                     <label className="mt-2" htmlFor="email">Name</label>
                     <input
@@ -72,7 +65,7 @@ const FoundationForm = (props) => {
                         onChange={(event) => setDescription(event.target.value)}
                         type="text"
                         className="form-control"
-                        id="name"
+                        id="description"
                         placeholder="Enter description"
                     />
                     <label className="mt-2" htmlFor="country">Country</label>
@@ -81,7 +74,7 @@ const FoundationForm = (props) => {
                         onChange={(event) => setCountry(event.target.value)}
                         type="text"
                         className="form-control"
-                        id="name"
+                        id="country"
                         placeholder="Enter country"
                     />
                     <label className="mt-2" htmlFor="email">Email</label>
@@ -90,7 +83,7 @@ const FoundationForm = (props) => {
                         onChange={(event) => setEmail(event.target.value)}
                         type="text"
                         className="form-control"
-                        id="name"
+                        id="email"
                         placeholder="Enter email"
                     />
                     <label className="mt-2" htmlFor="password">Password</label>
@@ -99,15 +92,14 @@ const FoundationForm = (props) => {
                         onChange={(event) => setPassword(event.target.value)}
                         type="text"
                         className="form-control"
-                        id="name"
+                        id="password"
                         placeholder="Enter password"
                     />
                     <button className="mt-3 col-12 btn btn-primary" type="submit">Save</button>
                 </form>
             </div>
-
-		</div>
-	);
+        </div>
+    );
 };
 
 export default FoundationForm;

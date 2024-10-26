@@ -3,15 +3,14 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ScrollToTop from "./component/scrollToTop";
 import { BackendURL } from "./component/backendURL";
 
-import Home from "./pages/home";
+import {Home} from "./pages/home";
+
 import { Demo } from "./pages/demo";
 import { Single } from "./pages/single";
-import FoundationCard from "./pages/foundationCard";
-import FoundationForm from "./pages/foundationForm";
 import injectContext from "./store/appContext";
-
 import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
+import List from "./pages/foundationList";
 
 const Layout = () => {
     const basename = process.env.BASENAME || "";
@@ -25,11 +24,8 @@ const Layout = () => {
                     <Navbar />
                     <Routes>
                         <Route element={<Home />} path="/" />
+                        <Route element={<List />} path="/list" />
                         <Route element={<Demo />} path="/demo" />
-                        <Route element={<FoundationCard />} path="/foundation" />
-                        <Route element={<FoundationForm />} path="/foundation/add" />
-                        <Route element={<FoundationForm />} path="/foundation/edit/:id" />
-                        <Route path="/Foundation" element={<FoundationCard />} />
                         <Route element={<Single />} path="/single/:theid" />
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>
@@ -41,3 +37,5 @@ const Layout = () => {
 };
 
 export default injectContext(Layout);
+
+
