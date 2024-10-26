@@ -179,9 +179,13 @@ def login():
     
     user = User.query.filter_by(email = email).first()
     print(User)
+    
 
     if not user: 
         return jsonify({"error": "user not found"}), 404
+    
+    print(type(user))
+    print(user.serialize())
 
     valid_password = current_app.bcrypt.check_password_hash(user.password, password)
     
