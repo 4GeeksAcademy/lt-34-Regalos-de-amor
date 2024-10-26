@@ -19,16 +19,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 			user: null
 		},
 
-
-
-	
 		actions: {
 			// Use getActions to call a function within a fuction
 			exampleFunction: () => {
 				getActions().changeColor(0, "green");
 			},
-
-			
 
 			logout: () => {
 				console.log('logout');
@@ -73,6 +68,30 @@ const getState = ({ getStore, getActions, setStore }) => {
 					return false
 			},
 
+			signup: async (email, password) => {
+				const requestOptions = {
+					method: 'POST',
+					headers: {'Content-Type': 'application/json'},
+					body: JSON.stringify (
+						{
+							'email': email,
+							'password': password
+						}
+					)
+				};
+				const response = await fetch(process.env.BACKEND_URL + "/api/signup", requestOptions)
+				const data = await response.json()
+					
+					if(response.ok){
+						setStore({user: data.user})
+						return true	
+					}else{
+						data.user == data.user
+						alert("Try another donor")
+						return false
+					}
+			},
+
 			getMessage: async () => {
 				try{
 					// fetching data from the backend
@@ -88,7 +107,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 	
 				
 		},
-
 
 			changeColor: (index, color) => {
 				//get the store

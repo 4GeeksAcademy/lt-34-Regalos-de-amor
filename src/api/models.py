@@ -59,5 +59,21 @@ class Donor(db.Model):
             "is_active": self.is_active
         }
     
+class Donor_login(db.Model): 
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(255), unique=True, nullable=False) 
+    password = db.Column(db.String(255), nullable=False) 
+    is_active = db.Column(db.Boolean(), default=True, nullable=False) 
+
+    def __repr__(self):
+        return f'<Donor_login {self.email}>'
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "email": self.email,
+            "is_active": self.is_active
+        }
+    
 
     

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext} from "react";
 import { Context } from "../store/appContext";
 import { useNavigate } from "react-router-dom";
 import {Link} from "react-router-dom"
@@ -10,7 +10,6 @@ export const Form = () => {
 	const navigate = useNavigate()
 
 	
-
 	async function sendData(e){
 		e.preventDefault()
 		
@@ -19,6 +18,7 @@ export const Form = () => {
 		if(response){
 			navigate("/login")
 		}
+
 		
 	}
 	return (
@@ -35,7 +35,7 @@ export const Form = () => {
 				</div>
 				<button type="submit" className="btn btn-primary">Login</button>
 			</form>
-			{/* <Link to="/signup" className="my-link">Signup</Link> */}
+			<Link to="/signup" className="my-link">Signup</Link>
 
 		</div>
 	);
