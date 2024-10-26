@@ -13,7 +13,6 @@ import injectContext from "./store/appContext";
 
 import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
-import { Beneficiary } from "./pages/beneficiary";
 import { DonorBeneficiary } from "./pages/donorbeneficiary";
 
 //create your first component
