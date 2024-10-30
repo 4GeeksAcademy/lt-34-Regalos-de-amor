@@ -15,6 +15,7 @@ import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
 import List from "./pages/foundationList";
 import { DonorBeneficiary } from "./pages/donorbeneficiary";
+import { UploadImage } from "./component/uploadImageb";
 
 const Layout = () => {
     const basename = process.env.BASENAME || "";
@@ -30,6 +31,7 @@ const Layout = () => {
                         <Route element={<Home />} path="/" />
                         <Route element={<List />} path="/list" />
                         <Route element={<Demo />} path="/demo" />
+                        <Route element={<UploadImage />} path="/upload" />
                         <Route element={<Beneficiary/>} path="/beneficiary" />
                         <Route element={<BeneficiaryForm />} path="/beneficiary/add" />
                         <Route element={<BeneficiaryForm />} path="/beneficiary/edit/:id" />
