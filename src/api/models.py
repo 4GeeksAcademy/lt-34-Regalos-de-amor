@@ -29,6 +29,7 @@ class Foundation(db.Model):
     password = db.Column(String(250), nullable=False)
 
 
+
     def __repr__(self):
         return '<Foundation %r>' % self.name
 

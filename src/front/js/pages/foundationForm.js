@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom"; 
+import Login from "../component/login";
 
-const FoundationForm = (props) => {
+
+export const FoundationForm = (props) => {
     const [Name, setName] = useState("");
     const [description, setDescription] = useState("");
     const [country, setCountry] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [id, setId] = useState();
-
+    const navigate = useNavigate();
     const submit = async (e) => { 
         e.preventDefault();
 
@@ -77,6 +80,7 @@ const FoundationForm = (props) => {
                         id="country"
                         placeholder="Enter country"
                     />
+                    <div> <Login/>              
                     <label className="mt-2" htmlFor="email">Email</label>
                     <input
                         value={email}
@@ -85,7 +89,7 @@ const FoundationForm = (props) => {
                         className="form-control"
                         id="email"
                         placeholder="Enter email"
-                    />
+                    /> </div>  
                     <label className="mt-2" htmlFor="password">Password</label>
                     <input
                         value={password}
@@ -102,4 +106,4 @@ const FoundationForm = (props) => {
     );
 };
 
-export default FoundationForm;
+
