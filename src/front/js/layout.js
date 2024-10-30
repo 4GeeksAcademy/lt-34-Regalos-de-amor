@@ -19,7 +19,7 @@ import { DonorBeneficiary } from "./pages/donorbeneficiary";
 import FoundationForm from "./pages/foundationForm";
 
 
-const Layout = () => {
+export const Layout = () => {
     const basename = process.env.BASENAME || "";
 
     if (!process.env.BACKEND_URL || process.env.BACKEND_URL === "") return <BackendURL />;

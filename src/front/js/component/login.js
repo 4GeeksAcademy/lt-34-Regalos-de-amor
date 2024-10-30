@@ -3,7 +3,7 @@ import { Context } from "../store/appContext";
 import { useNavigate } from "react-router-dom";
 import {Link} from "react-router-dom"
 
-export const Form = () => {
+export const Login = () => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const {actions} = useContext(Context);
@@ -41,4 +41,4 @@ export const Form = () => {
 	);
 };
 
-export default Form
+export default Login

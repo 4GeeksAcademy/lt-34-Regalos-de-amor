@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import FoundationCard from "./foundationCard";
-import FoundationForm from './foundationForm';
+import {FoundationCard} from "./foundationCard";
+import {FoundationForm} from './foundationForm';
 
-const List = () => {
+export const List = () => {
     const [foundationList, setFoundationList] = useState([]);
     const [foundationToEdit, setFoundationToEdit] = useState();
 

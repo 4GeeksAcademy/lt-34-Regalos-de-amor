@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from 'react';
+import {FoundationForm} from './foundationForm';
 
-const FoundationCard = (props) => {
+export const FoundationCard = (props) => {
     return (
         <div className="container mb-4 card">
             <div className="row p-3">

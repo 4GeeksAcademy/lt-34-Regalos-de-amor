@@ -233,9 +233,9 @@ def login():
     print(type(user))
     print(user.serialize())
 
-    valid_password = current_app.bcrypt.check_password_hash(user.password, password)
+    #valid_password = current_app.bcrypt.check_password_hash(user.password, password)
     
-    if email != user.email or not valid_password:
+    if email != user.email or password != user.password:
         return jsonify({"msg": "Incorrect email or password"}), 401
     
     access_token = create_access_token(identity=email)

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom"; 
 import Login from "../component/login";
-
+import {FoundationCard} from "./foundationCard";
 
 export const FoundationForm = (props) => {
     const [Name, setName] = useState("");
@@ -107,3 +107,4 @@ export const FoundationForm = (props) => {
 };
 
 
+export default FoundationForm;
