@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Beneficiary, Donor 
+from api.models import db, User, Beneficiary, Donor, Foundation 
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 # from flask_jwt_extended import create_access_token
@@ -26,6 +26,54 @@ def handle_hello():
 
     return jsonify(response_body), 200
 
+#Foundation
+@api.route('/foundations', methods=['GET'])
+def get_foundation():
+    all_Foundation= Foundation.query.all()
+    print(all_Foundation)
+    results = list(map(lambda name: name.serialize(), all_Foundation))
+    return jsonify(results), 200
+
+@api.route('/foundations/<int:id>', methods=['GET'])
+def get_foundation_id(id):
+    identification= Foundation.query.filter_by(id =id).first()
+    return jsonify(identification.serialize()), 200
+
+@api.route('/foundations', methods=['POST'])
+def POST_Foundation():
+  
+    body = request.get_json()
+    box = Foundation(name=body['name'],description=body['description'],country=body['country'],email=body['email'],password=body['password'])
+    db.session.add(box)
+    db.session.commit()
+    response_body = {
+        "msg": "A donar has been added"
+    }
+    return jsonify(response_body), 200
+
+@api.route('/foundations/<int:id>', methods=['DELETE'])
+def Delete_foundations(id):
+    favorite = Foundation.query.filter_by(id=id).first()
+    db.session.delete(favorite)
+    db.session.commit()
+    return jsonify({"msg": "Donar eliminated"}), 200
+
+@api.route('/foundations/<int:id>', methods=['PUT'])
+def update_foundation(id):
+    foundation = Foundation.query.filter_by(id=id).first()
+    if not foundation:
+        return jsonify({"msg": "Foundation not found"}), 404
+
+    body = request.get_json()
+    foundation.name = body.get('name', foundation.name)
+    foundation.description = body.get('description', foundation.description)
+    foundation.country = body.get('country', foundation.country)
+    foundation.email = body.get('email', foundation.email)
+    foundation.password = body.get('password', foundation.password)
+
+    db.session.commit()
+    
+    return jsonify({"msg": "Foundation updated successfully"}), 200
 @api.route('/beneficiary', methods=['GET'])
 def get_beneficiary():
     beneficiary = Beneficiary.query.all()
@@ -171,54 +219,3 @@ def update_donor(id):
 
     return jsonify(donor.serialize()), 200
 
-
-
-# @api.route("/login", methods=["POST"])
-# def login_beneficiary():
-#     email = request.json.get("email")
-#     password = request.json.get("password")
-    
-#     user = User.query.filter_by(email = email).first()
-#     print(User)
-
-#     if not user: 
-#         return jsonify({"error": "user not found"}), 404
-
-#     valid_password = current_app.bcrypt.check_password_hash(user.password, password)
-    
-#     if email != user.email or not valid_password:
-#         return jsonify({"msg": "Bad email or password"}), 401
-    
-#     access_token = create_access_token(identity=email)
-#     return jsonify(access_token=access_token, user= user.serialize()), 200
-
-# @api.route("/signup", methods=["POST"])
-# def signup():
-#     body = request.get_json() 
-#     user = User.query.filter_by(email=body["email"]).first()
-#     if user != None:
-#         return jsonify({"msg": "An user was created with that email" }), 401
-    
-#     password_hash = current_app.bcrypt.generate_password_hash(body["password"]).decode("utf-8")
-
-#     user = User(email =body["email"], password = password_hash, is_active = True)
-#     db.session.add(user)
-#     db.session.commit()
-#     response_body = {
-#         "msg": "user created",
-#         "user_id": user.id,
-#         "email": user.email,
-        
-#     }
-#     return jsonify(response_body), 200
-
-# @api.route("/private", methods=["GET"])
-# @jwt_required()
-# def private():
-#     email = get_jwt_identity()
-
-#     user = User.query.filter_by(email=email).first()
-#     if not user: 
-#         return jsonify({"error": "user not found"}), 404
-    
-    return jsonify({"user": user.serialize()})
