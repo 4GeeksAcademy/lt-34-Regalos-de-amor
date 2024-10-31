@@ -1,7 +1,7 @@
   
 import os
 from flask_admin import Admin
-from .models import db, User, Beneficiary, Donor, Foundation, Imageb
+from .models import db, User, Beneficiary, Donor, Foundation
 from flask_admin.contrib.sqla import ModelView
 
 def setup_admin(app):
@@ -15,7 +15,7 @@ def setup_admin(app):
     admin.add_view(ModelView(User, db.session))
     admin.add_view(ModelView(Beneficiary, db.session))
     admin.add_view(ModelView(Donor, db.session))
-    admin.add_view(ModelView(Imageb, db.session))
+
 
 
     # You can duplicate that line to add mew models

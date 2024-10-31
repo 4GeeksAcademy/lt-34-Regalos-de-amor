@@ -85,14 +85,14 @@ class Donor(db.Model):
             "is_active": self.is_active
         }
 
-class Imageb(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    image_url = db.Column(db.String(255))  
-    def __repr__(self):
-        return f'<Image Beneficiary {self.id}>'
+# class Imageb(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     image_url = db.Column(db.String(255))  
+#     def __repr__(self):
+#         return f'<Image Beneficiary {self.id}>'
 
-    def serialize(self):
-        return {
-            'id': self.id,
-            'image_url': self.image_url,
-        }
+#     def serialize(self):
+#         return {
+#             'id': self.id,
+#             'image_url': self.image_url,
+#         }

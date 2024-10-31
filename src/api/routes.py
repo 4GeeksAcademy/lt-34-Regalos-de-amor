@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Beneficiary, Donor, Foundation, Imageb
+from api.models import db, User, Beneficiary, Donor, Foundation
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 # from flask_jwt_extended import create_access_token
@@ -227,18 +227,18 @@ def update_donor(id):
 
     return jsonify(donor.serialize()), 200
 
-@api.route("/upload", methods=["POST"])
-def upload_image():
-    data = request.get_json() 
-    if not data:
-        return jsonify({"error": "No input data provided"}), 400
+# @api.route("/upload", methods=["POST"])
+# def upload_image():
+#     data = request.get_json() 
+#     if not data:
+#         return jsonify({"error": "No input data provided"}), 400
 
-    image_url = data.get('image_url')
+#     image_url = data.get('image_url')
 
-    new_image = Imageb(
-    image_url=image_url)
-    db.session.add(new_image)
-    db.session.commit()
+#     new_image = Imageb(
+#     image_url=image_url)
+#     db.session.add(new_image)
+#     db.session.commit()
 
-    return jsonify({"New image_url": new_image.serialize()}), 200
+#     return jsonify({"New image_url": new_image.serialize()}), 200
 
