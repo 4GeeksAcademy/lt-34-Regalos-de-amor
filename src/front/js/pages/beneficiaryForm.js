@@ -2,63 +2,69 @@ import React, { useState, useEffect, useContext } from "react";
 import PropTypes, { func } from "prop-types";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
-
+import { Cloudinary } from '@cloudinary/url-gen';
+import { fill } from '@cloudinary/url-gen/actions/resize';
+import "../../styles/beneficiaryForm.css";
 
 export const BeneficiaryForm = (props) => {
-	const navigate = useNavigate()
-	const { store, actions } = useContext(Context)
-	const params = useParams();
-	const [name, setName] = useState('');
-	const [wish_gift, setWish_gift] = useState('');
-	const [history, setHistory] = useState('');
-	const [account, setAccount] = useState('');
+    const navigate = useNavigate()
+    const { store, actions } = useContext(Context)
+    const params = useParams();
+    const [name, setName] = useState('');
+    const [wish_gift, setWish_gift] = useState('');
+    const [history, setHistory] = useState('');
+    const [account, setAccount] = useState('');
+    const [image_url, setImage_url] = useState('');
 
-	
-	  useEffect(() => {
-		if(store.beneficiaries && params.id){
-			if(store.beneficiaries.length > 0){
 
-				const result = store.beneficiaries.find(item => item.id == params.id)
-				if(result){
-					setName(result.name)
-					setWish_gift(result.wish_gift)
-					setHistory(result.history)
-					setAccount(result.account)
 
-				}
-			}
-		}
-	  }, [store.beneficiaries, params]);
-	
-	const createBeneficiary = async () => {
-		const newBeneficiary = {
-		  name,
-		  wish_gift,
-		  history,
-		  account
-		};
-	  
-		try {
-		  const response = await fetch(`${process.env.BACKEND_URL}/api/beneficiary`, {
-			method: 'POST',
-			headers: {
-			  'Content-Type': 'application/json'
-			},
-			body: JSON.stringify(newBeneficiary)
-		  });
-	  
-		  if (!response.ok) {
-			throw new Error(`Error: ${response.status}`);
-		  }
-	  
-		  const data = await response.json();
-		  console.log('Beneficiary created:', data);
-		} catch (error) {
-		  console.error('Failed to create beneficiary:', error);
-		}
-	  };
+    useEffect(() => {
+        if (store.beneficiaries && params.id) {
+            if (store.beneficiaries.length > 0) {
 
-	const updateBeneficiary = async (id, data) => {
+                const result = store.beneficiaries.find(item => item.id == params.id)
+                if (result) {
+                    setName(result.name)
+                    setWish_gift(result.wish_gift)
+                    setHistory(result.history)
+                    setAccount(result.account)
+                    setImage_url(result.image_url)
+
+                }
+            }
+        }
+    }, [store.beneficiaries, params]);
+
+    const createBeneficiary = async () => {
+        const newBeneficiary = {
+            name,
+            wish_gift,
+            history,
+            account,
+            image_url
+        };
+
+        try {
+            const response = await fetch(`${process.env.BACKEND_URL}/api/beneficiary`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(newBeneficiary)
+            });
+
+            if (!response.ok) {
+                throw new Error(`Error: ${response.status}`);
+            }
+
+            const data = await response.json();
+            console.log('Beneficiary created:', data);
+        } catch (error) {
+            console.error('Failed to create beneficiary:', error);
+        }
+    };
+
+    const updateBeneficiary = async (id, data) => {
         try {
             const response = await fetch(`${process.env.BACKEND_URL}/api/beneficiary/${id}`, {
                 method: 'PUT',
@@ -79,13 +85,14 @@ export const BeneficiaryForm = (props) => {
         }
     };
 
-	const handleSubmit = (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
         const beneficiaryData = {
             name,
             wish_gift,
             history,
-            account
+            account,
+            image_url
         };
         if (params.id) {
             updateBeneficiary(params.id, beneficiaryData).then(() => {
@@ -96,6 +103,24 @@ export const BeneficiaryForm = (props) => {
                 navigate("/beneficiary");
             });
         }
+    };
+
+    const handleImageUpload = async (event) => {
+        const files = event.target.files;
+        const upLoadPreset = process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET;
+
+        const formData = new FormData();
+        formData.append('file', files[0]);
+        formData.append('upload_preset', upLoadPreset);
+
+        const response = await fetch(`https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload`, {
+            method: 'POST',
+            body: formData,
+        });
+
+        const data = await response.json();
+        setImage_url(data.secure_url);
+
     };
 
     return (
@@ -145,7 +170,22 @@ export const BeneficiaryForm = (props) => {
                         onChange={(e) => setHistory(e.target.value)}
                     ></textarea>
                 </div>
-                <button type="submit" className="btn btn-primary">Send</button>
+                <div>
+                    <button type="submit" className="btn btn-primary">Send</button>
+                    <input type="file" accept='image/*' 
+                    onChange={handleImageUpload} 
+                    className='upload-button' />
+                    
+                    <div className="image-gallery">
+                        {/* {imageUrls.map((url, index) => {
+                    const myImage = cld.image(url);
+                    myImage.resize(fill().width(250).height(250)); */}
+                        {/* return  */}
+                        {image_url ? <img src={image_url} className="uploaded-image" /> : null}
+                        {/* })} */}
+                    </div>
+                </div>
+
             </form>
         </div>
     );

@@ -19,6 +19,7 @@ import { Footer } from "./component/footer";
 import List from "./pages/foundationList";
 import { DonorBeneficiary } from "./pages/donorbeneficiary";
 
+
 const Layout = () => {
     const basename = process.env.BASENAME || "";
 

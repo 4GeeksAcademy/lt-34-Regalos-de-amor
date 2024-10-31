@@ -2,13 +2,17 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Beneficiary, Donor, Foundation 
+from api.models import db, User, Beneficiary, Donor, Foundation
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 # from flask_jwt_extended import create_access_token
 # from flask_jwt_extended import get_jwt_identity
 # from flask_jwt_extended import jwt_required
 # from flask_jwt_extended import JWTManager
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+from dotenv import load_dotenv
 
 
 api = Blueprint('api', __name__)
@@ -16,6 +20,7 @@ api = Blueprint('api', __name__)
 # Allow CORS requests to this API
 CORS(api)
 
+load_dotenv()
 
 @api.route('/hello', methods=['POST', 'GET'])
 def handle_hello():
@@ -74,6 +79,7 @@ def update_foundation(id):
     db.session.commit()
     
     return jsonify({"msg": "Foundation updated successfully"}), 200
+
 @api.route('/beneficiary', methods=['GET'])
 def get_beneficiary():
     beneficiary = Beneficiary.query.all()
@@ -99,15 +105,17 @@ def create_beneficiary():
     wish_gift = data.get('wish_gift')
     history = data.get('history')
     account = data.get('account')
-    # picture = data.get('picture')
+    image_url = data.get('image_url')
     is_active = data.get('is_active', True)  
+
+    
     
     new_beneficiary = Beneficiary(
         name=name,
         wish_gift=wish_gift,
         history=history,
         account=account,
-        # picture=picture,
+        image_url=image_url,
         is_active=is_active
     )
 
@@ -141,7 +149,7 @@ def update_beneficiary(id):
     beneficiary.wish_gift = data.get('wish_gift', beneficiary.wish_gift)
     beneficiary.history = data.get('history', beneficiary.history)
     beneficiary.account = data.get('account', beneficiary.account)
-    # beneficiary.picture = data.get('picture', beneficiary.picture)
+    beneficiary.image_url = data.get('image_url', beneficiary.image_url)
     beneficiary.is_active = data.get('is_active', beneficiary.is_active)
 
     db.session.commit()
@@ -218,4 +226,19 @@ def update_donor(id):
     db.session.commit()
 
     return jsonify(donor.serialize()), 200
+
+# @api.route("/upload", methods=["POST"])
+# def upload_image():
+#     data = request.get_json() 
+#     if not data:
+#         return jsonify({"error": "No input data provided"}), 400
+
+#     image_url = data.get('image_url')
+
+#     new_image = Imageb(
+#     image_url=image_url)
+#     db.session.add(new_image)
+#     db.session.commit()
+
+#     return jsonify({"New image_url": new_image.serialize()}), 200
 
