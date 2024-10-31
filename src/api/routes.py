@@ -181,6 +181,7 @@ def create_donor():
     last_name = data.get('last_name')
     email = data.get('email')
     password = data.get('password')
+    image_url = data.get('image_url')
     is_active = data.get('is_active', True)
 
     new_donor = Donor(
@@ -188,6 +189,7 @@ def create_donor():
         last_name=last_name,
         email=email,
         password=password,  # Make sure to handle password securely
+        image_url=image_url,
         is_active=is_active
     )
 

@@ -71,6 +71,7 @@ class Donor(db.Model):
     last_name = db.Column(db.String(255), nullable=False)  
     email = db.Column(db.String(255), unique=True, nullable=False) 
     password = db.Column(db.String(255), nullable=False) 
+    image_url = db.Column(db.String(255)) 
     is_active = db.Column(db.Boolean(), default=True, nullable=False) 
 
     def __repr__(self):
@@ -82,6 +83,7 @@ class Donor(db.Model):
             "name": self.name,
             "last_name": self.last_name,
             "email": self.email,
+            "image_url" : self.image_url,
             "is_active": self.is_active
         }
 

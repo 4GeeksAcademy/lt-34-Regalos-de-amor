@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
+import { Cloudinary } from '@cloudinary/url-gen';
+import { fill } from '@cloudinary/url-gen/actions/resize';
 
 export const DonorForm = () => {
     const { store, actions } = useContext(Context);
@@ -12,6 +14,7 @@ export const DonorForm = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [is_active, setIsActive] = useState(true);
+    const [image_url, setImage_url] = useState('');
 
     useEffect(() => {
         if (params.id) {
@@ -20,6 +23,7 @@ export const DonorForm = () => {
                 setName(donor.name);
                 setLast_name(donor.last_name);
                 setEmail(donor.email);
+                setImage_url(donor.image_url)
                 setIsActive(donor.is_active);
             }
         }
@@ -27,7 +31,7 @@ export const DonorForm = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const donorData = { name, last_name, email, password, is_active };
+        const donorData = { name, last_name, email, password, is_active, image_url };
 
         if (params.id) {
             actions.updateDonor(params.id, donorData);
@@ -36,6 +40,24 @@ export const DonorForm = () => {
         }
         navigate("/donors");
     };
+    const handleImageUpload = async (event) => {
+        const files = event.target.files;
+        const upLoadPreset = process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET;
+
+        const formData = new FormData();
+        formData.append('file', files[0]);
+        formData.append('upload_preset', upLoadPreset);
+
+        const response = await fetch(`https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload`, {
+            method: 'POST',
+            body: formData,
+        });
+
+        const data = await response.json();
+        setImage_url(data.secure_url);
+
+    };
+
 
     return (
         <div className="container">
@@ -96,7 +118,15 @@ export const DonorForm = () => {
                         ¿Activo?
                     </label>
                 </div>
-                <button type="submit" className="btn btn-primary">Guardar</button>
+                    <button type="submit" className="btn btn-primary">Guardar</button>
+                <div>
+                    <input type="file" accept='image/*' 
+                    onChange={handleImageUpload} 
+                    className='upload-button mt-3 ' />
+                    <div className="image-gallery">
+                        {image_url ? <img src={image_url} className="uploaded-image " /> : null}
+                    </div>
+                </div>
             </form>
         </div>
     );
