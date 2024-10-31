@@ -9,6 +9,8 @@ import { Single } from "./pages/single";
 import { Beneficiary } from "./pages/beneficiary";
 import { DonorForm } from "./component/DonorForm";
 import injectContext from "./store/appContext";
+import { Donors } from "./pages/donors"; // Asegúrate de que la ruta sea correcta
+
 
 import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
@@ -31,6 +33,8 @@ const Layout = () => {
                         <Route element={<Demo />} path="/demo" />
                         <Route element={<Beneficiary />} path="/beneficiary" />
                         <Route element={<DonorForm />} path="/donorform" /> 
+                        <Route element={<Donors />} path="/donors" /> 
+                        <Route element={<DonorForm />} path="/donorform/:id" />
                         <Route element={<Single />} path="/single/:theid" />
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>

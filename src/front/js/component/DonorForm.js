@@ -1,149 +1,90 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
 
 export const DonorForm = () => {
     const { store, actions } = useContext(Context);
     const params = useParams();
+    const navigate = useNavigate();
 
-    // State variables
     const [name, setName] = useState('');
     const [last_name, setLast_name] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [is_active, setIsActive] = useState(true); // Default value set to true
+    const [is_active, setIsActive] = useState(true);
 
     useEffect(() => {
-        if (store.donors && params.id) {
-            if (store.donors.length > 0) {
-                const result = store.donors.find(item => item.id === parseInt(params.id)); // Use parseInt for comparison
-                if (result) {
-                    setName(result.name);
-                    setLast_name(result.last_name);
-                    setEmail(result.email);
-                    // Optionally set password; usually, you don't want to pre-fill passwords
-                    // setPassword(result.password);
-                    setIsActive(result.is_active);
-                }
+        if (params.id) {
+            const donor = store.donor.find((d) => d.id === parseInt(params.id));
+            if (donor) {
+                setName(donor.name);
+                setLast_name(donor.last_name);
+                setEmail(donor.email);
+                setIsActive(donor.is_active);
             }
         }
-    }, [store.donors, params]);
-
-    const createDonor = async () => {
-        const newDonor = {
-            name,
-            last_name,
-            email,
-            password,
-            is_active
-        };
-
-        try {
-            const response = await fetch(`${process.env.BACKEND_URL}/api/donor`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(newDonor)
-            });
-
-            if (!response.ok) {
-                throw new Error(`Error: ${response.status}`);
-            }
-
-            const data = await response.json();
-            console.log('Donor created:', data);
-        } catch (error) {
-            console.error('Failed to create donor:', error);
-        }
-    };
-
-    const updateDonor = async (id, data) => {
-        try {
-            const response = await fetch(`${process.env.BACKEND_URL}/api/donor/${id}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            });
-
-            if (!response.ok) {
-                throw new Error(`Error: ${response.status}`);
-            }
-
-            console.log('Donor updated');
-            actions.fetchDonorData(); // Refresh data after update
-        } catch (error) {
-            console.error('Failed to update donor:', error);
-        }
-    };
+    }, [params.id, store.donor]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const donorData = {
-            name,
-            last_name,
-            email,
-            password,
-            is_active
-        };
+        const donorData = { name, last_name, email, password, is_active };
 
         if (params.id) {
-            updateDonor(params.id, donorData);
+            actions.updateDonor(params.id, donorData);
         } else {
-            createDonor();
+            actions.createDonor(donorData);
         }
+        navigate("/donors");
     };
 
     return (
-        <div className="d-flex justify-content-center">
+        <div className="container">
+            <h2>{params.id ? "Editar Donante" : "Crear Donante"}</h2>
             <form onSubmit={handleSubmit}>
-                <h3>Donor</h3>
                 <div className="mb-3">
-                    <label htmlFor="name" className="form-label">Name</label>
+                    <label htmlFor="name" className="form-label">Nombre</label>
                     <input
                         type="text"
                         className="form-control"
                         id="name"
-                        placeholder="name"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
+                        required
                     />
                 </div>
                 <div className="mb-3">
-                    <label htmlFor="last_name" className="form-label">Last Name</label>
+                    <label htmlFor="last_name" className="form-label">Apellido</label>
                     <input
                         type="text"
                         className="form-control"
                         id="last_name"
-                        placeholder="last name"
                         value={last_name}
                         onChange={(e) => setLast_name(e.target.value)}
+                        required
                     />
                 </div>
                 <div className="mb-3">
                     <label htmlFor="email" className="form-label">Email</label>
                     <input
+                        type="email"
                         className="form-control"
                         id="email"
-                        placeholder="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
+                        required
                     />
                 </div>
                 <div className="mb-3">
-                    <label htmlFor="password" className="form-label">Password</label>
+                    <label htmlFor="password" className="form-label">Contraseña</label>
                     <input
                         type="password"
                         className="form-control"
                         id="password"
-                        placeholder="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     />
                 </div>
-                <div className="mb-3 form-check">
+                <div className="form-check mb-3">
                     <input
                         type="checkbox"
                         className="form-check-input"
@@ -151,9 +92,11 @@ export const DonorForm = () => {
                         checked={is_active}
                         onChange={(e) => setIsActive(e.target.checked)}
                     />
-                    <label className="form-check-label" htmlFor="is_active">Is Active</label>
+                    <label className="form-check-label" htmlFor="is_active">
+                        ¿Activo?
+                    </label>
                 </div>
-                <button type="submit" className="btn btn-primary">Send</button>
+                <button type="submit" className="btn btn-primary">Guardar</button>
             </form>
         </div>
     );
