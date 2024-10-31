@@ -45,12 +45,17 @@ def get_foundation_id(id):
     return jsonify(identification.serialize()), 200
 
 @api.route('/foundations', methods=['POST'])
-def POST_Foundation():
+def post_foundation():
   
     body = request.get_json()
-    box = Foundation(name=body['name'],description=body['description'],country=body['country'],email=body['email'],password=body['password'])
+    if not body:
+        return jsonify({"error": "No input data provided"}), 400
+    
+    box = Foundation(name=body['name'],description=body['description'],country=body['country'],email=body['email'],password=body['password'], image_url=body['image_url'])
+    
     db.session.add(box)
     db.session.commit()
+
     response_body = {
         "msg": "A donar has been added"
     }

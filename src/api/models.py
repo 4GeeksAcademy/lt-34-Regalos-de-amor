@@ -27,6 +27,7 @@ class Foundation(db.Model):
     country= db.Column(String(250), nullable=False)
     email = db.Column(String(250), nullable=False)
     password = db.Column(String(250), nullable=False)
+    image_url = db.Column(db.String(255))  
 
 
     def __repr__(self):
@@ -39,6 +40,7 @@ class Foundation(db.Model):
             "description": self.description,
             "country": self.country,
             "email": self.email,
+           " image_url" : self.image_url
             # do not serialize the password, its a security breach
         }
     
