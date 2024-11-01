@@ -8,7 +8,7 @@ from flask_cors import CORS
 from flask_jwt_extended import create_access_token
 from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
-from flask_jwt_extended import JWTManager
+
 
 
 api = Blueprint('api', __name__)
@@ -230,10 +230,10 @@ def login():
     if not user: 
         return jsonify({"error": "Email not found"}), 404
     
-    print(type(user))
-    print(user.serialize())
+    print(type(Foundation))
+    print(Foundation.serialize())
 
-    #valid_password = current_app.bcrypt.check_password_hash(user.password, password)
+    valid_password = current_app.bcrypt.check_password_hash(user.password, password)
     
     if email != user.email or password != user.password:
         return jsonify({"msg": "Incorrect email or password"}), 401
