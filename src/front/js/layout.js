@@ -2,7 +2,6 @@ import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ScrollToTop from "./component/scrollToTop";
 import { BackendURL } from "./component/backendURL";
-
 import {Home} from "./pages/home";
 
 import { Demo } from "./pages/demo";
@@ -18,7 +17,15 @@ import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
 import List from "./pages/foundationList";
 import { DonorBeneficiary } from "./pages/donorbeneficiary";
+import { Payment } from "./pages/paypal";
+import { PayPalScriptProvider} from "@paypal/react-paypal-js";
+// import { payment } from "paypal-rest-sdk";
 
+const initialOptions = {
+    "client-id": process.env.PAYPAL_CLIENT_ID,
+    currency: "USD",
+    intent: "capture",
+};
 
 const Layout = () => {
     const basename = process.env.BASENAME || "";
@@ -28,12 +35,14 @@ const Layout = () => {
     return (
         <div>
             <BrowserRouter basename={basename}>
+            <PayPalScriptProvider>
                 <ScrollToTop>
                     <Navbar />
                     <Routes>
                         <Route element={<Home />} path="/" />
                         <Route element={<List />} path="/list" />
                         <Route element={<Demo />} path="/demo" />
+                        <Route element={<Payment />} path="/payment" />
                         <Route element={<Beneficiary/>} path="/beneficiary" />
                         <Route element={<BeneficiaryForm />} path="/beneficiary/add" />
                         <Route element={<BeneficiaryForm />} path="/beneficiary/edit/:id" />
@@ -46,6 +55,7 @@ const Layout = () => {
                     </Routes>
                     <Footer />
                 </ScrollToTop>
+                </PayPalScriptProvider>
             </BrowserRouter>
         </div>
     );

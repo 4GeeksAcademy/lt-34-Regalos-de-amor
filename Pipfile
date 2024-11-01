@@ -19,6 +19,7 @@ cloudinary = "*"
 flask-admin = "*"
 typing-extensions = "*"
 cloudinary-cli = "*"
+requests = "*"
 
 [requires]
 python_version = "3.10"
