@@ -2,12 +2,16 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint, current_app
-from api.models import db, User, Beneficiary, Donor, Donor_login
+from api.models import db, User, Beneficiary, Donor, Foundation, Donor_login
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from flask_jwt_extended import create_access_token
 from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+from dotenv import load_dotenv
 
 
 api = Blueprint('api', __name__)
@@ -15,6 +19,7 @@ api = Blueprint('api', __name__)
 # Allow CORS requests to this API
 CORS(api)
 
+load_dotenv()
 
 @api.route('/hello', methods=['POST', 'GET'])
 def handle_hello():
@@ -24,6 +29,55 @@ def handle_hello():
     }
 
     return jsonify(response_body), 200
+
+#Foundation
+@api.route('/foundations', methods=['GET'])
+def get_foundation():
+    all_Foundation= Foundation.query.all()
+    print(all_Foundation)
+    results = list(map(lambda name: name.serialize(), all_Foundation))
+    return jsonify(results), 200
+
+@api.route('/foundations/<int:id>', methods=['GET'])
+def get_foundation_id(id):
+    identification= Foundation.query.filter_by(id =id).first()
+    return jsonify(identification.serialize()), 200
+
+@api.route('/foundations', methods=['POST'])
+def POST_Foundation():
+  
+    body = request.get_json()
+    box = Foundation(name=body['name'],description=body['description'],country=body['country'],email=body['email'],password=body['password'])
+    db.session.add(box)
+    db.session.commit()
+    response_body = {
+        "msg": "A donar has been added"
+    }
+    return jsonify(response_body), 200
+
+@api.route('/foundations/<int:id>', methods=['DELETE'])
+def Delete_foundations(id):
+    favorite = Foundation.query.filter_by(id=id).first()
+    db.session.delete(favorite)
+    db.session.commit()
+    return jsonify({"msg": "Donar eliminated"}), 200
+
+@api.route('/foundations/<int:id>', methods=['PUT'])
+def update_foundation(id):
+    foundation = Foundation.query.filter_by(id=id).first()
+    if not foundation:
+        return jsonify({"msg": "Foundation not found"}), 404
+
+    body = request.get_json()
+    foundation.name = body.get('name', foundation.name)
+    foundation.description = body.get('description', foundation.description)
+    foundation.country = body.get('country', foundation.country)
+    foundation.email = body.get('email', foundation.email)
+    foundation.password = body.get('password', foundation.password)
+
+    db.session.commit()
+    
+    return jsonify({"msg": "Foundation updated successfully"}), 200
 
 @api.route('/beneficiary', methods=['GET'])
 def get_beneficiary():
@@ -50,15 +104,17 @@ def create_beneficiary():
     wish_gift = data.get('wish_gift')
     history = data.get('history')
     account = data.get('account')
-    # picture = data.get('picture')
+    image_url = data.get('image_url')
     is_active = data.get('is_active', True)  
+
+    
     
     new_beneficiary = Beneficiary(
         name=name,
         wish_gift=wish_gift,
         history=history,
         account=account,
-        # picture=picture,
+        image_url=image_url,
         is_active=is_active
     )
 
@@ -92,7 +148,7 @@ def update_beneficiary(id):
     beneficiary.wish_gift = data.get('wish_gift', beneficiary.wish_gift)
     beneficiary.history = data.get('history', beneficiary.history)
     beneficiary.account = data.get('account', beneficiary.account)
-    # beneficiary.picture = data.get('picture', beneficiary.picture)
+    beneficiary.image_url = data.get('image_url', beneficiary.image_url)
     beneficiary.is_active = data.get('is_active', beneficiary.is_active)
 
     db.session.commit()
@@ -125,6 +181,7 @@ def create_donor():
     last_name = data.get('last_name')
     email = data.get('email')
     password = data.get('password')
+    image_url = data.get('image_url')
     is_active = data.get('is_active', True)
 
     new_donor = Donor(
@@ -132,6 +189,7 @@ def create_donor():
         last_name=last_name,
         email=email,
         password=password,  # Make sure to handle password securely
+        image_url=image_url,
         is_active=is_active
     )
 
@@ -171,6 +229,11 @@ def update_donor(id):
 
     return jsonify(donor.serialize()), 200
 
+# @api.route("/upload", methods=["POST"])
+# def upload_image():
+#     data = request.get_json() 
+#     if not data:
+#         return jsonify({"error": "No input data provided"}), 400
 
 @api.route("/login", methods=["POST"])
 def login():
