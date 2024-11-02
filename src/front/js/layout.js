@@ -16,10 +16,10 @@ import { Donors } from "./pages/donors"; // Asegúrate de que la ruta sea correc
 
 import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
-import List from "./pages/foundationList";
-// import { DonorBeneficiary } from "./pages/donorbeneficiary";
-
-
+import { Login } from "./pages/login";
+import { Welcome } from "./pages/welcome";
+import { Signup } from "./component/signup";
+//create your first component
 const Layout = () => {
     const basename = process.env.BASENAME || "";
 
@@ -34,10 +34,12 @@ const Layout = () => {
                         <Route element={<Home />} path="/" />
                         <Route element={<List />} path="/list" />
                         <Route element={<Demo />} path="/demo" />
+                        <Route element={<Welcome />} path="/welcome" />
+                        <Route element={<Login />} path="/login" />
+                        <Route element={<Signup />} path="/signup" />
                         <Route element={<Beneficiary/>} path="/beneficiary" />
                         <Route element={<BeneficiaryForm />} path="/beneficiary/add" />
                         <Route element={<BeneficiaryForm />} path="/beneficiary/edit/:id" />
-                        {/* <Route path="/donor/new" element={<DonorBeneficiary />} /> */}
                         <Route element={<DonorForm />} path="/donorform" /> 
                         <Route element={<Donors />} path="/donors" /> 
                         <Route element={<DonorForm />} path="/donorform/:id" />
