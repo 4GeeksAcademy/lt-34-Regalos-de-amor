@@ -86,3 +86,20 @@ class Donor(db.Model):
             "email": self.email,
             "is_active": self.is_active
         }
+    
+class PostHelp(db.Model):  
+    __tablename__ = 'post_help'
+    id = db.Column(Integer, primary_key=True)
+    id_foundation = db.Column(Integer, ForeignKey('foundation.id'))
+    id_beneficiary = db.Column(Integer, ForeignKey('beneficiary.id'))
+
+    def __repr__(self):
+        return f'<Donor {self.name}>'
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "id_foundation": self.id_foundation,
+            "id_beneficiary": self.id_beneficiary,
+
+        }

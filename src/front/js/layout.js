@@ -17,6 +17,7 @@ import { Footer } from "./component/footer";
 import List from "./pages/foundationList";
 import { DonorBeneficiary } from "./pages/donorbeneficiary";
 import FoundationForm from "./pages/foundationForm";
+import {PostHelper} from "./component/postHelper";
 
 
 export const Layout = () => {
@@ -36,6 +37,7 @@ export const Layout = () => {
                         <Route element={<Login />} path="/login" />
                         <Route element={<Signup />} path="/signup" />
                         <Route element={<FoundationForm />} path="/form " />
+                        <Route element={<PostHelper />} path="/post" />
                         <Route element={<Beneficiary/>} path="/beneficiary" />
                         <Route element={<BeneficiaryForm />} path="/beneficiary/add" />
                         <Route element={<BeneficiaryForm />} path="/beneficiary/edit/:id" />

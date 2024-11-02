@@ -57,12 +57,16 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const requestOptions = {
 					method: 'POST',
 					headers: {'Content-Type': 'application/json'},
+					mode: 'no-cors',
 					body: JSON.stringify (
 						{
 							'email': email,
 							'password': password
 						}
+						
 					)
+					
+					
 					
 				};
 				const response = await fetch(process.env.BACKEND_URL + "/api/login", requestOptions)
