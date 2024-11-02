@@ -17,7 +17,7 @@ import { Donors } from "./pages/donors"; // Asegúrate de que la ruta sea correc
 import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
 import List from "./pages/foundationList";
-import { DonorBeneficiary } from "./pages/donorbeneficiary";
+// import { DonorBeneficiary } from "./pages/donorbeneficiary";
 
 
 const Layout = () => {
@@ -37,7 +37,7 @@ const Layout = () => {
                         <Route element={<Beneficiary/>} path="/beneficiary" />
                         <Route element={<BeneficiaryForm />} path="/beneficiary/add" />
                         <Route element={<BeneficiaryForm />} path="/beneficiary/edit/:id" />
-                        <Route path="/donor/new" element={<DonorBeneficiary />} />
+                        {/* <Route path="/donor/new" element={<DonorBeneficiary />} /> */}
                         <Route element={<DonorForm />} path="/donorform" /> 
                         <Route element={<Donors />} path="/donors" /> 
                         <Route element={<DonorForm />} path="/donorform/:id" />
