@@ -8,6 +8,7 @@ class User(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(80), unique=False, nullable=False)
     is_active = db.Column(db.Boolean(), unique=False, nullable=False)
+
     def __repr__(self):
 
         return '<User %r>' % self.email
@@ -15,36 +16,9 @@ class User(db.Model):
     def serialize(self):
         return {
             "id": self.id,
-            "name": self.name,
             "email": self.email,
-            # do not serialize the password, its a security breach
+            "is_active" : self.is_active
         }
-
-class Foundation(db.Model):
-    id = db.Column (Integer, primary_key=True)
-    name = db.Column(String(250), nullable=False)
-    description = db.Column(String(250), nullable=False)
-    country= db.Column(String(250), nullable=False)
-    email = db.Column(String(250), nullable=False)
-    password = db.Column(String(250), nullable=False)
-
-
-
-    def __repr__(self):
-        return '<Foundation %r>' % self.name
-
-    def serialize(self):
-        return {
-            "id": self.id,
-            "name": self.name,
-            "description": self.description,
-            "country": self.country,
-            "email": self.email,
-            # do not serialize the password, its a security breach
-        }
-    
-
-       
     
 class Beneficiary(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -52,6 +26,7 @@ class Beneficiary(db.Model):
     wish_gift = db.Column(db.String(250))
     history = db.Column(db.String(250))
     account = db.Column(db.String(250), nullable=False)
+    image_url = db.Column(db.String(255))  
     is_active = db.Column(db.Boolean(), unique=False, nullable=False)
 
     def __repr__(self):
@@ -64,6 +39,7 @@ class Beneficiary(db.Model):
             "wish_gift": self.wish_gift,
             "history": self.history,
             "account": self.account,
+            "image_url": self.image_url,
             "is_active": self.is_active
         }
 
@@ -73,6 +49,7 @@ class Donor(db.Model):
     last_name = db.Column(db.String(255), nullable=False)  
     email = db.Column(db.String(255), unique=True, nullable=False) 
     password = db.Column(db.String(255), nullable=False) 
+    image_url = db.Column(db.String(255)) 
     is_active = db.Column(db.Boolean(), default=True, nullable=False) 
 
     def __repr__(self):
@@ -84,6 +61,24 @@ class Donor(db.Model):
             "name": self.name,
             "last_name": self.last_name,
             "email": self.email,
+            "image_url" : self.image_url,
+            "is_active": self.is_active
+        }
+    
+class Donor_login(db.Model): 
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(255), unique=True, nullable=False) 
+    password = db.Column(db.String(255), nullable=False) 
+    is_active = db.Column(db.Boolean(), default=True, nullable=False) 
+
+    def __repr__(self):
+        return f'<Donor_login {self.email}>'
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "email": self.email,
+            "image_url" : self.image_url,
             "is_active": self.is_active
         }
     
@@ -95,11 +90,25 @@ class PostHelp(db.Model):
 
     def __repr__(self):
         return f'<Donor {self.name}>'
+    
+class Donor_login(db.Model): 
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(255), unique=True, nullable=False) 
+    password = db.Column(db.String(255), nullable=False) 
+    is_active = db.Column(db.Boolean(), default=True, nullable=False) 
+
+    def __repr__(self):
+        return f'<Donor_login {self.email}>'
 
     def serialize(self):
         return {
             "id": self.id,
             "id_foundation": self.id_foundation,
             "id_beneficiary": self.id_beneficiary,
-
+            "email": self.email,
+            "is_active": self.is_active
         }
+
+    
+
+    

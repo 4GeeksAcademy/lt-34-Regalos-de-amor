@@ -2,8 +2,6 @@ import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ScrollToTop from "./component/scrollToTop";
 import { BackendURL } from "./component/backendURL";
-import { Login } from "./component/login";
-import { Signup } from "./component/signup";
 import {Home} from "./pages/home";
 
 import { Demo } from "./pages/demo";
@@ -12,15 +10,22 @@ import { BeneficiaryForm } from "./pages/beneficiaryForm";
 import { Beneficiary } from "./pages/beneficiary";
 import { DonorForm } from "./component/DonorForm";
 import injectContext from "./store/appContext";
+import { Donors } from "./pages/donors"; // Asegúrate de que la ruta sea correcta
+
+
 import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
 import List from "./pages/foundationList";
-import { DonorBeneficiary } from "./pages/donorbeneficiary";
 import FoundationForm from "./pages/foundationForm";
 import {PostHelper} from "./component/postHelper";
 
 
 export const Layout = () => {
+import { Login } from "./pages/login";
+import { Welcome } from "./pages/welcome";
+import { Signup } from "./component/signup";
+//create your first component
+const Layout = () => {
     const basename = process.env.BASENAME || "";
 
     if (!process.env.BACKEND_URL || process.env.BACKEND_URL === "") return <BackendURL />;
@@ -38,11 +43,15 @@ export const Layout = () => {
                         <Route element={<Signup />} path="/signup" />
                         <Route element={<FoundationForm />} path="/form " />
                         <Route element={<PostHelper />} path="/post" />
+                        <Route element={<Welcome />} path="/welcome" />
+                        <Route element={<Login />} path="/login" />
+                        <Route element={<Signup />} path="/signup" />
                         <Route element={<Beneficiary/>} path="/beneficiary" />
                         <Route element={<BeneficiaryForm />} path="/beneficiary/add" />
                         <Route element={<BeneficiaryForm />} path="/beneficiary/edit/:id" />
-                        <Route path="/donor/new" element={<DonorBeneficiary />} />
                         <Route element={<DonorForm />} path="/donorform" /> 
+                        <Route element={<Donors />} path="/donors" /> 
+                        <Route element={<DonorForm />} path="/donorform/:id" />
                         <Route element={<Single />} path="/single/:theid" />
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>
@@ -54,5 +63,3 @@ export const Layout = () => {
 };
 
 export default injectContext(Layout);
-
-

@@ -2,13 +2,17 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint, current_app
-from api.models import db, User, Beneficiary, Donor, Foundation 
+from api.models import db, User, Beneficiary, Donor, Foundation, Donor_login
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from flask_jwt_extended import create_access_token
 from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
 
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+from dotenv import load_dotenv
 
 
 api = Blueprint('api', __name__)
@@ -16,6 +20,7 @@ api = Blueprint('api', __name__)
 # Allow CORS requests to this API
 CORS(api)
 
+load_dotenv()
 
 @api.route('/hello', methods=['POST', 'GET'])
 def handle_hello():
@@ -74,6 +79,7 @@ def update_foundation(id):
     db.session.commit()
     
     return jsonify({"msg": "Foundation updated successfully"}), 200
+
 @api.route('/beneficiary', methods=['GET'])
 def get_beneficiary():
     beneficiary = Beneficiary.query.all()
@@ -99,15 +105,17 @@ def create_beneficiary():
     wish_gift = data.get('wish_gift')
     history = data.get('history')
     account = data.get('account')
-    # picture = data.get('picture')
+    image_url = data.get('image_url')
     is_active = data.get('is_active', True)  
+
+    
     
     new_beneficiary = Beneficiary(
         name=name,
         wish_gift=wish_gift,
         history=history,
         account=account,
-        # picture=picture,
+        image_url=image_url,
         is_active=is_active
     )
 
@@ -141,7 +149,7 @@ def update_beneficiary(id):
     beneficiary.wish_gift = data.get('wish_gift', beneficiary.wish_gift)
     beneficiary.history = data.get('history', beneficiary.history)
     beneficiary.account = data.get('account', beneficiary.account)
-    # beneficiary.picture = data.get('picture', beneficiary.picture)
+    beneficiary.image_url = data.get('image_url', beneficiary.image_url)
     beneficiary.is_active = data.get('is_active', beneficiary.is_active)
 
     db.session.commit()
@@ -166,6 +174,7 @@ def get_donor(donor_id):
 @api.route('/donor', methods=['POST'])
 def create_donor():
     data = request.get_json()
+    print(type(data))
     if not data:
         return jsonify({"error": "No input data provided"}), 400
 
@@ -173,6 +182,7 @@ def create_donor():
     last_name = data.get('last_name')
     email = data.get('email')
     password = data.get('password')
+    image_url = data.get('image_url')
     is_active = data.get('is_active', True)
 
     new_donor = Donor(
@@ -180,6 +190,7 @@ def create_donor():
         last_name=last_name,
         email=email,
         password=password,  # Make sure to handle password securely
+        image_url=image_url,
         is_active=is_active
     )
 
@@ -219,6 +230,12 @@ def update_donor(id):
 
     return jsonify(donor.serialize()), 200
 
+# @api.route("/upload", methods=["POST"])
+# def upload_image():
+#     data = request.get_json() 
+#     if not data:
+#         return jsonify({"error": "No input data provided"}), 400
+
 @api.route("/login", methods=["POST"])
 def login():
     email = request.json.get("email")
@@ -237,10 +254,26 @@ def login():
     
     if email != user.email or password != user.password:
         return jsonify({"msg": "Incorrect email or password"}), 401
+    user = Donor_login.query.filter_by(email = email).first()
+    print(Donor_login)
+    
+
+    if not user: 
+        return jsonify({"error": "donor not found"}), 404
+    
+    print(type(user))
+    print(user.serialize())
+
+    valid_password = current_app.bcrypt.check_password_hash(user.password, password)
+    
+    if email != user.email or not valid_password:
+        return jsonify({"msg": "Bad email or password"}), 401
     
     access_token = create_access_token(identity=email)
     return jsonify(access_token=access_token, user= user.serialize()), 200
 
+
+    
 @api.route("/private", methods=["GET"])
 @jwt_required()
 def private():
@@ -262,6 +295,23 @@ def signup():
     password_hash = current_app.bcrypt.generate_password_hash(body["password"]).decode("utf-8")
 
     user = Foundation(email =body["email"], password = password_hash, is_active = True)
+    user = Donor_login.query.filter_by(email=email).first()
+    if not user: 
+        return jsonify({"error": "donor not found"}), 404
+    
+    return jsonify({"user": user.serialize()})
+
+
+@api.route("/signup", methods=["POST"])
+def signup():
+    body = request.get_json() 
+    user = Donor_login.query.filter_by(email=body["email"]).first()
+    if user != None:
+        return jsonify({"msg": "A donor was created with that email" }), 401
+    
+    password_hash = current_app.bcrypt.generate_password_hash(body["password"]).decode("utf-8")
+
+    user = Donor_login(email =body["email"], password = password_hash, is_active = True)
     db.session.add(user)
     db.session.commit()
     response_body = {

@@ -1,7 +1,6 @@
 import React, { useState, useContext } from "react";
 import { Context, useParams } from "../store/appContext";
 import { useNavigate } from "react-router-dom";
-import { Navigate } from "react-router-dom";
 
 export const Signup = () => {
 	const [email, setEmail] = useState('');
@@ -29,7 +28,7 @@ export const Signup = () => {
 	}
 	
 	return (
-		<div>
+		<div className="container d-flex justify-content-center mt-5">
 			<form className="w-25" onSubmit={sendData}>
 				<div className="mb-3">
 					<label htmlFor="inputEmail" className="form-label">email</label>

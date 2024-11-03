@@ -1,7 +1,6 @@
 import React, { useState, useContext } from "react";
 import { Context } from "../store/appContext";
 import { useNavigate } from "react-router-dom";
-import { Signup } from "./signup";
 import {Link} from "react-router-dom"
 
 export const Form = () => {
@@ -10,6 +9,7 @@ export const Form = () => {
 	const { store, actions } = useContext(Context);
 	const navigate = useNavigate()
 
+	
 	async function sendData(e){
 		e.preventDefault()
 		
@@ -18,8 +18,8 @@ export const Form = () => {
 		if(response){
 			navigate("/login")
 		}
-		
 	}
+
 	return (
 		<div>
 			<form className=".w-25" onSubmit={sendData}>
@@ -39,3 +39,4 @@ export const Form = () => {
 		</div>
 	);
 };
+
