@@ -8,10 +8,7 @@ class User(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(80), unique=False, nullable=False)
     is_active = db.Column(db.Boolean(), unique=False, nullable=False)
-<<<<<<< HEAD
     
-=======
->>>>>>> develop
     def __repr__(self):
 
         return '<User %r>' % self.email
@@ -19,12 +16,8 @@ class User(db.Model):
     def serialize(self):
         return {
             "id": self.id,
-<<<<<<< HEAD
             "email": self.email,
             "is_active" : self.is_active
-=======
-            "name": self.name,
-            "email": self.email,
             # do not serialize the password, its a security breach
         }
 
@@ -48,7 +41,6 @@ class Foundation(db.Model):
             "country": self.country,
             "email": self.email,
             # do not serialize the password, its a security breach
->>>>>>> develop
         }
     
 class Beneficiary(db.Model):
@@ -111,6 +103,26 @@ class Donor_login(db.Model):
             "email": self.email,
             "is_active": self.is_active
         }
+
+class Transaction(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    payment_id = db.Column(db.String(100), nullable=False)
+    payer_id = db.Column(db.String(100), nullable=False)
+    amount = db.Column(db.Float, nullable=False)
+
+
+    def __repr__(self):
+        return f'<Transaction {self.id}>'
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "payment_id": self.payment_id,
+            "payer_id" : self.payer_id,
+            "amount" : self.amount         
+        }
+
+    
     
 
     

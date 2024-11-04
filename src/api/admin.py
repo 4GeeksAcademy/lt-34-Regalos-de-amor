@@ -1,7 +1,7 @@
   
 import os
 from flask_admin import Admin
-from .models import db, User, Beneficiary, Donor, Foundation, Donor_login
+from .models import db, User, Beneficiary, Donor, Foundation, Transaction, Donor_login
 from flask_admin.contrib.sqla import ModelView
 
 def setup_admin(app):
@@ -15,6 +15,7 @@ def setup_admin(app):
     admin.add_view(ModelView(User, db.session))
     admin.add_view(ModelView(Beneficiary, db.session))
     admin.add_view(ModelView(Donor, db.session))
+    admin.add_view(ModelView(Transaction, db.session))
     admin.add_view(ModelView(Donor_login, db.session))
 
 

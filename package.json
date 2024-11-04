@@ -75,9 +75,12 @@
 	"dependencies": {
 		"@cloudinary/react": "^1.13.0",
 		"@cloudinary/url-gen": "^1.21.0",
+		"@paypal/react-paypal-js": "^8.7.0",
 		"@strapi/provider-upload-cloudinary": "^5.1.1",
 		"axios": "^1.7.7",
 		"cors": "^2.8.5",
+		"express": "^4.21.1",
+		"paypal-rest-sdk": "^1.8.1",
 		"prop-types": "^15.6.1",
 		"react": "^16.8.4",
 		"react-dom": "^16.8.4",

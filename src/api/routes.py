@@ -1,16 +1,18 @@
 """
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
-from flask import Flask, request, jsonify, url_for, Blueprint, current_app
-from api.models import db, User, Beneficiary, Donor, Foundation, Donor_login
+from flask import Flask, request, jsonify, url_for, Blueprint
+from api.models import db, User, Beneficiary, Donor, Foundation, Transaction, Donor_login
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
-from flask_jwt_extended import create_access_token
-from flask_jwt_extended import get_jwt_identity
-from flask_jwt_extended import jwt_required
-import cloudinary
+# from flask_jwt_extended import create_access_token
+# from flask_jwt_extended import get_jwt_identity
+# from flask_jwt_extended import jwt_required
+# from flask_jwt_extended import JWTManager
+import cloudinary, os
 import cloudinary.uploader
 import cloudinary.api
+import requests
 from dotenv import load_dotenv
 
 
@@ -229,12 +231,34 @@ def update_donor(id):
 
     return jsonify(donor.serialize()), 200
 
-# @api.route("/upload", methods=["POST"])
-# def upload_image():
-#     data = request.get_json() 
-#     if not data:
-#         return jsonify({"error": "No input data provided"}), 400
+@api.route('/create-payment', methods=['POST'])
+def create_payment():
+    payment_data = request.json
+    headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + os.getenv("PAYPAL_CLIENT_ID")
+    }
+    response = requests.post('https://api.sandbox.paypal.com/v1/payments/payment', json=payment_data, headers=headers)
+    return jsonify(response.json())
 
+@api.route('/execute-payment', methods=['POST'])
+def execute_payment():
+    payment_id = request.json['paymentID']
+    payer_id = request.json['payerID']
+    headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + os.getenv("PAYPAL_CLIENT_ID")
+    }
+    data = {
+        'payer_id': payer_id
+    }
+    response = requests.post(f'https://api.sandbox.paypal.com/v1/payments/payment/{payment_id}/execute', json=data, headers=headers)
+    if response.status_code == 200:
+        transaction = Transaction(payment_id=payment_id, payer_id=payer_id, amount=response.json()['transactions'][0]['amount']['total'])
+        db.session.add(transaction)
+        db.session.commit()
+
+    return jsonify(response.json())
 @api.route("/login", methods=["POST"])
 def login():
     email = request.json.get("email")

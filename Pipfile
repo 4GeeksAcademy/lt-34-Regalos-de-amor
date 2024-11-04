@@ -23,6 +23,10 @@ flask-jwt-extended = "*"
 flask-bcrypt = "*"
 =======
 cloudinary-cli = "*"
+<<<<<<< HEAD
+requests = "*"
+=======
+>>>>>>> develop
 >>>>>>> develop
 
 [requires]

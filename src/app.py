@@ -37,13 +37,17 @@ app.bcrypt = bcrypt
 db_url = os.getenv("DATABASE_URL")
 if db_url is not None:
     app.config['SQLALCHEMY_DATABASE_URI'] = db_url.replace(
-        "postgres://", "postgresql://")
+        "postgres://", "postgresql://") #created for my model Transaction
 else:
     app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:////tmp/test.db"
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 MIGRATE = Migrate(app, db, compare_type=True)
 db.init_app(app)
+
+# @app.before_first_request #created for my model Transaction
+# def create_tables():
+#     db.create_all()
 
 # add the admin
 setup_admin(app)
@@ -81,7 +85,6 @@ def serve_any_other_file(path):
     response.cache_control.max_age = 0  # avoid cache memory
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
-
 
 
 # this only runs if `$ python src/main.py` is executed
