@@ -1,44 +1,67 @@
-import React, { useState, useContext} from "react";
+import React, { useState, useContext } from "react";
 import { Context } from "../store/appContext";
-import { useNavigate } from "react-router-dom";
-import {Link} from "react-router-dom"
+import { useNavigate, Link } from "react-router-dom";
 
 export const Login = () => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
-	const {actions} = useContext(Context);
-	const navigate = useNavigate()
+	const [loginError, setLoginError] = useState(null);  // State to hold error message
+	const { actions } = useContext(Context);
+	const navigate = useNavigate();
 
-	
-	async function sendData(e){
-		e.preventDefault()
-		
-		const response= await actions.login(email, password)
-		console.log(response)
-		if(response){
-			navigate("/login")
+	const handleSubmit = async (e) => {
+		e.preventDefault();
+		const response = await actions.login(email, password);
+		if (response) {
+			navigate("/foundation");
+		} else {
+			setLoginError("Invalid email or password. Please try again.");
 		}
+	};
 
-		
-	}
 	return (
-		<div>
-			<form className=".w-25" onSubmit={sendData}>
-				<div className="mb-3">
-					<label htmlFor="exampleInputEmail1" className="form-label">Email address</label>
-					<input value={email} onChange={(e)=> setEmail(e.target.value)} type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"/>
-					<div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
+		<div className="container d-flex justify-content-center align-items-center" style={{ marginBottom: '2rem', marginTop: '2rem', height: '70%' }}>
+			<div className="card p-4 shadow" style={{ maxWidth: "400px", width: "100%" }}>
+				<h2 className="text-center mb-4">Login</h2>
+				<form onSubmit={handleSubmit}>
+					<div className="mb-3">
+						<label htmlFor="email" className="form-label">Email Address</label>
+						<input
+							type="email"
+							id="email"
+							className="form-control"
+							value={email}
+							onChange={(e) => setEmail(e.target.value)}
+							required
+						/>
+					</div>
+					<div className="mb-3">
+						<label htmlFor="password" className="form-label">Password</label>
+						<input
+							type="password"
+							id="password"
+							className="form-control"
+							value={password}
+							onChange={(e) => setPassword(e.target.value)}
+							required
+						/>
+						<small className="form-text text-muted">
+							Never share your password with anyone.
+						</small>
+					</div>
+					{loginError && (
+						<div className="alert alert-danger text-center p-2 mt-2">
+							{loginError}
+						</div>
+					)}
+					<button type="submit" className="btn btn-primary w-100 mt-3">Login</button>
+				</form>
+				<div className="text-center mt-3">
+					<p>
+						Don’t have an account? <Link to="/signup" className="text-decoration-none">Sign Up</Link>
+					</p>
 				</div>
-				<div className="mb-3">
-					<label htmlFor="exampleInputPassword1" className="form-label">Password</label>
-					<input value={password} onChange={(e)=> setPassword(e.target.value)} type="password" className="form-control" id="exampleInputPassword1"/>
-				</div>
-				<button type="submit" className="btn btn-primary">Login</button>
-			</form>
-			 <Link to="/signup" className="my-link">Signup</Link>
-
+			</div>
 		</div>
 	);
 };
-
-export default Login

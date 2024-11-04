@@ -2,25 +2,13 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint, current_app
-from api.models import db, User, Beneficiary, Donor, Foundation, Donor_login
-from api.utils import generate_sitemap, APIException
-from flask_cors import CORS
-from flask_jwt_extended import create_access_token
-from flask_jwt_extended import get_jwt_identity
-from flask_jwt_extended import jwt_required
-
-import cloudinary
-import cloudinary.uploader
-import cloudinary.api
-from dotenv import load_dotenv
-
+from api.models import db, Beneficiary, Donor, Foundation 
+# from api.utils import generate_sitemap, APIException
+from base64 import b64decode
+from flask_jwt_extended import jwt_required, get_jwt_identity, create_access_token, get_jwt
+from datetime import timedelta
 
 api = Blueprint('api', __name__)
-
-# Allow CORS requests to this API
-CORS(api)
-
-load_dotenv()
 
 @api.route('/hello', methods=['POST', 'GET'])
 def handle_hello():
@@ -45,16 +33,29 @@ def get_foundation_id(id):
     return jsonify(identification.serialize()), 200
 
 @api.route('/foundations', methods=['POST'])
-def POST_Foundation():
-  
-    body = request.get_json()
-    box = Foundation(name=body['name'],description=body['description'],country=body['country'],email=body['email'],password=body['password'])
-    db.session.add(box)
+def create_foundation():
+    data = request.get_json() 
+    if not data:
+        return jsonify({"error": "No input data provided"}), 400
+
+    name = data.get('name')
+    description = data.get('description')
+    country = data.get('country')
+    email = data.get('email')
+    password = data.get('passwordl')
+    
+    foundation = Foundation(
+        name=name,
+        description=description,
+        country= country,
+        email=email,
+        password=password,
+    )
+
+    db.session.add(foundation)
     db.session.commit()
-    response_body = {
-        "msg": "A donar has been added"
-    }
-    return jsonify(response_body), 200
+
+    return jsonify(foundation.serialize()), 201
 
 @api.route('/foundations/<int:id>', methods=['DELETE'])
 def Delete_foundations(id):
@@ -63,29 +64,29 @@ def Delete_foundations(id):
     db.session.commit()
     return jsonify({"msg": "Donar eliminated"}), 200
 
-@api.route('/foundations/<int:id>', methods=['PUT'])
-def update_foundation(id):
-    foundation = Foundation.query.filter_by(id=id).first()
-    if not foundation:
-        return jsonify({"msg": "Foundation not found"}), 404
-
-    body = request.get_json()
-    foundation.name = body.get('name', foundation.name)
-    foundation.description = body.get('description', foundation.description)
-    foundation.country = body.get('country', foundation.country)
-    foundation.email = body.get('email', foundation.email)
-    foundation.password = body.get('password', foundation.password)
-
-    db.session.commit()
-    
-    return jsonify({"msg": "Foundation updated successfully"}), 200
-
 @api.route('/beneficiary', methods=['GET'])
+@jwt_required()
 def get_beneficiary():
-    beneficiary = Beneficiary.query.all()
-    results = list(map(lambda beneficiary: beneficiary.serialize(), beneficiary))
+    try:
+        # Obtén el ID de la fundación desde el token JWT
+        foundation_id = get_jwt().get("foundation_id")
 
-    return jsonify(results), 200
+        if not foundation_id:
+            return jsonify({"error": "Foundation ID not found in token"}), 400
+
+        # Consulta los beneficiarios vinculados a la fundación
+        beneficiaries = Beneficiary.query.filter_by(foundation_id=foundation_id).all()
+        
+        # Si no hay beneficiarios, devuelve un arreglo vacío
+        results = [beneficiary.serialize() for beneficiary in beneficiaries]
+        return jsonify(results), 200
+    
+    except Exception as e:
+        # Log del mensaje de error para fines de depuración
+        print(f"Error fetching beneficiaries: {e}")
+        
+        # Devuelve una respuesta genérica de error
+        return jsonify({"error": "An error occurred while fetching beneficiaries.", "details": str(e)}), 500
 
 @api.route('/beneficiaries/<int:beneficiaries_id>', methods=['GET'])
 def get_user(beneficiaries_id):
@@ -96,65 +97,115 @@ def get_user(beneficiaries_id):
     return jsonify(each_beneficiary.serialize()), 200
 
 @api.route('/beneficiary', methods=['POST'])
+@jwt_required()
 def create_beneficiary():
-    data = request.get_json() 
-    if not data:
-        return jsonify({"error": "No input data provided"}), 400
+    try:
+        data = request.get_json()
+        if not data:
+            return jsonify({"error": "No input data provided"}), 400
 
-    name = data.get('name')
-    wish_gift = data.get('wish_gift')
-    history = data.get('history')
-    account = data.get('account')
-    image_url = data.get('image_url')
-    is_active = data.get('is_active', True)  
+        # Get foundation ID from JWT token
+        foundation_id = get_jwt().get("foundation_id")
+        foundation = Foundation.query.get(foundation_id)
+        
+        if not foundation:
+            return jsonify({"error": "Foundation not found."}), 404
 
+        # Extract beneficiary data
+        name = data.get('name')
+        wish_gift = data.get('wish_gift')
+        history = data.get('history')
+        account = data.get('account')
+        image_base64 = data.get('image')
+        is_active = data.get('is_active', True)  
+        
+        if not name or not account:
+            return jsonify({"error": "Name and account are required fields."}), 400
+
+        # Decode the base64 image
+        image_data = b64decode(image_base64) if image_base64 else None
+
+        # Create a new beneficiary associated with the foundation
+        new_beneficiary = Beneficiary(
+            name=name,
+            wish_gift=wish_gift,
+            history=history,
+            account=account,
+            image=image_data,
+            is_active=is_active,
+            foundation_id=foundation_id  # Associate with the foundation ID from the token
+        )
+
+        db.session.add(new_beneficiary)
+        db.session.commit()
+
+        return jsonify(new_beneficiary.serialize()), 201
     
-    
-    new_beneficiary = Beneficiary(
-        name=name,
-        wish_gift=wish_gift,
-        history=history,
-        account=account,
-        image_url=image_url,
-        is_active=is_active
-    )
-
-    db.session.add(new_beneficiary)
-    db.session.commit()
-
-    return jsonify(new_beneficiary.serialize()), 201
+    except Exception as e:
+        print(f"Error during beneficiary creation: {e}")
+        return jsonify({"error": "An error occurred during beneficiary creation.", "details": str(e)}), 500
 
 @api.route('/beneficiary/<int:id>', methods=['DELETE'])
+@jwt_required()
 def delete_beneficiary(id):
-    beneficiary = Beneficiary.query.get(id)
-    if not beneficiary:
-        return jsonify({"error": "Beneficiary not found"}), 404
+    try:
+        # Obtener el beneficiario por ID
+        beneficiary = Beneficiary.query.get(id)
+        
+        if not beneficiary:
+            return jsonify({"error": "Beneficiary not found"}), 404
+        
+        # Eliminar el beneficiario
+        db.session.delete(beneficiary)
+        db.session.commit()
+        
+        return jsonify({"message": "Beneficiary deleted successfully"}), 200
 
-    db.session.delete(beneficiary)
-    db.session.commit()
-
-    return jsonify({"message": "Beneficiary deleted successfully"}), 200
+    except Exception as e:
+        # Manejo de errores
+        db.session.rollback()  # Revertir cambios si ocurre un error
+        print(f"Error during deletion: {e}")  # Registrar el error para depuración
+        return jsonify({"error": "An error occurred during deletion.", "details": str(e)}), 500
 
 @api.route('/beneficiary/<int:id>', methods=['PUT'])
+@jwt_required()
 def update_beneficiary(id):
-    data = request.get_json()  
-    if not data:
-        return jsonify({"error": "No input data provided"}), 400
+    try:
+        # Obtener el ID de la fundación desde el token JWT
+        foundation_id = get_jwt().get("foundation_id")
+        if not foundation_id:
+            return jsonify({"error": "Foundation ID not found in token"}), 400
 
-    beneficiary = Beneficiary.query.get(id)
-    if not beneficiary:
-        return jsonify({"error": "Beneficiary not found"}), 404
+        # Verificar que el beneficiario exista y que esté asociado a la fundación del usuario
+        beneficiary = Beneficiary.query.filter_by(id=id, foundation_id=foundation_id).first()
+        if not beneficiary:
+            return jsonify({"msg": "Beneficiary not found or not authorized"}), 404
 
-    beneficiary.name = data.get('name', beneficiary.name)
-    beneficiary.wish_gift = data.get('wish_gift', beneficiary.wish_gift)
-    beneficiary.history = data.get('history', beneficiary.history)
-    beneficiary.account = data.get('account', beneficiary.account)
-    beneficiary.image_url = data.get('image_url', beneficiary.image_url)
-    beneficiary.is_active = data.get('is_active', beneficiary.is_active)
+        # Obtener los datos de la solicitud
+        body = request.get_json()
+        if not body:
+            return jsonify({"error": "No input data provided"}), 400
 
-    db.session.commit()
+        # Actualizar los campos del beneficiario
+        beneficiary.name = body.get('name', beneficiary.name)
+        beneficiary.wish_gift = body.get('wish_gift', beneficiary.wish_gift)
+        beneficiary.history = body.get('history', beneficiary.history)
+        beneficiary.account = body.get('account', beneficiary.account)
+        beneficiary.is_active = body.get('is_active', beneficiary.is_active)
 
-    return jsonify(beneficiary.serialize()), 200
+        # Verificar si se envió una imagen y actualizarla si está presente
+        image_base64 = body.get('image')
+        if image_base64:
+            beneficiary.image = b64decode(image_base64)
+
+        # Guardar los cambios en la base de datos
+        db.session.commit()
+        
+        return jsonify({"msg": "Beneficiary updated successfully"}), 200
+
+    except Exception as e:
+        print(f"Error updating beneficiary: {e}")
+        return jsonify({"error": "An error occurred while updating the beneficiary.", "details": str(e)}), 500
 
 @api.route('/donor', methods=['GET'])
 def get_donors():
@@ -174,7 +225,6 @@ def get_donor(donor_id):
 @api.route('/donor', methods=['POST'])
 def create_donor():
     data = request.get_json()
-    print(type(data))
     if not data:
         return jsonify({"error": "No input data provided"}), 400
 
@@ -182,7 +232,6 @@ def create_donor():
     last_name = data.get('last_name')
     email = data.get('email')
     password = data.get('password')
-    image_url = data.get('image_url')
     is_active = data.get('is_active', True)
 
     new_donor = Donor(
@@ -190,7 +239,6 @@ def create_donor():
         last_name=last_name,
         email=email,
         password=password,  # Make sure to handle password securely
-        image_url=image_url,
         is_active=is_active
     )
 
@@ -230,50 +278,6 @@ def update_donor(id):
 
     return jsonify(donor.serialize()), 200
 
-# @api.route("/upload", methods=["POST"])
-# def upload_image():
-#     data = request.get_json() 
-#     if not data:
-#         return jsonify({"error": "No input data provided"}), 400
-
-@api.route("/login", methods=["POST"])
-def login():
-    email = request.json.get("email")
-    password = request.json.get("password")
-    
-    user = Foundation.query.filter_by(email = email).first()
-    print(Foundation)
-
-    if not user: 
-        return jsonify({"error": "Email not found"}), 404
-    
-    print(type(Foundation))
-    print(Foundation.serialize())
-
-    valid_password = current_app.bcrypt.check_password_hash(user.password, password)
-    
-    if email != user.email or password != user.password:
-        return jsonify({"msg": "Incorrect email or password"}), 401
-    user = Donor_login.query.filter_by(email = email).first()
-    print(Donor_login)
-    
-
-    if not user: 
-        return jsonify({"error": "donor not found"}), 404
-    
-    print(type(user))
-    print(user.serialize())
-
-    valid_password = current_app.bcrypt.check_password_hash(user.password, password)
-    
-    if email != user.email or not valid_password:
-        return jsonify({"msg": "Bad email or password"}), 401
-    
-    access_token = create_access_token(identity=email)
-    return jsonify(access_token=access_token, user= user.serialize()), 200
-
-
-    
 @api.route("/private", methods=["GET"])
 @jwt_required()
 def private():
@@ -285,40 +289,74 @@ def private():
     
     return jsonify({"user": user.serialize()})
 
-@api.route("/signup", methods=["POST"])
-def signup():
-    body = request.get_json() 
-    user = Foundation.query.filter_by(email=body["email"]).first()
-    if user != None:
-        return jsonify({"msg": "A foundation was created with that email" }), 401
-    
-    password_hash = current_app.bcrypt.generate_password_hash(body["password"]).decode("utf-8")
-
-    user = Foundation(email =body["email"], password = password_hash, is_active = True)
-    user = Donor_login.query.filter_by(email=email).first()
-    if not user: 
-        return jsonify({"error": "donor not found"}), 404
-    
-    return jsonify({"user": user.serialize()})
-
-
-@api.route("/signup", methods=["POST"])
-def signup():
-    body = request.get_json() 
-    user = Donor_login.query.filter_by(email=body["email"]).first()
-    if user != None:
-        return jsonify({"msg": "A donor was created with that email" }), 401
-    
-    password_hash = current_app.bcrypt.generate_password_hash(body["password"]).decode("utf-8")
-
-    user = Donor_login(email =body["email"], password = password_hash, is_active = True)
-    db.session.add(user)
-    db.session.commit()
-    response_body = {
-        "msg": "user created",
-        "user_id": user.id,
-        "email": user.email,
+@api.route("/login", methods=["POST"])
+def login():
+    try:
+        email = request.json.get("email")
+        password = request.json.get("password")
         
-    }
+        # Retrieve the user by email
+        user = Foundation.query.filter_by(email=email).first()
+        
+        if not user:
+            return jsonify({"error": "Email not found"}), 404
+        
+        # Verify the password
+        valid_password = current_app.bcrypt.check_password_hash(user.password, password)
+        if not valid_password:
+            return jsonify({"msg": "Incorrect email or password"}), 401
+        
+        # Include foundation ID in token by setting additional claims
+        additional_claims = {"foundation_id": user.id}
+        access_token = create_access_token(
+            identity=email, 
+            additional_claims=additional_claims,
+            expires_delta=timedelta(weeks=1)
+        )
+        
+        return jsonify(access_token=access_token, user=user.serialize()), 200
 
-    return jsonify(response_body), 200
+    except Exception as e:
+        # Log the exception for debugging
+        print(f"Error during login: {e}")
+        
+        # Return a generic error response
+        return jsonify({"error": "An error occurred during login.", "details": str(e)}), 500
+
+@api.route("/signup", methods=["POST"])
+def signup():
+    try:
+        body = request.get_json()
+        
+        # Verificar si el email ya existe
+        foundation = Foundation.query.filter_by(email=body["email"]).first()
+        if foundation is not None:
+            return jsonify({"msg": "A foundation was created with that email"}), 401
+        
+        # Hashear la contraseña
+        password_hash = current_app.bcrypt.generate_password_hash(body["password"]).decode("utf-8")
+        
+        # Crear nuevo foundation
+        foundation = Foundation(
+            name=body["name"],
+            description=body["description"],
+            country=body["country"],
+            email=body["email"],
+            password=password_hash,
+            is_active=True
+        )
+        db.session.add(foundation)
+        db.session.commit()
+        
+        response_body = {
+            "msg": "Foundation created successfully",
+            "foundation_id": foundation.id,
+            "email": foundation.email,
+        }
+        return jsonify(response_body), 200
+    
+    except Exception as e:
+        print(f"Error during signup: {e}")
+        return jsonify({"error": "An error occurred during signup.", "details": str(e)}), 500
+
+

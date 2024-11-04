@@ -3,7 +3,6 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ScrollToTop from "./component/scrollToTop";
 import { BackendURL } from "./component/backendURL";
 import {Home} from "./pages/home";
-
 import { Demo } from "./pages/demo";
 import { Single } from "./pages/single";
 import { BeneficiaryForm } from "./pages/beneficiaryForm";
@@ -17,6 +16,9 @@ import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
 import List from "./pages/foundationList";
 import FoundationForm from "./pages/foundationForm";
+import { Foundation } from "./pages/foundation";
+import { DonorBeneficiary } from "./pages/donorbeneficiary";
+import { FoundationForm } from "./pages/foundationForm";
 import {PostHelper} from "./component/postHelper";
 
 
@@ -37,11 +39,12 @@ const Layout = () => {
                     <Navbar />
                     <Routes>
                         <Route element={<Home />} path="/" />
-                        <Route element={<List />} path="/list" />
+                        <Route element={<Foundation />} path="/foundation" />
                         <Route element={<Demo />} path="/demo" />
                         <Route element={<Login />} path="/login" />
                         <Route element={<Signup />} path="/signup" />
-                        <Route element={<FoundationForm />} path="/form " />
+                        <Route element={<FoundationForm />} path="/foundationForm" />
+                        <Route element={<FoundationForm />} path="/foundation/edit/:id" />
                         <Route element={<PostHelper />} path="/post" />
                         <Route element={<Welcome />} path="/welcome" />
                         <Route element={<Login />} path="/login" />
