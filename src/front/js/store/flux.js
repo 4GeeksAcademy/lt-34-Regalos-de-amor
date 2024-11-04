@@ -3,6 +3,7 @@ const getState = ({ getStore, getActions, setStore }) => {
     return {
         store: {
             demo: [
+				
                 {
                     title: "FIRST",
                     background: "white",
@@ -23,14 +24,84 @@ const getState = ({ getStore, getActions, setStore }) => {
             donors: [],
 			last_name: [],
 			email: [],
-			// picture: []
 			message: [],
 			donor: [],
+			message: null,
+			user: null,
         },
         actions: {
             exampleFunction: () => {
                 getActions().changeColor(0, "green");
             },
+
+			logout: () => {
+				console.log('logout');
+				localStorage.removeItem("token");
+				setStore({ user: false });
+			},
+			
+			login: async (email, password) => {
+				const requestOptions = {
+					method: 'POST',
+					headers: {'Content-Type': 'application/json'},
+					body: JSON.stringify (
+						{
+							'email': email,
+							'password': password
+						}
+					)
+					
+				};
+				const response = await fetch(process.env.BACKEND_URL + "/api/login", requestOptions)
+				localStorage.removeItem("token")
+				const data = await response.json()
+					if(response.ok){
+						localStorage.setItem("token", data.access_token);
+						setStore({user: data.user})
+						return true	
+					}
+					alert("User not found")
+					return false
+			},
+
+			private: async() => {
+				const response = await fetch(process.env.BACKEND_URL + "/api/private", {
+					headers: {"Authorization": "Bearer " + localStorage.getItem("token")}
+				})
+				const data = await response.json()
+				if (response.ok){
+					setStore({user: data.user})
+					return true
+				}
+					setStore({user: false})
+					return false
+			},
+
+			signup: async (email, password) => {
+				const requestOptions = {
+					method: 'POST',
+					headers: {'Content-Type': 'application/json'},
+					body: JSON.stringify (
+						{
+							'email': email,
+							'password': password
+						}
+					)
+				};
+				const response = await fetch(process.env.BACKEND_URL + "/api/signup", requestOptions)
+				const data = await response.json()
+					
+					if(response.ok){
+						setStore({user: data.user})
+						return true	
+					}else{
+						data.user == data.user
+						alert("Try another donor")
+						return false
+					}
+			},
+
+
 
             getMessage: async () => {
                 try {

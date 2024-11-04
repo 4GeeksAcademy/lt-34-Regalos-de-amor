@@ -18,8 +18,16 @@ gunicorn = "*"
 cloudinary = "*"
 flask-admin = "*"
 typing-extensions = "*"
+<<<<<<< HEAD
+flask-jwt-extended = "*"
+flask-bcrypt = "*"
+=======
 cloudinary-cli = "*"
+<<<<<<< HEAD
 requests = "*"
+=======
+>>>>>>> develop
+>>>>>>> develop
 
 [requires]
 python_version = "3.10"

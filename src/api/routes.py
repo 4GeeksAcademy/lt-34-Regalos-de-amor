@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Beneficiary, Donor, Foundation, Transaction
+from api.models import db, User, Beneficiary, Donor, Foundation, Transaction, Donor_login
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 # from flask_jwt_extended import create_access_token
@@ -175,6 +175,7 @@ def get_donor(donor_id):
 @api.route('/donor', methods=['POST'])
 def create_donor():
     data = request.get_json()
+    print(type(data))
     if not data:
         return jsonify({"error": "No input data provided"}), 400
 
@@ -258,4 +259,59 @@ def execute_payment():
         db.session.commit()
 
     return jsonify(response.json())
+@api.route("/login", methods=["POST"])
+def login():
+    email = request.json.get("email")
+    password = request.json.get("password")
+    
+    user = Donor_login.query.filter_by(email = email).first()
+    print(Donor_login)
+    
 
+    if not user: 
+        return jsonify({"error": "donor not found"}), 404
+    
+    print(type(user))
+    print(user.serialize())
+
+    valid_password = current_app.bcrypt.check_password_hash(user.password, password)
+    
+    if email != user.email or not valid_password:
+        return jsonify({"msg": "Bad email or password"}), 401
+    
+    access_token = create_access_token(identity=email)
+    return jsonify(access_token=access_token, user= user.serialize()), 200
+
+
+    
+@api.route("/private", methods=["GET"])
+@jwt_required()
+def private():
+    email = get_jwt_identity()
+
+    user = Donor_login.query.filter_by(email=email).first()
+    if not user: 
+        return jsonify({"error": "donor not found"}), 404
+    
+    return jsonify({"user": user.serialize()})
+
+
+@api.route("/signup", methods=["POST"])
+def signup():
+    body = request.get_json() 
+    user = Donor_login.query.filter_by(email=body["email"]).first()
+    if user != None:
+        return jsonify({"msg": "A donor was created with that email" }), 401
+    
+    password_hash = current_app.bcrypt.generate_password_hash(body["password"]).decode("utf-8")
+
+    user = Donor_login(email =body["email"], password = password_hash, is_active = True)
+    db.session.add(user)
+    db.session.commit()
+    response_body = {
+        "msg": "user created",
+        "user_id": user.id,
+        "email": user.email,
+        
+    }
+    return jsonify(response_body), 200

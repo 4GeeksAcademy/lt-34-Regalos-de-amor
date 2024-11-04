@@ -15,6 +15,7 @@ import { Donors } from "./pages/donors"; // Asegúrate de que la ruta sea correc
 
 import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
+<<<<<<< HEAD
 import List from "./pages/foundationList";
 import { DonorBeneficiary } from "./pages/donorbeneficiary";
 import { Payment } from "./pages/paypal";
@@ -27,6 +28,12 @@ const initialOptions = {
     intent: "capture",
 };
 
+=======
+import { Login } from "./pages/login";
+import { Welcome } from "./pages/welcome";
+import { Signup } from "./component/signup";
+//create your first component
+>>>>>>> develop
 const Layout = () => {
     const basename = process.env.BASENAME || "";
 
@@ -42,11 +49,16 @@ const Layout = () => {
                         <Route element={<Home />} path="/" />
                         <Route element={<List />} path="/list" />
                         <Route element={<Demo />} path="/demo" />
+<<<<<<< HEAD
                         <Route element={<Payment />} path="/payment" />
+=======
+                        <Route element={<Welcome />} path="/welcome" />
+                        <Route element={<Login />} path="/login" />
+                        <Route element={<Signup />} path="/signup" />
+>>>>>>> develop
                         <Route element={<Beneficiary/>} path="/beneficiary" />
                         <Route element={<BeneficiaryForm />} path="/beneficiary/add" />
                         <Route element={<BeneficiaryForm />} path="/beneficiary/edit/:id" />
-                        <Route path="/donor/new" element={<DonorBeneficiary />} />
                         <Route element={<DonorForm />} path="/donorform" /> 
                         <Route element={<Donors />} path="/donors" /> 
                         <Route element={<DonorForm />} path="/donorform/:id" />
