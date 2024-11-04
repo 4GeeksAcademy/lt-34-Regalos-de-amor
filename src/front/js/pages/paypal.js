@@ -26,7 +26,7 @@ export const Payment = () => {
           purchase_units: [
               {
                   amount: {
-                      value: "8.99",
+                      value: "20.99",
                   },
               },
           ],
@@ -59,15 +59,11 @@ export const Payment = () => {
                   ,
                   description: 'This is the payment description.'
               }],
-              // redirect_urls: {
-              //     return_url: 'http://localhost:3000/success',
-              //     cancel_url: 'http://localhost:3000/cancel'
-              // }
+          
           })
       });
       const data = await response.json();
       console.log(data)
-      // window.location.href = data.links[1].href;
   };
 
   const executePayment = async () => {
@@ -86,7 +82,7 @@ export const Payment = () => {
   };
 
   return (
-      <div className="checkout">
+      <div className="checkout container justify-content-center mt-5"> 
           {isPending ? <p>LOADING...</p> : 
       (
     <>
