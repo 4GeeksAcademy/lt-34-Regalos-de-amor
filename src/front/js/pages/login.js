@@ -11,7 +11,8 @@ export const Login = () => {
 
 	// Check if the user is already logged in
 	useEffect(() => {
-		if (store.user) {
+		const token = localStorage.getItem('token');
+		if (store.user.email && token) {
 			navigate("/foundation");
 		}
 	}, [store.user, navigate]);
