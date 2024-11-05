@@ -7,22 +7,6 @@ from sqlalchemy.orm import relationship
 
 db = SQLAlchemy()
 
-"""class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(120), unique=True, nullable=False)
-    password = db.Column(db.String(80), unique=False, nullable=False)
-    is_active = db.Column(db.Boolean(), unique=False, nullable=False)
-    def __repr__(self):
-
-        return '<User %r>' % self.email
-
-    def serialize(self):
-        return {
-            "id": self.id,
-            "name": self.name,
-            "email": self.email,
-        }"""
-
 class Foundation(db.Model):
     __tablename__ = 'foundation'
     id = db.Column(Integer, primary_key=True)
@@ -46,7 +30,7 @@ class Foundation(db.Model):
             "description": self.description,
             "country": self.country,
             "email": self.email,
-            "is_active": self.is_active  # Incluye is_active en la serialización
+            "is_active": self.is_active 
         }
 
 class Beneficiary(db.Model):
@@ -129,4 +113,24 @@ class Donor_login(db.Model):
             "email": self.email,
             "is_active": self.is_active
         }
+
+class Transaction(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    payment_id = db.Column(db.String(100), nullable=False)
+    payer_id = db.Column(db.String(100), nullable=False)
+    amount = db.Column(db.Float, nullable=False)
+
+
+    def __repr__(self):
+        return f'<Transaction {self.id}>'
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "payment_id": self.payment_id,
+            "payer_id" : self.payer_id,
+            "amount" : self.amount         
+        }
+
+    
     
