@@ -20,13 +20,13 @@ import { Signup } from "./component/signup";
 import { Payment } from "./pages/paypal";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 
-const initialOptions = {
-    "client-id": process.env.PAYPAL_CLIENT_ID,
-    currency: "USD",
-    intent: "capture",
-};
 
 const Layout = () => {
+    const initialOptions = {
+        "client-id": process.env.PAYPAL_CLIENT_ID,
+        currency: "USD",
+        intent: "capture",
+    };
     const basename = process.env.BASENAME || "";
 
     if (!process.env.BACKEND_URL || process.env.BACKEND_URL === "") return <BackendURL />;

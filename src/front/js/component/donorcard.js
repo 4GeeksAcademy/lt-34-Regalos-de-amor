@@ -29,23 +29,25 @@ export const DonorCard = ({ donor }) => {
         });
     };
 
-    const onCreateOrder = (data, actions) => {
+    const onCreateOrder = (amount,data, actions) => {
         if (!amount || isNaN(amount) || parseFloat(amount) <= 0) {
             alert("Please enter a valid amount");
             return;
+      
         }
-
+        console.log(amount)
         return actions.order.create({
             purchase_units: [
                 {
                     amount: {
                         value: amount.toString(),
+                        
                     },
                 },
             ],
         });
     };
-
+    console.log(amount)
     const onApproveOrder = (data, actions) => {
         return actions.order.capture().then((details) => {
             const name = details.payer.name.given_name;
@@ -84,8 +86,9 @@ export const DonorCard = ({ donor }) => {
                     />
                     <PayPalButtons
                         style={{ layout: "vertical" }}
-                        createOrder={(data, actions) => onCreateOrder(data, actions)}
+                        createOrder={(data, actions) => onCreateOrder(amount,data, actions)}
                         onApprove={(data, actions) => onApproveOrder(data, actions)}
+
                         className="mt-2"
                     />
                 </div>
