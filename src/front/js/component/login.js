@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { Context } from "../store/appContext";
 import { useNavigate, Link } from "react-router-dom";
 
@@ -6,16 +6,8 @@ export const Login = () => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [loginError, setLoginError] = useState(null);  // State to hold error message
-	const { actions, store } = useContext(Context);
+	const { actions } = useContext(Context);
 	const navigate = useNavigate();
-
-	// Check if the user is already logged in
-	useEffect(() => {
-		const token = localStorage.getItem('token');
-		if (store.user.email && token) {
-			navigate("/foundation");
-		}
-	}, [store.user, navigate]);
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();

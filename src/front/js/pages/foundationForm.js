@@ -1,105 +1,163 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import PropTypes, { func } from "prop-types";
+import { Link, useParams, useNavigate } from "react-router-dom";
+import { Context } from "../store/appContext";
+import FoundationCard from "./foundationCard";
 
-const FoundationForm = (props) => {
-    const [Name, setName] = useState("");
-    const [description, setDescription] = useState("");
-    const [country, setCountry] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [id, setId] = useState();
+export const FoundationForm = (props) => {
+    const navigate = useNavigate()
+    const { store, actions } = useContext(Context)
+    const params = useParams();
+    const [name, setName] = useState('');
+    const [description, setDescription] = useState('');
+    const [country, setCountry] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
-    const submit = async (e) => { 
-        e.preventDefault();
+    useEffect(() => {
+        if (store.foundations && params.id) {
+            if (store.foundations.length > 0) {
 
-        const foundation = {
-            name: Name,
-            description: description,
-            country: country,
-            email: email,
-            password: password,
-            id: id
+                const result = store.foundations.find(item => item.id == params.id)
+                if (result) {
+                    setName(result.name)
+                    setDescription(result.description)
+                    setCountry(result.country)
+                    setEmail(result.email)
+                    setPassword(result.password)
+
+                }
+            }
+        }
+    }, [store.foundations, params]);
+
+    const Foundation = async () => {
+        const Foundation = {
+            name,
+            description,
+            country,
+            email,
+            password
         };
 
-        if (id) {
-            await props.update(id, foundation);
+        try {
+            const response = await fetch(`${process.env.BACKEND_URL}/api/foundations`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(Foundation)
+            });
+
+            if (!response.ok) {
+                throw new Error(`Error: ${response.status}`);
+            }
+
+            const data = await response.json();
+            console.log('Foundation created:', data);
+        } catch (error) {
+            console.error('Failed to create foundation:', error);
+        }
+    };
+
+    const updateFoundation = async (id, data) => {
+        try {
+            const response = await fetch(`${process.env.BACKEND_URL}/api/foundations/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (!response.ok) {
+                throw new Error(`Error: ${response.status}`);
+            }
+
+            console.log('Foundation updated');
+            actions.fetchFoundationData();
+        } catch (error) {
+            console.error('Failed to update foundation:', error);
+        }
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const foundationData = {
+            name,
+            description,
+            country,
+            email,
+            password
+        };
+        if (params.id) {
+            updateFoundation(params.id, foundationData).then(() => {
+                navigate("/foundation");
+            });
         } else {
-            await props.add(foundation);
+            Foundation().then(() => {
+                navigate("/foundation");
+            });
         }
-
-        setName("");
-        setDescription("");
-        setCountry("");
-        setEmail("");
-        setPassword("");
-        setId(null);
-    }
-    
-    useEffect(() => {
-        if (props.foundationToEdit) {
-            setName(props.foundationToEdit.name || "");
-            setDescription(props.foundationToEdit.description || ""); 
-            setCountry(props.foundationToEdit.country || "");
-            setEmail(props.foundationToEdit.email || "");
-            setPassword(props.foundationToEdit.password || ""); 
-            setId(props.foundationToEdit.id || null); 
-        }
-    }, [props.foundationToEdit]);
-
+    };
     return (
-        <div className="container">
-            <div className="row">
-                <h1 className="text-center">Add a new foundation</h1>
-                <form className="col-8 offset-2" onSubmit={submit}>
-                    <label className="mt-2" htmlFor="email">Name</label>
+        <div className="d-flex justify-content-center">
+            <form onSubmit={handleSubmit}>
+                <h3>Foundation</h3>
+                <div className="mb-3">
+                    <label htmlFor="name" className="form-label">Name</label>
                     <input
-                        value={Name}
-                        onChange={(event) => setName(event.target.value)}
                         type="text"
                         className="form-control"
                         id="name"
-                        placeholder="Name"
+                        placeholder="name"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
                     />
-                    <label className="mt-2" htmlFor="description">Description</label>
+                </div>
+                <div className="mb-3">
+                    <label htmlFor="description" className="form-label">Description</label>
                     <input
-                        value={description}
-                        onChange={(event) => setDescription(event.target.value)}
-                        type="text"
                         className="form-control"
                         id="description"
-                        placeholder="Enter description"
+                        placeholder="description"
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
                     />
-                    <label className="mt-2" htmlFor="country">Country</label>
+                </div>
+                <div className="mb-3">
+                    <label htmlFor="country" className="form-label">Country</label>
                     <input
-                        value={country}
-                        onChange={(event) => setCountry(event.target.value)}
                         type="text"
                         className="form-control"
                         id="country"
-                        placeholder="Enter country"
+                        placeholder="country"
+                        value={country}
+                        onChange={(e) => setCountry(e.target.value)}
                     />
-                    <label className="mt-2" htmlFor="email">Email</label>
+                </div>
+                <div className="mb-3">
+                    <label htmlFor="email" className="form-label">Email</label>
                     <input
-                        value={email}
-                        onChange={(event) => setEmail(event.target.value)}
-                        type="text"
                         className="form-control"
                         id="email"
-                        placeholder="Enter email"
-                    />
-                    <label className="mt-2" htmlFor="password">Password</label>
+                        placeholder="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                     />
+                </div>
+	            <div className="mb-3">
+                    <label htmlFor="password" className="form-label">Password</label>
                     <input
-                        value={password}
-                        onChange={(event) => setPassword(event.target.value)}
-                        type="text"
                         className="form-control"
                         id="password"
-                        placeholder="Enter password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
                     />
-                    <button className="mt-3 col-12 btn btn-primary" type="submit">Save</button>
-                </form>
-            </div>
+                </div>
+                
+                <button type="submit" className="btn btn-primary">Send</button>
+            </form>
         </div>
     );
 };
-
-export default FoundationForm;
