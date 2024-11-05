@@ -19,6 +19,7 @@ import { Footer } from "./component/footer";
 import { Login } from "./pages/login";
 import { Welcome } from "./pages/welcome";
 import { Signup } from "./component/signup";
+
 //create your first component
 const Layout = () => {
     const basename = process.env.BASENAME || "";
@@ -32,8 +33,12 @@ const Layout = () => {
                     <Navbar />
                     <Routes>
                         <Route element={<Home />} path="/" />
-                        <Route element={<List />} path="/list" />
                         <Route element={<Demo />} path="/demo" />
+                        <Route element={<Foundation />} path="/foundation" />
+                        <Route element={<PostHelper />} path="/post" />
+                        <Route element={<FoundationForm />} path="/form " />
+                        <Route element={<FoundationForm />} path="/foundationForm" />
+                        <Route element={<FoundationForm />} path="/foundation/edit/:id" />
                         <Route element={<Welcome />} path="/welcome" />
                         <Route element={<Login />} path="/login" />
                         <Route element={<Signup />} path="/signup" />

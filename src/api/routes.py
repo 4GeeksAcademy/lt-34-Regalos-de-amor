@@ -2,9 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint, current_app
-from api.models import db, User, Beneficiary, Donor, Foundation, Donor_login
-from api.utils import generate_sitemap, APIException
-from flask_cors import CORS
+from api.models import db, User, Beneficiary, Donor, Foundation
 from flask_jwt_extended import create_access_token
 from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
@@ -12,6 +10,7 @@ import cloudinary
 import cloudinary.uploader
 import cloudinary.api
 from dotenv import load_dotenv
+from flask_cors import CORS
 
 
 api = Blueprint('api', __name__)
@@ -240,8 +239,8 @@ def login():
     email = request.json.get("email")
     password = request.json.get("password")
     
-    user = Donor_login.query.filter_by(email = email).first()
-    print(Donor_login)
+    user = Donor.query.filter_by(email = email).first()
+    print(Donor)
     
 
     if not user: 
@@ -265,7 +264,7 @@ def login():
 def private():
     email = get_jwt_identity()
 
-    user = Donor_login.query.filter_by(email=email).first()
+    user = Donor.query.filter_by(email=email).first()
     if not user: 
         return jsonify({"error": "donor not found"}), 404
     
@@ -275,13 +274,13 @@ def private():
 @api.route("/signup", methods=["POST"])
 def signup():
     body = request.get_json() 
-    user = Donor_login.query.filter_by(email=body["email"]).first()
+    user = Donor.query.filter_by(email=body["email"]).first()
     if user != None:
         return jsonify({"msg": "A donor was created with that email" }), 401
     
     password_hash = current_app.bcrypt.generate_password_hash(body["password"]).decode("utf-8")
 
-    user = Donor_login(email =body["email"], password = password_hash, is_active = True)
+    user = Donor(email =body["email"], password = password_hash, is_active = True)
     db.session.add(user)
     db.session.commit()
     response_body = {
