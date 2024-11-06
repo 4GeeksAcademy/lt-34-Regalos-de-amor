@@ -10,7 +10,7 @@ export const Welcome = () => {
 
 	return (
 		<div className="container d-flex justify-content-center text-center mt-5 ">
-			{store.user ? <Navigate to="/login" /> : store.user == false ? <Form/> : store.user == null && <h1>Loading...</h1>}
+			{store.user ? <Navigate to="/donor/login" /> : store.user == false ? <Form/> : store.user == null && <h1>Loading...</h1>}
 		</div>
 	);
 };

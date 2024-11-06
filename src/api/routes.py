@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint, current_app
-from api.models import db, User, Beneficiary, Donor, Foundation, Donor_login
+from api.models import db, User, Beneficiary, Donor, Foundation
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from flask_jwt_extended import create_access_token
@@ -229,65 +229,68 @@ def update_donor(id):
 
     return jsonify(donor.serialize()), 200
 
-# @api.route("/upload", methods=["POST"])
-# def upload_image():
-#     data = request.get_json() 
-#     if not data:
-#         return jsonify({"error": "No input data provided"}), 400
 
-@api.route("/login", methods=["POST"])
+@api.route("/donor/login", methods=["POST"])
 def login():
     email = request.json.get("email")
     password = request.json.get("password")
     
-    user = Donor_login.query.filter_by(email = email).first()
-    print(Donor_login)
+    new_donor = Donor.query.filter_by(email = email).first()
+    print(Donor)
     
 
-    if not user: 
+    if not new_donor: 
         return jsonify({"error": "donor not found"}), 404
     
-    print(type(user))
-    print(user.serialize())
+    print(type(new_donor))
+    print(new_donor.serialize())
 
-    valid_password = current_app.bcrypt.check_password_hash(user.password, password)
+    valid_password = current_app.bcrypt.check_password_hash(new_donor.password, password)
     
-    if email != user.email or not valid_password:
+    if email != new_donor.email or not valid_password:
         return jsonify({"msg": "Bad email or password"}), 401
     
     access_token = create_access_token(identity=email)
-    return jsonify(access_token=access_token, user= user.serialize()), 200
+    return jsonify(access_token=access_token, user= new_donor.serialize()), 200
 
 
-    
 @api.route("/private", methods=["GET"])
 @jwt_required()
 def private():
     email = get_jwt_identity()
 
-    user = Donor_login.query.filter_by(email=email).first()
-    if not user: 
+    new_donor = Donor.query.filter_by(email=email).first()
+    if not new_donor: 
         return jsonify({"error": "donor not found"}), 404
     
-    return jsonify({"user": user.serialize()})
+    return jsonify({"user": new_donor.serialize()})
 
 
-@api.route("/signup", methods=["POST"])
+@api.route("/donor/signup", methods=["POST"])
 def signup():
-    body = request.get_json() 
-    user = Donor_login.query.filter_by(email=body["email"]).first()
-    if user != None:
-        return jsonify({"msg": "A donor was created with that email" }), 401
+    body = request.get_json()
+    
+    new_donor = Donor.query.filter_by(email=body["email"]).first()
+    if new_donor is not None:
+        return jsonify({"msg": "A donor was created with that email"}), 401
     
     password_hash = current_app.bcrypt.generate_password_hash(body["password"]).decode("utf-8")
 
-    user = Donor_login(email =body["email"], password = password_hash, is_active = True)
-    db.session.add(user)
+    new_donor = Donor(
+        name=body.get("name"),  
+        last_name=body.get("last_name"), 
+        email=body["email"],
+        password=password_hash,
+        image_url=body.get("image_url"),  
+        is_active=True
+    )
+    
+    db.session.add(new_donor)
     db.session.commit()
+    
     response_body = {
         "msg": "user created",
-        "user_id": user.id,
-        "email": user.email,
-        
+        "user_id": new_donor.id,
+        "email": new_donor.email,
     }
     return jsonify(response_body), 200

@@ -52,7 +52,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					)
 					
 				};
-				const response = await fetch(process.env.BACKEND_URL + "/api/login", requestOptions)
+				const response = await fetch(process.env.BACKEND_URL + "/api/donor/login", requestOptions)
 				localStorage.removeItem("token")
 				const data = await response.json()
 					if(response.ok){
@@ -88,7 +88,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						}
 					)
 				};
-				const response = await fetch(process.env.BACKEND_URL + "/api/signup", requestOptions)
+				const response = await fetch(process.env.BACKEND_URL + "/api/donor/signup", requestOptions)
 				const data = await response.json()
 					
 					if(response.ok){
@@ -126,6 +126,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             fetchBeneficiaryData: async () => {
                 try {
                     const response = await fetch(`${process.env.BACKEND_URL}/api/beneficiary`);
+					console.log(response)
                     if (!response.ok) {
                         throw new Error(`Error: ${response.status}`);
                     }

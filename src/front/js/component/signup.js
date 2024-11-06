@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Navigate } from "react-router-dom";
 
 
-export const Signup = () => {
+export const SignupDonor = () => {
 	const [email, setEmail] = useState('');
 	// const [userId, setUserId] = useState(null);
 	const [userEmail, setUserEmail] = useState('');
@@ -22,11 +22,7 @@ export const Signup = () => {
 			const response = await actions.signup(email, password);
 			console.log(response);
 			if (response) {
-				
-				// const {user_id, email} = response.data;
-				// setUserId(user_id);
-				// setUserEmail(email);
-				navigate("/welcome");
+				navigate("/donor/login");
 			}
 		} catch (error) {
 			console.error("Error registering user:", error.message);

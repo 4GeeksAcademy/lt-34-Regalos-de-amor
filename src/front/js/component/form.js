@@ -16,7 +16,7 @@ export const Form = () => {
 		const response= await actions.login(email, password)
 		console.log(response)
 		if(response){
-			navigate("/login")
+			navigate("/donor/login")
 		}
 
 		
@@ -35,7 +35,7 @@ export const Form = () => {
 				</div>
 				<button type="submit" className="btn btn-primary">Login</button>
 			</form>
-			<Link to="/signup" className="my-link">Signup</Link>
+			<Link to="/donor/signup" className="my-link">Signup</Link>
 
 		</div>
 	);

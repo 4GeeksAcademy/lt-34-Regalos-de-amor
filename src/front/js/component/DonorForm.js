@@ -60,8 +60,8 @@ export const DonorForm = () => {
 
 
     return (
-        <div className="container">
-            <h2>{params.id ? "Editar Donante" : "Crear Donante"}</h2>
+        <div className="container d-flex justify-content-center mt-5">
+            <div><h3>{params.id ? "Editar Donante" : "Crear Donante"}</h3>
             <form onSubmit={handleSubmit}>
                 <div className="mb-3">
                     <label htmlFor="name" className="form-label">Nombre</label>
@@ -85,7 +85,7 @@ export const DonorForm = () => {
                         required
                     />
                 </div>
-                <div className="mb-3">
+                {/* <div className="mb-3">
                     <label htmlFor="email" className="form-label">Email</label>
                     <input
                         type="email"
@@ -105,7 +105,7 @@ export const DonorForm = () => {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     />
-                </div>
+                </div> */}
                 <div className="form-check mb-3">
                     <input
                         type="checkbox"
@@ -128,6 +128,7 @@ export const DonorForm = () => {
                     </div>
                 </div>
             </form>
+            </div>
         </div>
     );
 };
