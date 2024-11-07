@@ -14,10 +14,10 @@ export const Form = () => {
     async function sendData(e) {
         e.preventDefault()
 
-        const response = await actions.login(email, password)
+        const response = await actions.loginDonor(email, password)
         console.log(response)
         if (response) {
-            navigate("/login")
+            navigate("/welcome")
         }
 
     }
