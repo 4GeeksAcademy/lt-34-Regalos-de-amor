@@ -1,16 +1,17 @@
 import os
+from datetime import timedelta
+
 from flask import Flask, request, jsonify, send_from_directory
-from flask_migrate import Migrate
 from flask_cors import CORS, cross_origin
+from flask_migrate import Migrate
+from flask_jwt_extended import JWTManager
+from flask_bcrypt import Bcrypt
+
 from api.utils import APIException, generate_sitemap
 from api.models import db
 from api.routes import api
-from flask_jwt_extended import JWTManager
-from flask_bcrypt import Bcrypt
-from datetime import timedelta
 from api.admin import setup_admin
 from api.commands import setup_commands
-
 
 
 ENV = "development" if os.getenv("FLASK_DEBUG") == "1" else "production"

@@ -1,26 +1,22 @@
 """
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
-from flask import Flask, request, jsonify, url_for, Blueprint, current_app, requests
-from api.models import db, User, Beneficiary, Donor, Foundation, Transaction, Donor_login, PostHelp
-
-# from api.utils import generate_sitemap, APIException
-from base64 import b64decode
-from flask_jwt_extended import jwt_required, get_jwt_identity, create_access_token, get_jwt
-from datetime import timedelta
-from flask import Flask, request, jsonify, url_for, Blueprint
-from api.utils import generate_sitemap, APIException
+from flask import Flask, request, jsonify, url_for, Blueprint, current_app
 from flask_cors import CORS
-from flask_jwt_extended import create_access_token
-from flask_jwt_extended import get_jwt_identity
-from flask_jwt_extended import jwt_required
-from flask_jwt_extended import JWTManager
-import cloudinary, os
+from flask_jwt_extended import (
+    JWTManager, create_access_token, get_jwt_identity, jwt_required, get_jwt
+)
+from datetime import timedelta
+from base64 import b64decode
+from dotenv import load_dotenv
+import cloudinary
 import cloudinary.uploader
 import cloudinary.api
+import os
 import requests
-from dotenv import load_dotenv
-from flask_cors import CORS
+
+from api.models import db, User, Beneficiary, Donor, Foundation, Transaction, Donor_login, PostHelp
+from api.utils import generate_sitemap, APIException
 
 
 api = Blueprint('api', __name__)
