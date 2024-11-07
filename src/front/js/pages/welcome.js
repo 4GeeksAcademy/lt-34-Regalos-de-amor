@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Context } from "../store/appContext";
 import "../../styles/home.css";
-import { Form } from "../component/form";
+import { Form } from "../component/formLoginDonor";
 import { Navigate } from "react-router-dom";
 
 

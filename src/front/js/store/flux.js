@@ -283,7 +283,77 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.error("Signup error:", data);
 					return { success: false, message: data.msg };
 				}
-			}
+			},
+
+			signupDonor: async (email, password) => {
+				const requestOptions = {
+					method: 'POST',
+					headers: {'Content-Type': 'application/json'},
+					body: JSON.stringify (
+						{
+							'email': email,
+							'password': password
+						}
+					)
+				};
+				const response = await fetch(process.env.BACKEND_URL + "/api/signup/donor", requestOptions)
+				const data = await response.json()
+					
+					if(response.ok){
+						return true	
+					}else{
+						alert("Try another donor")
+						return false
+					}
+			},
+
+			loginDonor: async (email, password) => {
+				try {
+					const requestOptions = {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json',
+						},
+						body: JSON.stringify({
+							'email': email,
+							'password': password
+						})
+					};
+					const response = await fetch(process.env.BACKEND_URL + "/api/login/donor", requestOptions);
+
+					if (!response.ok) {
+						console.error("Login failed:", response.statusText);
+						return false;
+					}
+
+					const data = await response.json();
+					localStorage.setItem("token", data.access_token);
+					setStore({ user: data.user }); 
+					return true;
+				} catch (error) {
+					console.error("Error during login:", error);
+					return false;
+				}
+			},
+
+			logoutDonor: () => {
+				console.log('logout');
+				localStorage.removeItem("token");
+				setStore({ user: false });
+			},
+
+			private: async () => {
+				const response = await fetch(process.env.BACKEND_URL + "/api/private", {
+					headers: { "Authorization": "Bearer " + localStorage.getItem("token") }
+				})
+				const data = await response.json()
+				if (response.ok) {
+					setStore({ user: data.user })
+					return true
+				}
+				setStore({ user: false })
+				return false
+			},
 		}
 	};
 };

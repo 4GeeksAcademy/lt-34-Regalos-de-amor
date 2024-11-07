@@ -17,7 +17,8 @@ import { PostHelper } from "./component/postHelper";
 import { Login } from "./pages/login";
 import { Welcome } from "./pages/welcome";
 import { Signup } from "./component/signup";
-
+import { SignupDonor } from "./component/signupDonor";
+import { LoginDonor } from "./component/loginDonor";
 //create your first component
 import { Payment } from "./pages/paypal";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
@@ -44,8 +45,10 @@ const Layout = () => {
                             <Route element={<Foundation />} path="/foundation" />
                             <Route element={<Demo />} path="/demo" />
                             <Route element={<Login />} path="/login" />
-                            <Route element={<Signup />} path="/signup" />
+                            <Route element={<LoginDonor />} path="/login/donor" />
                             <Route element={<PostHelper />} path="/post" />
+                            <Route element={<Signup />} path="/signup" />
+                            <Route element={<SignupDonor />} path="/signup/donor" />
                             <Route element={<Welcome />} path="/welcome" />
                             <Route element={<Beneficiary />} path="/beneficiary" />
                             <Route element={<BeneficiaryForm />} path="/beneficiary/add" />

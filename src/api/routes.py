@@ -2,10 +2,9 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint, current_app
+from base64 import b64decode
+from flask_jwt_extended import jwt_required, get_jwt_identity, create_access_token, get_jwt
 from flask_cors import CORS
-from flask_jwt_extended import (
-    JWTManager, create_access_token, get_jwt_identity, jwt_required, get_jwt
-)
 from datetime import timedelta
 from base64 import b64decode
 from dotenv import load_dotenv
@@ -18,9 +17,9 @@ import requests
 from api.models import db, User, Beneficiary, Donor, Foundation, Transaction, Donor_login, PostHelp
 from api.utils import generate_sitemap, APIException
 
-
 api = Blueprint('api', __name__)
 
+CORS(api)
 @api.route('/hello', methods=['POST', 'GET'])
 def handle_hello():
 
@@ -320,13 +319,13 @@ def execute_payment():
     return jsonify(response.json())
 
 
-@api.route("/login", methods=["POST"], endpoint='login_v1')
-def login_v1():
+@api.route("/login/donor", methods=["POST"])
+def login_donor():
     email = request.json.get("email")
     password = request.json.get("password")
     
-    user = Donor_login.query.filter_by(email = email).first()
-    print(Donor_login)
+    user = Donor.query.filter_by(email = email).first()
+    print(Donor)
     
 
     if not user: 
@@ -349,13 +348,15 @@ def private():
     email = get_jwt_identity()
 
     user = Donor.query.filter_by(email=email).first()
-    user = Foundation.query.filter_by(email=email).first()
+    
     if not user: 
-        return jsonify({"error": "Email not found"}), 404
+        user = Foundation.query.filter_by(email=email).first()
+        if not user:
+            return jsonify({"error": "Email not found"}), 404
     
     return jsonify({"user": user.serialize()})
 
-@api.route("/login", methods=["POST"], endpoint='login_v2' )
+@api.route("/login", methods=["POST"] )
 def login_v2():
     try:
         email = request.json.get("email")
@@ -391,22 +392,7 @@ def login_v2():
 
 @api.route("/signup", methods=["POST"])
 def signup():
-    body = request.get_json() 
-    user = Donor.query.filter_by(email=body["email"]).first()
-    if user != None:
-        return jsonify({"msg": "A donor was created with that email" }), 401
-    
-    password_hash = current_app.bcrypt.generate_password_hash(body["password"]).decode("utf-8")
 
-    user = Donor(email =body["email"], password = password_hash, is_active = True)
-    db.session.add(user)
-    db.session.commit()
-    response_body = {
-        "msg": "user created",
-        "user_id": user.id,
-        "email": user.email,
-    }
-    
     try:
         body = request.get_json()
         
@@ -440,3 +426,23 @@ def signup():
     except Exception as e:
         print(f"Error during signup: {e}")
         return jsonify({"error": "An error occurred during signup.", "details": str(e)}), 500
+
+@api.route("/signup/donor", methods=["POST"])
+def signup_donor():
+    body = request.get_json() 
+    user = Donor.query.filter_by(email=body["email"]).first()
+    if user:
+        return jsonify({"msg": "A donor was created with that email" }), 401
+    
+    password_hash = current_app.bcrypt.generate_password_hash(body["password"]).decode("utf-8")
+
+    user = Donor(email =body["email"], password = password_hash, is_active = True)
+    db.session.add(user)
+    db.session.commit()
+    response_body = {
+        "msg": "user created",
+        "user_id": user.id,
+        "email": user.email,
+    }
+
+    return jsonify(response_body), 200
