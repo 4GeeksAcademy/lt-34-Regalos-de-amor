@@ -53,6 +53,7 @@ def create_foundation():
     country = data.get('country')
     email = data.get('email')
     password = data.get('passwordl')
+    image_url = data.get('image_url')
     
     foundation = Foundation(
         name=name,
@@ -60,6 +61,7 @@ def create_foundation():
         country= country,
         email=email,
         password=password,
+        image_url=image_url
     )
 
     db.session.add(foundation)
@@ -79,7 +81,8 @@ def Delete_foundations(id):
 def get_beneficiary():
     try:
         # Obtén el ID de la fundación desde el token JWT
-        foundation_id = get_jwt().get("foundation_id")
+        foundation_id = get_jwt_identity()
+        print("id", foundation_id)
 
         if not foundation_id:
             return jsonify({"error": "Foundation ID not found in token"}), 400
@@ -115,7 +118,8 @@ def create_beneficiary():
             return jsonify({"error": "No input data provided"}), 400
 
         # Get foundation ID from JWT token
-        foundation_id = get_jwt().get("foundation_id")
+        foundation_id = get_jwt_identity()
+       
         foundation = Foundation.query.get(foundation_id)
         
         if not foundation:
@@ -126,14 +130,12 @@ def create_beneficiary():
         wish_gift = data.get('wish_gift')
         history = data.get('history')
         account = data.get('account')
-        image_base64 = data.get('image')
+        image = data.get('image_url')
         is_active = data.get('is_active', True)  
         
         if not name or not account:
             return jsonify({"error": "Name and account are required fields."}), 400
 
-        # Decode the base64 image
-        image_data = b64decode(image_base64) if image_base64 else None
 
         # Create a new beneficiary associated with the foundation
         new_beneficiary = Beneficiary(
@@ -141,7 +143,7 @@ def create_beneficiary():
             wish_gift=wish_gift,
             history=history,
             account=account,
-            image=image_data,
+            image=image,
             is_active=is_active,
             foundation_id=foundation_id  # Associate with the foundation ID from the token
         )
@@ -202,11 +204,8 @@ def update_beneficiary(id):
         beneficiary.history = body.get('history', beneficiary.history)
         beneficiary.account = body.get('account', beneficiary.account)
         beneficiary.is_active = body.get('is_active', beneficiary.is_active)
-
+        beneficiary.image = body.get('image', beneficiary.image)
         # Verificar si se envió una imagen y actualizarla si está presente
-        image_base64 = body.get('image')
-        if image_base64:
-            beneficiary.image = b64decode(image_base64)
 
         # Guardar los cambios en la base de datos
         db.session.commit()
@@ -243,11 +242,12 @@ def create_donor():
     email = data.get('email')
     password = data.get('password')
     is_active = data.get('is_active', True)
-
+    image_url = data.get('image_url')
     new_donor = Donor(
         name=name,
         last_name=last_name,
         email=email,
+        image_url=image_url,
         password=password,  # Make sure to handle password securely
         is_active=is_active
     )
@@ -281,6 +281,8 @@ def update_donor(id):
     donor.name = data.get('name', donor.name)
     donor.last_name = data.get('last_name', donor.last_name)
     donor.email = data.get('email', donor.email)
+    # donor.image_url  =data.get('image_url', donor.image_url)
+    
     donor.password = data.get('password', donor.password)  # Make sure to handle password securely
     donor.is_active = data.get('is_active', donor.is_active)
 
@@ -376,7 +378,7 @@ def login_v2():
         # Include foundation ID in token by setting additional claims
         additional_claims = {"foundation_id": user.id}
         access_token = create_access_token(
-            identity=email, 
+            identity=user.id, 
             additional_claims=additional_claims,
             expires_delta=timedelta(weeks=1)
         )

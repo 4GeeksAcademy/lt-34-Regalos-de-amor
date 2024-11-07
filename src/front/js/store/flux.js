@@ -22,13 +22,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 				account: [],
 				isActive: null,
 				beneficiaries: [],
-				donors: [],
 				last_name: [],
 				email: [],
 				// picture: []
 				message: [],
 				password: [],
-			}
+			},
+			donors: [],
 		},
 		actions: {
 			exampleFunction: () => {
@@ -128,7 +128,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						mode: 'no-cors',
 					});
 					const data = await resp.json();
-					setStore({ message: data.message });
+					setStore({ donors: data.donors });
 					// don't forget to return something, that is how the async resolves
 					return data;
 				} catch (error) {
@@ -136,20 +136,24 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 			fetchDonorData: async () => {
+				console.log("fetch")
 				try {
 					const response = await fetch(`${process.env.BACKEND_URL}/api/donor`);
 					const data = await response.json();
-					setStore({ donor: data });
+					setStore({ donors: data });
+					
 				} catch (error) {
 					console.error("Error fetching donors:", error);
 				}
 			},
 			createDonor: async (newDonor) => {
+				
 				try {
 					await fetch(`${process.env.BACKEND_URL}/api/donor`, {
 						method: "POST",
 						headers: { "Content-Type": "application/json" },
 						body: JSON.stringify(newDonor),
+		
 					});
 					getActions().fetchDonorData();
 				} catch (error) {
@@ -157,6 +161,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 			updateDonor: async (id, updatedDonor) => {
+
+				console.log(updatedDonor, id)
 				try {
 					await fetch(`${process.env.BACKEND_URL}/api/donor/${id}`, {
 						method: "PUT",

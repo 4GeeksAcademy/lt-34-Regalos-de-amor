@@ -8,13 +8,13 @@ export const LoginDonor = () => {
 	const { store, actions } = useContext(Context);
 	function handleLogout(){
 		actions.logoutDonor()
-		navigate("/welcome")
+		navigate("/login/donor")
 	}
 	
 	const navigate = useNavigate()
 	return (
 		<div className="container">
-			{!store.user ? <Navigate to="/welcome" /> : <>
+			{!store.user ? <Navigate to="/login/donor" /> : <>
 				<h1>Hello, {store.user.email}, id: {store.user.id}</h1>
 				<h2>is active: {store.user.is_active ? 'Yes' : 'No'}</h2>
 				<div>

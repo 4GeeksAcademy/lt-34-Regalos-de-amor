@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 96009cdea3e5
+Revision ID: 70b43ea7c634
 Revises: 
-Create Date: 2024-11-07 00:06:42.852678
+Create Date: 2024-11-07 02:16:15.565190
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '96009cdea3e5'
+revision = '70b43ea7c634'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -22,6 +22,7 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=255), nullable=True),
     sa.Column('last_name', sa.String(length=255), nullable=True),
+    sa.Column('image_url', sa.String(length=250), nullable=True),
     sa.Column('email', sa.String(length=255), nullable=False),
     sa.Column('password', sa.String(length=255), nullable=False),
     sa.Column('is_active', sa.Boolean(), nullable=False),
@@ -59,7 +60,7 @@ def upgrade():
     sa.Column('wish_gift', sa.String(length=250), nullable=True),
     sa.Column('history', sa.String(length=250), nullable=True),
     sa.Column('account', sa.String(length=250), nullable=False),
-    sa.Column('image', sa.LargeBinary(), nullable=True),
+    sa.Column('image', sa.String(length=250), nullable=True),
     sa.Column('is_active', sa.Boolean(), nullable=False),
     sa.Column('foundation_id', sa.Integer(), nullable=False),
     sa.ForeignKeyConstraint(['foundation_id'], ['foundation.id'], ),
