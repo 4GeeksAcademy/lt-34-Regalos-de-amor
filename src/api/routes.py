@@ -13,8 +13,7 @@ import cloudinary.uploader
 import cloudinary.api
 import os
 import requests
-
-from api.models import db, User, Beneficiary, Donor, Foundation, Transaction, Donor_login, PostHelp
+from api.models import db, Beneficiary, Donor, Foundation, Transaction
 from api.utils import generate_sitemap, APIException
 
 api = Blueprint('api', __name__)

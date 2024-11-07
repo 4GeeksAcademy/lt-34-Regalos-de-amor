@@ -3,6 +3,7 @@ import { Context } from "../store/appContext";
 import { useNavigate, Link } from "react-router-dom";
 
 export const Login = () => {
+	console.log('process env => ', process.env.BACKEND_URL);
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [loginError, setLoginError] = useState(null);  // State to hold error message
