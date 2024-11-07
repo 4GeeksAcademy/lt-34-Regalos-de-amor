@@ -4,6 +4,7 @@ import { Modal } from 'bootstrap';
 
 export const Foundation = () => {
     const { store, actions } = useContext(Context);
+    
 
     // Estados para el formulario de beneficiario
     const [beneficiaryData, setBeneficiaryData] = useState({
@@ -11,7 +12,7 @@ export const Foundation = () => {
         wish_gift: "",
         history: "",
         account: "",
-        image: "",
+        image_url: "",
         is_active: true
     });
     const [editingBeneficiaryId, setEditingBeneficiaryId] = useState(null);
@@ -34,17 +35,23 @@ export const Foundation = () => {
         setBeneficiaryData({ ...beneficiaryData, [name]: value });
     };
 
-    const handleImageChange = (e) => {
-        const file = e.target.files[0];
-        const reader = new FileReader();
-        reader.onloadend = () => {
-            setBeneficiaryData({ ...beneficiaryData, image: reader.result.split(",")[1] });
-        };
-        if (file) {
-            reader.readAsDataURL(file);
-        }
-    };
+    const handleImageUpload = async (event) => {
+        const files = event.target.files;
+        const upLoadPreset = process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET;
 
+        const formData = new FormData();
+        formData.append('file', files[0]);
+        formData.append('upload_preset', upLoadPreset);
+
+        const response = await fetch(`https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload`, {
+            method: 'POST',
+            body: formData,
+        });
+
+        const data = await response.json();
+        setBeneficiaryData({...beneficiaryData, image_url: data.secure_url});
+
+    };
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (editingBeneficiaryId) {
@@ -59,7 +66,7 @@ export const Foundation = () => {
             wish_gift: "",
             history: "",
             account: "",
-            image: "",
+            image_url: "",
             is_active: true
         });
 
@@ -74,7 +81,7 @@ export const Foundation = () => {
             wish_gift: "",
             history: "",
             account: "",
-            image: "",
+            image_url: "",
             is_active: true
         });
         openModal();
@@ -159,9 +166,13 @@ export const Foundation = () => {
                                     <label className="form-label">Account</label>
                                     <input type="text" className="form-control" name="account" value={beneficiaryData.account} onChange={handleInputChange} required />
                                 </div>
-                                <div className="mb-3">
-                                    <label className="form-label">Image</label>
-                                    <input type="file" className="form-control" onChange={handleImageChange} />
+                                <div>
+                                    <input type="file" accept='image/*' 
+                                    onChange={handleImageUpload} 
+                                    className='upload-button mt-3 ' />
+                                    <div className="image-gallery">
+                                        {beneficiaryData.image_url ? <img src={beneficiaryData.image_url} className="uploaded-image " /> : null}
+                                    </div>
                                 </div>
                                 <div className="mb-3">
                                     <label className="form-label">Active</label>

@@ -14,8 +14,8 @@ export const Donors = () => {
         <div className="container">
             <h2 className="my-4">Lista de Donantes</h2>
             <div className="row">
-                {store.donor.length > 0 ? (
-                    store.donor.map((donor) => (
+                {store.donors.length > 0 ? (
+                    store.donors.map((donor) => (
                         <div className="col-md-4" key={donor.id}>
                             <DonorCard donor={donor} />
                         </div>

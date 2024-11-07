@@ -18,7 +18,7 @@ export const DonorForm = () => {
 
     useEffect(() => {
         if (params.id) {
-            const donor = store.donor.find((d) => d.id === parseInt(params.id));
+            const donor = store.donors.find((d) => d.id === parseInt(params.id));
             if (donor) {
                 setName(donor.name);
                 setLast_name(donor.last_name);
@@ -27,16 +27,16 @@ export const DonorForm = () => {
                 setIsActive(donor.is_active);
             }
         }
-    }, [params.id, store.donor]);
+    }, [params.id, store.donors]);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const donorData = { name, last_name, email, password, is_active, image_url };
-
+        console.log(image_url)
         if (params.id) {
-            actions.updateDonor(params.id, donorData);
+            await  actions.updateDonor(params.id, donorData);
         } else {
-            actions.createDonor(donorData);
+           await  actions.createDonor(donorData);
         }
         navigate("/donors");
     };
