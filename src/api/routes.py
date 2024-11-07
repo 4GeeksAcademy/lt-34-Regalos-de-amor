@@ -218,23 +218,57 @@ def update_beneficiary(id):
         print(f"Error updating beneficiary: {e}")
         return jsonify({"error": "An error occurred while updating the beneficiary.", "details": str(e)}), 500
 
+# Se utiliza para que un admin traiga un donor usando su id
+@api.route('/donor/<int:id>', methods=['PUT'])
+@jwt_required()
+def update_donor(id):
+    try:
+        donor_id = get_jwt_identity()
+        if id != donor_id:
+            return jsonify({"error": "Unauthorized access"}), 403
+
+        data = request.get_json()
+        if not data:
+            return jsonify({"error": "No input data provided"}), 400
+
+        donor = Donor.query.get(donor_id)
+        if not donor:
+            return jsonify({"error": "Donor not found"}), 404
+
+        donor.name = data.get('name', donor.name)
+        donor.last_name = data.get('last_name', donor.last_name)
+        donor.email = data.get('email', donor.email)
+        donor.password = current_app.bcrypt.generate_password_hash(data.get('password', donor.password)).decode("utf-8")
+
+        db.session.commit()
+
+        return jsonify(donor.serialize()), 200
+    except Exception as e:
+        print(f"Error updating donor: {e}")
+        return jsonify({"error": "An error occurred while updating the donor.", "details": str(e)}), 500
+
+# Se usa para que un donor traiga su data usando el jwt
 @api.route('/donor', methods=['GET'])
+@jwt_required()
+def get_donor():
+    try:
+        donor_id = get_jwt_identity()
+        donor = Donor.query.get(donor_id)
+        if not donor:
+            return jsonify({"error": "Donor not found"}), 404
+
+        return jsonify(donor.serialize()), 200
+    except Exception as e:
+        print(f"Error fetching donor: {e}")
+        return jsonify({"error": "An error occurred while fetching donor details.", "details": str(e)}), 500
+
+# Trae todos los donors
+@api.route('/donors', methods=['GET'])
 def get_donors():
     donors = Donor.query.all()
     results = list(map(lambda donor: donor.serialize(), donors))
 
     return jsonify(results), 200
-
-@api.route('/donors/<int:donor_id>', methods=['GET'])
-def get_donor(donor_id):
-    donor = Donor.query.filter_by(id=donor_id).first()
-    if not donor:
-        return jsonify({"error": "Donor not found"}), 404
-
-    return jsonify(donor.serialize()), 200
-
-@api.route('/donor', methods=['POST'])
-def create_donor():
     data = request.get_json()
     if not data:
         return jsonify({"error": "No input data provided"}), 400
@@ -268,26 +302,6 @@ def delete_donor(id):
     db.session.commit()
 
     return jsonify({"message": "Donor deleted successfully"}), 200
-
-@api.route('/donor/<int:id>', methods=['PUT'])
-def update_donor(id):
-    data = request.get_json()
-    if not data:
-        return jsonify({"error": "No input data provided"}), 400
-
-    donor = Donor.query.get(id)
-    if not donor:
-        return jsonify({"error": "Donor not found"}), 404
-
-    donor.name = data.get('name', donor.name)
-    donor.last_name = data.get('last_name', donor.last_name)
-    donor.email = data.get('email', donor.email)
-    donor.password = data.get('password', donor.password)  # Make sure to handle password securely
-    donor.is_active = data.get('is_active', donor.is_active)
-
-    db.session.commit()
-
-    return jsonify(donor.serialize()), 200
 
 @api.route('/create-payment', methods=['POST'])
 def create_payment():
@@ -440,3 +454,60 @@ def signup():
     except Exception as e:
         print(f"Error during signup: {e}")
         return jsonify({"error": "An error occurred during signup.", "details": str(e)}), 500
+
+@api.route("/donor/signup", methods=["POST"])
+def signup_donor():
+    try:
+        body = request.get_json()
+        user = Donor.query.filter_by(email=body["email"]).first()
+        if user is not None:
+            return jsonify({"msg": "A donor was created with that email"}), 401
+
+        password_hash = current_app.bcrypt.generate_password_hash(body["password"]).decode("utf-8")
+
+        user = Donor(
+            name=body["name"],
+            last_name=body["last_name"],
+            email=body["email"],
+            password=password_hash,
+            is_active=True
+        )
+        db.session.add(user)
+        db.session.commit()
+        
+        response_body = {
+            "msg": "Donor created successfully",
+            "user_id": user.id,
+            "email": user.email,
+        }
+        return jsonify(response_body), 200
+
+    except Exception as e:
+        print(f"Error during signup: {e}")
+        return jsonify({"error": "An error occurred during signup.", "details": str(e)}), 500
+
+@api.route("/donor/login", methods=["POST"])
+def login_donor():
+    try:
+        email = request.json.get("email")
+        password = request.json.get("password")
+
+        user = Donor.query.filter_by(email=email).first()
+        if not user:
+            return jsonify({"error": "Email not found"}), 404
+
+        valid_password = current_app.bcrypt.check_password_hash(user.password, password)
+        if not valid_password:
+            return jsonify({"msg": "Incorrect email or password"}), 401
+
+        access_token = create_access_token(
+            identity=email,
+            additional_claims={"donor_id": user.id},
+            expires_delta=timedelta(weeks=1)
+        )
+        
+        return jsonify(access_token=access_token, user=user.serialize()), 200
+
+    except Exception as e:
+        print(f"Error during login: {e}")
+        return jsonify({"error": "An error occurred during login.", "details": str(e)}), 500

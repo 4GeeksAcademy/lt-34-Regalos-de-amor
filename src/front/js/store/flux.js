@@ -137,11 +137,18 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			fetchDonorData: async () => {
 				try {
-					const response = await fetch(`${process.env.BACKEND_URL}/api/donor`);
+					const token = localStorage.getItem("token");
+					const response = await fetch(`${process.env.BACKEND_URL}/api/donor`, {
+						headers: { "Authorization": `Bearer ${token}` }
+					});
+					if (!response.ok) throw new Error("Failed to fetch donor data");
+
 					const data = await response.json();
 					setStore({ donor: data });
+					return data;
 				} catch (error) {
-					console.error("Error fetching donors:", error);
+					console.error("Error fetching donor data:", error);
+					return null;
 				}
 			},
 			createDonor: async (newDonor) => {
@@ -158,14 +165,20 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			updateDonor: async (id, updatedDonor) => {
 				try {
+					const token = localStorage.getItem("token");
 					await fetch(`${process.env.BACKEND_URL}/api/donor/${id}`, {
 						method: "PUT",
-						headers: { "Content-Type": "application/json" },
-						body: JSON.stringify(updatedDonor),
+						headers: {
+							"Content-Type": "application/json",
+							"Authorization": `Bearer ${token}`
+						},
+						body: JSON.stringify(updatedDonor)
 					});
-					getActions().fetchDonorData();
+					await getActions().fetchDonorData(); // Actualiza la información en el store
+					return true;
 				} catch (error) {
 					console.error("Error updating donor:", error);
+					return false;
 				}
 			},
 			deleteDonor: async (id) => {
@@ -250,6 +263,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.error('Failed to delete beneficiary:', error.message);
 				}
 			},
+
 			logout: () => {
 				localStorage.removeItem("token");
 				setStore({ user: false });
@@ -283,7 +297,48 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.error("Signup error:", data);
 					return { success: false, message: data.msg };
 				}
-			}
+			},
+
+			signupDonor: async (formData) => {
+				const requestOptions = {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify(formData)
+				};
+				const response = await fetch(process.env.BACKEND_URL + "/api/donor/signup", requestOptions);
+				const data = await response.json();
+
+				if (response.ok) {
+					return { success: true };
+				} else {
+					console.error("Signup error:", data);
+					return { success: false, message: data.msg };
+				}
+			},
+
+			loginDonor: async (email, password) => {
+				try {
+					const requestOptions = {
+						method: 'POST',
+						headers: { 'Content-Type': 'application/json' },
+						body: JSON.stringify({ email, password })
+					};
+					const response = await fetch(process.env.BACKEND_URL + "/api/donor/login", requestOptions);
+
+					if (!response.ok) {
+						console.error("Login failed:", response.statusText);
+						return false;
+					}
+
+					const data = await response.json();
+					localStorage.setItem("token", data.access_token);
+					setStore({ donor: data.user });  // Almacena la información del Donor
+					return true;
+				} catch (error) {
+					console.error("Error during login:", error);
+					return false;
+				}
+			},
 		}
 	};
 };

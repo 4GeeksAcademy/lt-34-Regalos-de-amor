@@ -7,9 +7,7 @@ import { Demo } from "./pages/demo";
 import { Single } from "./pages/single";
 import { BeneficiaryForm } from "./pages/beneficiaryForm";
 import { Beneficiary } from "./pages/beneficiary";
-import { DonorForm } from "./component/DonorForm";
 import injectContext from "./store/appContext";
-import { Donors } from "./pages/donors";
 import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
 import { Foundation } from "./pages/foundation";
@@ -17,6 +15,9 @@ import { PostHelper } from "./component/postHelper";
 import { Login } from "./pages/login";
 import { Welcome } from "./pages/welcome";
 import { Signup } from "./component/signup";
+import { SignupDonor } from "./pages/signupDonor";
+import { LoginDonor } from "./pages/loginDonor"
+import { DonorProfile } from "./pages/donorProfile";
 
 //create your first component
 import { Payment } from "./pages/paypal";
@@ -45,14 +46,14 @@ const Layout = () => {
                             <Route element={<Demo />} path="/demo" />
                             <Route element={<Login />} path="/login" />
                             <Route element={<Signup />} path="/signup" />
+                            <Route element={<LoginDonor />} path="/login-donor" />
+                            <Route element={<SignupDonor />} path="/signup-donor" />
+                            <Route element={<DonorProfile />} path="/donor" />
                             <Route element={<PostHelper />} path="/post" />
                             <Route element={<Welcome />} path="/welcome" />
                             <Route element={<Beneficiary />} path="/beneficiary" />
                             <Route element={<BeneficiaryForm />} path="/beneficiary/add" />
                             <Route element={<BeneficiaryForm />} path="/beneficiary/edit/:id" />
-                            <Route element={<DonorForm />} path="/donorform" />
-                            <Route element={<Donors />} path="/donors" />
-                            <Route element={<DonorForm />} path="/donorform/:id" />
                             <Route element={<Payment />} path="/payment" />
                             <Route element={<Single />} path="/single/:theid" />
                             <Route element={<h1>Not found!</h1>} />
