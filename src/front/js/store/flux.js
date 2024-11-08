@@ -43,13 +43,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 					setStore({ message: data.message });
 					return data;
 				} catch (error) {
-					console.log("Error loading message from backend", error);
+					console.error("Error loading message from backend", error);
 				}
 			},
 
-
 			logout: () => {
-				console.log('logout');
 				localStorage.removeItem("token");
 				setStore({ foundation: false });
 			},
@@ -133,16 +131,15 @@ const getState = ({ getStore, getActions, setStore }) => {
 					// don't forget to return something, that is how the async resolves
 					return data;
 				} catch (error) {
-					console.log("Error loading message from backend", error);
+					console.error("Error loading message from backend", error);
 				}
 			},
 			fetchDonorData: async () => {
-				console.log("fetch")
 				try {
 					const response = await fetch(`${process.env.BACKEND_URL}/api/donor`);
 					const data = await response.json();
 					setStore({ donors: data });
-					
+
 				} catch (error) {
 					console.error("Error fetching donors:", error);
 				}
@@ -153,20 +150,20 @@ const getState = ({ getStore, getActions, setStore }) => {
 					const response = await fetch(`${process.env.BACKEND_URL}/api/donor/${id}`);
 					const data = await response.json();
 					return data;
-					
+
 				} catch (error) {
 					console.error("Error fetching donors:", error);
 				}
 			},
 
 			createDonor: async (newDonor) => {
-				
+
 				try {
 					await fetch(`${process.env.BACKEND_URL}/api/donor`, {
 						method: "POST",
 						headers: { "Content-Type": "application/json" },
 						body: JSON.stringify(newDonor),
-		
+
 					});
 					getActions().fetchDonorData();
 				} catch (error) {
@@ -174,8 +171,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 			updateDonor: async (id, updatedDonor) => {
-
-				console.log(updatedDonor, id)
 				try {
 					await fetch(`${process.env.BACKEND_URL}/api/donor/${id}`, {
 						method: "PUT",
@@ -194,7 +189,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 						headers: { 'Content-Type': 'application/json' },
 					});
 					if (!response.ok) throw new Error(`Error: ${response.status}`);
-					console.log('Donante eliminado');
 					getActions().fetchDonorData(); // Actualiza la lista
 				} catch (error) {
 					console.error('Error eliminando donante:', error);
@@ -218,7 +212,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 					}
 
 					const data = await response.json();
-					console.log('Beneficiary created:', data);
 					getActions().fetchBeneficiaryData();
 				} catch (error) {
 					console.error('Failed to create beneficiary:', error);
@@ -241,7 +234,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 					}
 
 					const data = await response.json();
-					console.log('Beneficiary updated:', data);
 					getActions().fetchBeneficiaryData(); // Actualizar la lista de beneficiarios después de la actualización
 				} catch (error) {
 					console.error('Failed to update beneficiary:', error);
@@ -262,8 +254,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 					if (!response.ok) {
 						throw new Error(data.error || `Error: ${response.status}`);
 					}
-
-					console.log(data.message || 'Beneficiary deleted successfully');
 					getActions().fetchBeneficiaryData();
 				} catch (error) {
 					console.error('Failed to delete beneficiary:', error.message);
@@ -307,8 +297,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			signupDonor: async (email, password) => {
 				const requestOptions = {
 					method: 'POST',
-					headers: {'Content-Type': 'application/json'},
-					body: JSON.stringify (
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify(
 						{
 							'email': email,
 							'password': password
@@ -317,13 +307,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 				};
 				const response = await fetch(process.env.BACKEND_URL + "/api/signup/donor", requestOptions)
 				const data = await response.json()
-					
-					if(response.ok){
-						return true	
-					}else{
-						alert("Try another donor")
-						return false
-					}
+
+				if (response.ok) {
+					return true
+				} else {
+					alert("Try another donor")
+					return false
+				}
 			},
 
 			loginDonor: async (email, password) => {
@@ -347,7 +337,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 					const data = await response.json();
 					localStorage.setItem("token", data.access_token);
-					setStore({ user: data.user }); 
+					setStore({ user: data.user });
 					return true;
 				} catch (error) {
 					console.error("Error during login:", error);
@@ -356,7 +346,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			logoutDonor: () => {
-				console.log('logout');
 				localStorage.removeItem("token");
 				setStore({ user: false });
 			},

@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import { Context } from "../store/appContext";
 import { useNavigate, Link } from "react-router-dom";
 
-export const Login = () => {
+export const LoginFoundation = () => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [loginError, setLoginError] = useState(null);  // State to hold error message
@@ -30,7 +30,7 @@ export const Login = () => {
 	return (
 		<div className="container d-flex justify-content-center align-items-center" style={{ marginBottom: '2rem', marginTop: '2rem', height: '70%' }}>
 			<div className="card p-4 shadow" style={{ maxWidth: "400px", width: "100%" }}>
-				<h2 className="text-center mb-4">Login</h2>
+				<h2 className="text-center mb-4">Login Foundation</h2>
 				<form onSubmit={handleSubmit}>
 					<div className="mb-3">
 						<label htmlFor="email" className="form-label">Email Address</label>
