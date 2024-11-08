@@ -32,7 +32,7 @@ export const SignupFoundation = () => {
             const response = await actions.signup(formData);
 
             if (response) {
-                navigate("/login");
+                navigate("/login/foundation");
             } else {
                 setErrorMessage("This email is already registered.");
             }
