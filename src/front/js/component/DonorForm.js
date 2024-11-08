@@ -31,7 +31,7 @@ export const DonorForm = () => {
 
 
     const getDonorById = async () => {
-        const donor = await actions.fetchDonorById(params.id); 
+        const donor = await actions.fetchDonorById(params.id);
         if (donor) {
             setName(donor.name);
             setLast_name(donor.last_name);
@@ -41,14 +41,13 @@ export const DonorForm = () => {
         }
     }
 
-    useEffect(() => { 
+    useEffect(() => {
         getDonorById();
     }, [])
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         const donorData = { name, last_name, email, password, is_active, image_url };
-        console.log(image_url)
         if (params.id) {
             await actions.updateDonor(params.id, donorData);
         } else {

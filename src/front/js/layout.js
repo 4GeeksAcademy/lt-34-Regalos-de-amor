@@ -14,11 +14,11 @@ import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
 import { Foundation } from "./pages/foundation";
 import { PostHelper } from "./component/postHelper";
-import { Login } from "./pages/login";
+import { LoginFoundation } from "./pages/loginFoundation";
 import { Welcome } from "./pages/welcome";
-import { Signup } from "./component/signup";
 import { SignupDonor } from "./component/signupDonor";
 import { LoginDonor } from "./component/loginDonor";
+import { SignupFoundation } from "./pages/signupFoundation";
 //create your first component
 import { Payment } from "./pages/paypal";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
@@ -44,10 +44,10 @@ const Layout = () => {
                             <Route element={<Home />} path="/" />
                             <Route element={<Foundation />} path="/foundation" />
                             <Route element={<Demo />} path="/demo" />
-                            <Route element={<Login />} path="/login" />
+                            <Route element={<LoginFoundation />} path="/login/foundation" />
                             <Route element={<LoginDonor />} path="/login/donor" />
                             <Route element={<PostHelper />} path="/post" />
-                            <Route element={<Signup />} path="/signup" />
+                            <Route element={<SignupFoundation />} path="/signup/foundation" />
                             <Route element={<SignupDonor />} path="/signup/donor" />
                             <Route element={<Welcome />} path="/welcome" />
                             <Route element={<Beneficiary />} path="/beneficiary" />

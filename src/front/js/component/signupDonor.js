@@ -18,17 +18,16 @@ export const SignupDonor = () => {
 		}
 		try {
 			const response = await actions.signupDonor(email, password);
-			console.log(response);
 			if (response) {
-				
+
 				navigate("/welcome");
 			}
 		} catch (error) {
 			console.error("Error registering user:", error.message);
 		}
-		
+
 	}
-	
+
 	return (
 		<div className="container d-flex justify-content-center mt-5">
 			<form className="w-25" onSubmit={sendData}>
@@ -56,7 +55,7 @@ export const SignupDonor = () => {
 				</div>
 				<button type="submit" className="btn btn-primary">signup</button>
 			</form>
-			
+
 		</div>
 	);
 };

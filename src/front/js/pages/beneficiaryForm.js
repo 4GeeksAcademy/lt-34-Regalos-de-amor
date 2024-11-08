@@ -58,7 +58,6 @@ export const BeneficiaryForm = (props) => {
             }
 
             const data = await response.json();
-            console.log('Beneficiary created:', data);
         } catch (error) {
             console.error('Failed to create beneficiary:', error);
         }
@@ -77,8 +76,6 @@ export const BeneficiaryForm = (props) => {
             if (!response.ok) {
                 throw new Error(`Error: ${response.status}`);
             }
-
-            console.log('Beneficiary updated');
             actions.fetchBeneficiaryData();
         } catch (error) {
             console.error('Failed to update beneficiary:', error);
@@ -172,10 +169,10 @@ export const BeneficiaryForm = (props) => {
                 </div>
                 <div>
                     <button type="submit" className="btn btn-primary">Send</button>
-                    <input type="file" accept='image/*' 
-                    onChange={handleImageUpload} 
-                    className='upload-button' />
-                    
+                    <input type="file" accept='image/*'
+                        onChange={handleImageUpload}
+                        className='upload-button' />
+
                     <div className="image-gallery">
                         {/* {imageUrls.map((url, index) => {
                     const myImage = cld.image(url);

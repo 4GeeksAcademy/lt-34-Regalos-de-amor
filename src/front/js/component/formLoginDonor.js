@@ -15,7 +15,6 @@ export const Form = () => {
         e.preventDefault()
 
         const response = await actions.loginDonor(email, password)
-        console.log(response)
         if (response) {
             navigate("/welcome")
         }

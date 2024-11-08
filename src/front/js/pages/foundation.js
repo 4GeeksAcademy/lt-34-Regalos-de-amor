@@ -6,7 +6,7 @@ import { fill } from '@cloudinary/url-gen/actions/resize';
 
 export const Foundation = () => {
     const { store, actions } = useContext(Context);
-    
+
 
     // Estados para el formulario de beneficiario
     const [beneficiaryData, setBeneficiaryData] = useState({
@@ -51,7 +51,7 @@ export const Foundation = () => {
         });
 
         const data = await response.json();
-        setBeneficiaryData({...beneficiaryData, image_url: data.secure_url});
+        setBeneficiaryData({ ...beneficiaryData, image_url: data.secure_url });
 
     };
     const handleSubmit = async (e) => {
@@ -116,13 +116,13 @@ export const Foundation = () => {
                 {store.beneficiaries && store.beneficiaries.length > 0 && store.beneficiaries.map(beneficiary => (
                     <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-3" key={beneficiary.id}>
                         <div className="card h-100">
-                            {/* {beneficiary.image && (
+                            {beneficiary.image && (
                                 <img
-                                    src={`data:image/png;base64,${beneficiary.image}`}
+                                    src={`${beneficiary.image}`}
                                     alt={beneficiary.name}
                                     className="card-img-top img-fluid"
                                 />
-                            )} */}
+                            )}
                             <div className="card-body">
                                 <h5 className="card-title">{beneficiary.name}</h5>
                                 <p className="card-text"><strong>Wish Gift:</strong> {beneficiary.wish_gift}</p>
@@ -169,9 +169,9 @@ export const Foundation = () => {
                                     <input type="text" className="form-control" name="account" value={beneficiaryData.account} onChange={handleInputChange} required />
                                 </div>
                                 <div>
-                                    <input type="file" accept='image/*' 
-                                    onChange={handleImageUpload} 
-                                    className='upload-button mt-3 ' />
+                                    <input type="file" accept='image/*'
+                                        onChange={handleImageUpload}
+                                        className='upload-button mt-3 ' />
                                     <div className="image-gallery">
                                         {beneficiaryData.image_url ? <img src={beneficiaryData.image_url} className="uploaded-image " /> : null}
                                     </div>

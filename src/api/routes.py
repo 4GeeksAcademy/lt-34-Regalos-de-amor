@@ -398,7 +398,6 @@ def login_v2():
 
 @api.route("/signup", methods=["POST"])
 def signup():
-
     try:
         body = request.get_json()
         

@@ -54,7 +54,6 @@ export const FoundationForm = (props) => {
             }
 
             const data = await response.json();
-            console.log('Foundation created:', data);
         } catch (error) {
             console.error('Failed to create foundation:', error);
         }
@@ -73,8 +72,6 @@ export const FoundationForm = (props) => {
             if (!response.ok) {
                 throw new Error(`Error: ${response.status}`);
             }
-
-            console.log('Foundation updated');
             actions.fetchFoundationData();
         } catch (error) {
             console.error('Failed to update foundation:', error);
@@ -144,9 +141,9 @@ export const FoundationForm = (props) => {
                         placeholder="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                     />
+                    />
                 </div>
-	            <div className="mb-3">
+                <div className="mb-3">
                     <label htmlFor="password" className="form-label">Password</label>
                     <input
                         className="form-control"
@@ -155,7 +152,7 @@ export const FoundationForm = (props) => {
                         onChange={(e) => setPassword(e.target.value)}
                     />
                 </div>
-                
+
                 <button type="submit" className="btn btn-primary">Send</button>
             </form>
         </div>
