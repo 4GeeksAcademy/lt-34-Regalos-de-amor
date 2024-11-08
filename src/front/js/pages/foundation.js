@@ -1,6 +1,8 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
 import { Context } from "../store/appContext";
 import { Modal } from 'bootstrap';
+import { Cloudinary } from '@cloudinary/url-gen';
+import { fill } from '@cloudinary/url-gen/actions/resize';
 
 export const Foundation = () => {
     const { store, actions } = useContext(Context);
@@ -94,7 +96,7 @@ export const Foundation = () => {
             wish_gift: beneficiary.wish_gift,
             history: beneficiary.history,
             account: beneficiary.account,
-            image: "",
+            image_url: beneficiary.image_url,
             is_active: beneficiary.is_active
         });
         openModal();
@@ -114,13 +116,13 @@ export const Foundation = () => {
                 {store.beneficiaries && store.beneficiaries.length > 0 && store.beneficiaries.map(beneficiary => (
                     <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-3" key={beneficiary.id}>
                         <div className="card h-100">
-                            {beneficiary.image && (
+                            {/* {beneficiary.image && (
                                 <img
                                     src={`data:image/png;base64,${beneficiary.image}`}
                                     alt={beneficiary.name}
                                     className="card-img-top img-fluid"
                                 />
-                            )}
+                            )} */}
                             <div className="card-body">
                                 <h5 className="card-title">{beneficiary.name}</h5>
                                 <p className="card-text"><strong>Wish Gift:</strong> {beneficiary.wish_gift}</p>

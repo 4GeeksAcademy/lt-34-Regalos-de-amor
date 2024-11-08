@@ -36,7 +36,7 @@ export const Form = () => {
                 </div>
                 <button type="submit" className="btn btn-primary">Login</button>
             </form>
-            <Link to="/signup" className="my-link">Signup</Link>
+            <Link to="/signup/donor" className="my-link">Signup</Link>
 
         </div>
     );

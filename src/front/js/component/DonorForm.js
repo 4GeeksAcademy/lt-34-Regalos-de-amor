@@ -29,14 +29,30 @@ export const DonorForm = () => {
         }
     }, [params.id, store.donors]);
 
+
+    const getDonorById = async () => {
+        const donor = await actions.fetchDonorById(params.id); 
+        if (donor) {
+            setName(donor.name);
+            setLast_name(donor.last_name);
+            setEmail(donor.email);
+            setImage_url(donor.image_url)
+            setIsActive(donor.is_active);
+        }
+    }
+
+    useEffect(() => { 
+        getDonorById();
+    }, [])
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         const donorData = { name, last_name, email, password, is_active, image_url };
         console.log(image_url)
         if (params.id) {
-            await  actions.updateDonor(params.id, donorData);
+            await actions.updateDonor(params.id, donorData);
         } else {
-           await  actions.createDonor(donorData);
+            await actions.createDonor(donorData);
         }
         navigate("/donors");
     };
@@ -118,11 +134,11 @@ export const DonorForm = () => {
                         ¿Activo?
                     </label>
                 </div>
-                    <button type="submit" className="btn btn-primary">Guardar</button>
+                <button type="submit" className="btn btn-primary">Guardar</button>
                 <div>
-                    <input type="file" accept='image/*' 
-                    onChange={handleImageUpload} 
-                    className='upload-button mt-3 ' />
+                    <input type="file" accept='image/*'
+                        onChange={handleImageUpload}
+                        className='upload-button mt-3 ' />
                     <div className="image-gallery">
                         {image_url ? <img src={image_url} className="uploaded-image " /> : null}
                     </div>
