@@ -14,7 +14,7 @@ import cloudinary.api
 import os
 import requests
 
-from api.models import db, User, Beneficiary, Donor, Foundation, Transaction, Donor_login, PostHelp
+from api.models import db, User, Beneficiary, Donor, Foundation, Transaction,  PostHelp
 from api.utils import generate_sitemap, APIException
 
 api = Blueprint('api', __name__)
@@ -223,7 +223,7 @@ def get_donors():
 
     return jsonify(results), 200
 
-@api.route('/donors/<int:donor_id>', methods=['GET'])
+@api.route('/donor/<int:donor_id>', methods=['GET'])
 def get_donor(donor_id):
     donor = Donor.query.filter_by(id=donor_id).first()
     if not donor:
@@ -281,9 +281,13 @@ def update_donor(id):
     donor.name = data.get('name', donor.name)
     donor.last_name = data.get('last_name', donor.last_name)
     donor.email = data.get('email', donor.email)
-    # donor.image_url  =data.get('image_url', donor.image_url)
-    
-    donor.password = data.get('password', donor.password)  # Make sure to handle password securely
+    donor.image_url  =data.get('image_url', donor.image_url)
+    password = data.get('password', None)
+    if password:
+        password = current_app.bcrypt.generate_password_hash(password).decode("utf-8")
+    else:
+        password = donor.password
+    donor.password = password
     donor.is_active = data.get('is_active', donor.is_active)
 
     db.session.commit()

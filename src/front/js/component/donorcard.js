@@ -10,6 +10,11 @@ export const DonorCard = ({ donor }) => {
     const [currency, setCurrency] = useState(options.currency);
     const [amount, setAmount] = useState(""); 
 
+    function handleLogout(){
+		actions.logoutDonor()
+		navigate("/")
+	}
+
     const handleEdit = () => {
         navigate(`/donorform/${donor.id}`); 
     };
@@ -17,6 +22,8 @@ export const DonorCard = ({ donor }) => {
     const handleDelete = () => {
         actions.deleteDonor(donor.id); 
     };
+
+
 
     const onCurrencyChange = ({ target: { value } }) => {
         setCurrency(value);
@@ -29,25 +36,25 @@ export const DonorCard = ({ donor }) => {
         });
     };
 
-    const onCreateOrder = (amount,data, actions) => {
-        if (!amount || isNaN(amount) || parseFloat(amount) <= 0) {
+    const onCreateOrder = (data, actions) => {
+        if (!amount || isNaN(amount) || Number(amount) <= 0) {
             alert("Please enter a valid amount");
             return;
       
         }
-        console.log(amount)
+      
         return actions.order.create({
             purchase_units: [
                 {
                     amount: {
                         value: amount.toString(),
-                        
+                        currency_code: currency
                     },
                 },
             ],
         });
     };
-    console.log(amount)
+ 
     const onApproveOrder = (data, actions) => {
         return actions.order.capture().then((details) => {
             const name = details.payer.name.given_name;
@@ -83,15 +90,21 @@ export const DonorCard = ({ donor }) => {
                         onChange={(e) => setAmount(e.target.value)}
                         placeholder="Enter amount"
                         className="form-control mt-2" 
+                        type="number"
                     />
                     <PayPalButtons
                         style={{ layout: "vertical" }}
-                        createOrder={(data, actions) => onCreateOrder(amount,data, actions)}
+                        createOrder={(data, actions) => onCreateOrder(data, actions)}
                         onApprove={(data, actions) => onApproveOrder(data, actions)}
-
+                        forceReRender={[amount, currency]}
                         className="mt-2"
                     />
                 </div>
+                <li className="nav-item">
+							<button onClick={handleLogout} className="btn btn-outline-danger ms-2">
+								Logout
+							</button>
+						</li>
             </div>
         </div>
     );

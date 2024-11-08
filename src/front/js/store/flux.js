@@ -27,6 +27,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				// picture: []
 				message: [],
 				password: [],
+				image_url: [],
 			},
 			donors: [],
 		},
@@ -146,6 +147,18 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.error("Error fetching donors:", error);
 				}
 			},
+
+			fetchDonorById: async (id) => {
+				try {
+					const response = await fetch(`${process.env.BACKEND_URL}/api/donor/${id}`);
+					const data = await response.json();
+					return data;
+					
+				} catch (error) {
+					console.error("Error fetching donors:", error);
+				}
+			},
+
 			createDonor: async (newDonor) => {
 				
 				try {
