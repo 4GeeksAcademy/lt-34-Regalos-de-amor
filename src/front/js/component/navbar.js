@@ -7,7 +7,7 @@ export const Navbar = () => {
 	// Logout function to remove token and redirect
 	const handleLogout = () => {
 		localStorage.removeItem("token"); // Remove token from localStorage
-		navigate("/login"); // Redirect to login page
+		navigate("/login/foundation"); // Redirect to login page
 	};
 
 	return (
