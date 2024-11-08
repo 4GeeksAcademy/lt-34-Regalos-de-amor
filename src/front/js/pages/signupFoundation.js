@@ -120,7 +120,7 @@ export const SignupFoundation = () => {
                 </form>
                 <div className="text-center mt-3">
                     <p>
-                        Already have an account? <Link to="/login" className="text-decoration-none">Login</Link>
+                        Already have an account? <Link to="/login/foundation" className="text-decoration-none">Login</Link>
                     </p>
                 </div>
             </div>
