@@ -5,6 +5,7 @@ from base64 import b64decode
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship
 
+
 db = SQLAlchemy()
 
 class User(db.Model):
@@ -38,7 +39,11 @@ class Foundation(db.Model):
 
     # Relationship with Beneficiary
     beneficiaries = relationship("Beneficiary", backref="related_foundation", cascade="all, delete-orphan")
-    
+
+    # donor = db.relationship('Donor', back_populates='foundation', lazy='dynamic')
+
+    donor_id = db.Column(db.Integer, ForeignKey('donor.id'), nullable=False)
+
     def __repr__(self):
         return '<Foundation %r>' % self.name
 
@@ -81,6 +86,7 @@ class Beneficiary(db.Model):
         }
 
 class Donor(db.Model): 
+    __tablename__ = 'donor'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), nullable=True)
     last_name = db.Column(db.String(255), nullable=True)  
@@ -88,6 +94,15 @@ class Donor(db.Model):
     email = db.Column(db.String(255), unique=True, nullable=False) 
     password = db.Column(db.String(255), nullable=False) 
     is_active = db.Column(db.Boolean(), default=True, nullable=False) 
+
+    # Relationship with Foundation
+    foundation = relationship("Foundation", backref="related_donor", cascade="all, delete-orphan")
+    # Foreign Key to Foundation
+    # foundation_id = db.Column(Integer, ForeignKey('foundation.id'), nullable=True)
+
+    # # Relationship with Foundation
+    # foundation = relationship("Foundation", back_populates="donors")
+
 
     def __repr__(self):
         return f'<Donor {self.name}>'

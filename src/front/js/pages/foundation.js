@@ -3,6 +3,7 @@ import { Context } from "../store/appContext";
 import { Modal } from 'bootstrap';
 import { Cloudinary } from '@cloudinary/url-gen';
 import { fill } from '@cloudinary/url-gen/actions/resize';
+import { Link } from "react-router-dom";
 
 export const Foundation = () => {
     const { store, actions } = useContext(Context);
@@ -123,6 +124,7 @@ export const Foundation = () => {
                                     className="card-img-top img-fluid"
                                 />
                             )}
+                            
                             <div className="card-body">
                                 <h5 className="card-title">{beneficiary.name}</h5>
                                 <p className="card-text"><strong>Wish Gift:</strong> {beneficiary.wish_gift}</p>
@@ -134,6 +136,9 @@ export const Foundation = () => {
                                 <button className="btn btn-danger" onClick={() => handleDelete(beneficiary.id)}>
                                     Delete
                                 </button>
+                                <Link to="/description">
+                                <button className="donar mx-2">Donar</button>
+                                </Link>
                             </div>
                         </div>
                     </div>

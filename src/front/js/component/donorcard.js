@@ -1,18 +1,16 @@
 import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
-import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
+
 
 export const DonorCard = ({ donor }) => {
     const { actions } = useContext(Context);
     const navigate = useNavigate();
-    const [{ options, isPending }, dispatch] = usePayPalScriptReducer();
-    const [currency, setCurrency] = useState(options.currency);
-    const [amount, setAmount] = useState(""); 
+
 
     function handleLogout(){
 		actions.logoutDonor()
-		navigate("/")
+		navigate("/login/donor")
 	}
 
     const handleEdit = () => {
@@ -23,52 +21,18 @@ export const DonorCard = ({ donor }) => {
         actions.deleteDonor(donor.id); 
     };
 
-
-
-    const onCurrencyChange = ({ target: { value } }) => {
-        setCurrency(value);
-        dispatch({
-            type: "resetOptions",
-            value: {
-                ...options,
-                currency: value,
-            },
-        });
-    };
-
-    const onCreateOrder = (data, actions) => {
-        if (!amount || isNaN(amount) || Number(amount) <= 0) {
-            alert("Please enter a valid amount");
-            return;
-      
-        }
-      
-        return actions.order.create({
-            purchase_units: [
-                {
-                    amount: {
-                        value: amount.toString(),
-                        currency_code: currency
-                    },
-                },
-            ],
-        });
-    };
- 
-    const onApproveOrder = (data, actions) => {
-        return actions.order.capture().then((details) => {
-            const name = details.payer.name.given_name;
-            alert(`Transaction completed by ${name}`);
-        });
-    };
-
     return (
 
         <div className="card mb-3">
+            <div className="nav-item mt-2 mb-2">
+                    <button onClick={handleLogout} className="btn btn-outline-danger ms-2">
+                        Logout
+                    </button>
+				</div>
             <div className="card-body">
                 <h5 className="card-title">{donor.name} {donor.last_name}</h5>
                 <p className="card-text"><strong>Email: </strong>{donor.email}</p>
-                <p className="card-text">Activo: {donor.is_active ? "Sí" : "No"}</p>
+                {/* <p className="card-text">Activo: {donor.is_active ? "Sí" : "No"}</p> */}
                 {donor.image_url && (
                     <img src={donor.image_url} alt={`${donor.name} ${donor.last_name}`} className="img-fluid" />
                 )}
@@ -80,32 +44,9 @@ export const DonorCard = ({ donor }) => {
                         Eliminar
                     </button>
                 </div>
-                <div className="mt-3">
-                    <select value={currency} onChange={onCurrencyChange}>
-                        <option value="USD">💵 USD</option>
-                        <option value="EUR">💶 Euro</option>
-                    </select>
-                    <input
-                        value={amount}
-                        onChange={(e) => setAmount(e.target.value)}
-                        placeholder="Enter amount"
-                        className="form-control mt-2" 
-                        type="number"
-                    />
-                    <PayPalButtons
-                        style={{ layout: "vertical" }}
-                        createOrder={(data, actions) => onCreateOrder(data, actions)}
-                        onApprove={(data, actions) => onApproveOrder(data, actions)}
-                        forceReRender={[amount, currency]}
-                        className="mt-2"
-                    />
-                </div>
-                <li className="nav-item">
-							<button onClick={handleLogout} className="btn btn-outline-danger ms-2">
-								Logout
-							</button>
-						</li>
+             
             </div>
+                
         </div>
     );
 };

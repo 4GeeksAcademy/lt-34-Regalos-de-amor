@@ -10,6 +10,7 @@ export const SignupDonor = () => {
 	const [password, setPassword] = useState('');
 	const { store, actions } = useContext(Context);
 	const navigate = useNavigate();
+	
 	async function sendData(e) {
 		e.preventDefault();
 		if (!email || !password) {
@@ -31,6 +32,7 @@ export const SignupDonor = () => {
 	return (
 		<div className="container d-flex justify-content-center mt-5">
 			<form className="w-25" onSubmit={sendData}>
+			<h3 className="text-secondary">Signup Donor</h3>
 				<div className="mb-3">
 					<label htmlFor="inputEmail" className="form-label">email</label>
 					<input
