@@ -2,6 +2,7 @@
 export const COUNTRIES = [
     "United States",
     "Canada",
+    "Colombia",
     "Mexico",
     "United Kingdom",
     "Germany",
@@ -17,5 +18,6 @@ export const COUNTRIES = [
     "South Korea",
     "South Africa",
     "Russia",
-    "Costa Rica"
+    "Costa Rica",
+    "Venezuela",
 ];

@@ -13,7 +13,6 @@ import cloudinary.uploader
 import cloudinary.api
 import os
 import requests
-
 from api.models import db, User, Beneficiary, Donor, Foundation, Transaction,  PostHelp
 from api.utils import generate_sitemap, APIException
 
@@ -35,6 +34,8 @@ def get_foundation():
     all_Foundation= Foundation.query.all()
     print(all_Foundation)
     results = list(map(lambda name: name.serialize(), all_Foundation))
+
+    
     return jsonify(results), 200
 
 @api.route('/foundations/<int:id>', methods=['GET'])
