@@ -124,21 +124,18 @@ export const Foundation = () => {
                                     className="card-img-top img-fluid"
                                 />
                             )}
-                            
+
                             <div className="card-body">
                                 <h5 className="card-title">{beneficiary.name}</h5>
                                 <p className="card-text"><strong>Wish Gift:</strong> {beneficiary.wish_gift}</p>
                                 <p className="card-text"><strong>History:</strong> {beneficiary.history}</p>
-                                <p className="card-text"><strong>Account:</strong> {beneficiary.account}</p>
+                                <p className="card-text"><strong>Paypal account:</strong> {beneficiary.account}</p>
                                 <button className="btn btn-primary me-2" onClick={() => handleEdit(beneficiary)}>
                                     Edit
                                 </button>
                                 <button className="btn btn-danger" onClick={() => handleDelete(beneficiary.id)}>
                                     Delete
                                 </button>
-                                <Link to="/description">
-                                <button className="donar mx-2">Donar</button>
-                                </Link>
                             </div>
                         </div>
                     </div>

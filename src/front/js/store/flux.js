@@ -81,20 +81,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
-			private: async () => {
-				const response = await fetch(process.env.BACKEND_URL + "/api/private", {
-					headers: { "Authorization": "Bearer " + localStorage.getItem("token") }
-				})
-				const data = await response.json()
-				if (response.ok) {
-					setStore({ foundation: data.foundation })
-					return true
-				}
-				setStore({ foundation: false })
-				return false
-			},
-
-
 			changeColor: (index, color) => {
 				const store = getStore();
 				const demo = store.demo.map((elm, i) => {
@@ -124,7 +110,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 					const resp = await fetch(process.env.BACKEND_URL + "/api/donor", {
 						method: 'GET',
 						headers: { "Authorization": "Bearer " + localStorage.getItem("token") },
-						mode: 'no-cors',
 					});
 					const data = await resp.json();
 					setStore({ donors: data.donors });
@@ -139,18 +124,19 @@ const getState = ({ getStore, getActions, setStore }) => {
 					const response = await fetch(`${process.env.BACKEND_URL}/api/donor`);
 					const data = await response.json();
 					setStore({ donors: data });
-
 				} catch (error) {
 					console.error("Error fetching donors:", error);
 				}
 			},
 
-			fetchDonorById: async (id) => {
+			fetchDonorData: async () => {
 				try {
-					const response = await fetch(`${process.env.BACKEND_URL}/api/donor/${id}`);
+					const response = await fetch(process.env.BACKEND_URL + "/api/donor", {
+						method: 'GET',
+						headers: { "Authorization": "Bearer " + localStorage.getItem("token") },
+					});
 					const data = await response.json();
 					return data;
-
 				} catch (error) {
 					console.error("Error fetching donors:", error);
 				}
@@ -170,11 +156,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.error("Error creating donor:", error);
 				}
 			},
-			updateDonor: async (id, updatedDonor) => {
+			updateDonor: async (updatedDonor) => {
 				try {
-					await fetch(`${process.env.BACKEND_URL}/api/donor/${id}`, {
+					const token = localStorage.getItem("token");
+					await fetch(`${process.env.BACKEND_URL}/api/donor/`, {
 						method: "PUT",
-						headers: { "Content-Type": "application/json" },
+						headers: { "Content-Type": "application/json", "Authorization": "Bearer " + token },
 						body: JSON.stringify(updatedDonor),
 					});
 					getActions().fetchDonorData();
@@ -264,19 +251,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({ user: false });
 			},
 
-			private: async () => {
-				const response = await fetch(process.env.BACKEND_URL + "/api/private", {
-					headers: { "Authorization": "Bearer " + localStorage.getItem("token") }
-				})
-				const data = await response.json()
-				if (response.ok) {
-					setStore({ user: data.user })
-					return true
-				}
-				setStore({ user: false })
-				return false
-			},
-
 			signup: async (formData) => {
 				const requestOptions = {
 					method: 'POST',
@@ -294,16 +268,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
-			signupDonor: async (email, password) => {
+			signupDonor: async (formData) => {
 				const requestOptions = {
 					method: 'POST',
 					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify(
-						{
-							'email': email,
-							'password': password
-						}
-					)
+					body: JSON.stringify(formData)
 				};
 				const response = await fetch(process.env.BACKEND_URL + "/api/signup/donor", requestOptions)
 				const data = await response.json()
@@ -311,8 +280,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 				if (response.ok) {
 					return true
 				} else {
-					alert("Try another donor")
-					return false
+					console.error("Signup error:", data);
+					return { success: false, message: data.msg };
 				}
 			},
 
@@ -338,7 +307,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					const data = await response.json();
 					localStorage.setItem("token", data.access_token);
 					setStore({ user: data.user });
-					return true;
+					return data.user;
 				} catch (error) {
 					console.error("Error during login:", error);
 					return false;
@@ -350,20 +319,18 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({ user: false });
 			},
 
-			private: async () => {
-				const response = await fetch(process.env.BACKEND_URL + "/api/private", {
-					headers: { "Authorization": "Bearer " + localStorage.getItem("token") }
-				})
-				const data = await response.json()
-				if (response.ok) {
-					setStore({ user: data.user })
-					return true
+			fetchAllFoundations: async () => {
+				try {
+					const response = await fetch(process.env.BACKEND_URL + "/api/foundations", {
+						method: 'GET',
+						headers: { "Authorization": "Bearer " + localStorage.getItem("token") },
+					});
+					const data = await response.json();
+					return data;
+				} catch (error) {
+					console.error("Error fetching donors:", error);
 				}
-				setStore({ user: false })
-				return false
-			},
-
-
+			}
 		}
 	};
 };

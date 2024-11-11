@@ -6,7 +6,6 @@ from api.utils import APIException, generate_sitemap
 from api.models import db, Beneficiary
 from api.routes import api
 from api.admin import setup_admin
-from api.commands import setup_commands
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager
 from flask_bcrypt import Bcrypt
@@ -47,7 +46,7 @@ db.init_app(app)
 setup_admin(app)
 
 # add the admin
-setup_commands(app)
+# setup_commands(app)
 
 # Add all endpoints form the API with a "api" prefix
 app.register_blueprint(api, url_prefix='/api')
