@@ -84,6 +84,25 @@ def Delete_foundations(id):
     db.session.commit()
     return jsonify({"msg": "Donar eliminated"}), 200
 
+@api.route('/foundation/<int:foundation_id>/beneficiaries', methods=['GET'])
+@jwt_required()
+def get_beneficiaries_by_foundation(foundation_id):
+    try:
+        foundation = Foundation.query.get(foundation_id)
+        if not foundation:
+            return jsonify({"error": "Foundation not found"}), 404
+        
+        beneficiaries = Beneficiary.query.filter_by(foundation_id=foundation_id, is_active=True).all()
+        
+        # If no beneficiaries are found, this will return an empty list
+        beneficiary_list = [beneficiary.serialize() for beneficiary in beneficiaries]
+        
+        return jsonify(beneficiary_list), 200
+    except Exception as e:
+        print(f"Error retrieving beneficiaries: {e}")
+        return jsonify({"error": "An error occurred while retrieving beneficiaries"}), 500
+
+
 @api.route('/beneficiary', methods=['GET'])
 @jwt_required()
 def get_beneficiary():

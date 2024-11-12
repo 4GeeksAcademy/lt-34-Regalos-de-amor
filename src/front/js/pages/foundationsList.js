@@ -16,7 +16,7 @@ export const FoundationList = () => {
     }, [actions]);
 
     const handleFoundationClick = (id) => {
-        navigate(`/foundation/${id}`);
+        navigate(`/foundation-beneficiaries/${id}`);
     };
 
     return (

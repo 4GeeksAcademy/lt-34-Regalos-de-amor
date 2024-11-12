@@ -330,6 +330,28 @@ const getState = ({ getStore, getActions, setStore }) => {
 				} catch (error) {
 					console.error("Error fetching donors:", error);
 				}
+			},
+
+			fetchBeneficiariesByFoundationId: async (id) => {
+				try {
+					const token = localStorage.getItem('token');
+					const response = await fetch(`${process.env.BACKEND_URL}/api/foundation/${id}/beneficiaries/`, {
+						method: 'GET',
+						headers: {
+							'Authorization': `Bearer ${token}`
+						}
+					});
+
+					const data = await response.json();
+
+					if (!response.ok) {
+						throw new Error(data.error || `Error: ${response.status}`);
+					}
+					setStore({ beneficiaries: data });
+					return data;
+				} catch (error) {
+					console.error('Failed to fetch beneficiaries:', error.message);
+				}
 			}
 		}
 	};
