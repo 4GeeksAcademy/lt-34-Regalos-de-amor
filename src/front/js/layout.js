@@ -4,7 +4,6 @@ import ScrollToTop from "./component/scrollToTop";
 import { BackendURL } from "./component/backendURL";
 import { Home } from "./pages/home";
 import { Demo } from "./pages/demo";
-import { Single } from "./pages/single";
 import { BeneficiaryForm } from "./pages/beneficiaryForm";
 import { Beneficiary } from "./pages/beneficiary";
 import { DonorForm } from "./component/DonorForm";
@@ -16,9 +15,12 @@ import { Foundation } from "./pages/foundation";
 import { PostHelper } from "./component/postHelper";
 import { LoginFoundation } from "./pages/loginFoundation";
 import { Welcome } from "./pages/welcome";
-import { SignupDonor } from "./component/signupDonor";
-import { LoginDonor } from "./component/loginDonor";
+import { SignupDonor } from "./pages/signupDonor";
+import { LoginDonor } from "./pages/loginDonor";
 import { SignupFoundation } from "./pages/signupFoundation";
+import { DonorProfile } from "./pages/donorProfile";
+import { FoundationList } from "./pages/foundationsList";
+import { FoundationBeneficiaries } from "./pages/foundationBeneficiaries";
 //create your first component
 import { Payment } from "./pages/paypal";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
@@ -55,11 +57,12 @@ const Layout = () => {
                             <Route element={<Beneficiary />} path="/beneficiary" />
                             <Route element={<BeneficiaryForm />} path="/beneficiary/add" />
                             <Route element={<BeneficiaryForm />} path="/beneficiary/edit/:id" />
-                            <Route element={<DonorForm />} path="/donorform" /> //completar perfil
                             <Route element={<Donors />} path="/donors" />
                             <Route element={<DonorForm />} path="/donorform/:id" />
                             <Route element={<Payment />} path="/payment" />
-                            <Route element={<Single />} path="/single/:theid" />
+                            <Route element={<DonorProfile />} path="/donor-profile" />
+                            <Route element={<FoundationList />} path="/foundations-list" />
+                            <Route element={<FoundationBeneficiaries />} path="/foundation-beneficiaries/:id" />
                             <Route element={<h1>Not found!</h1>} />
                         </Routes>
                         <Footer />

@@ -8,24 +8,6 @@ from sqlalchemy.orm import relationship
 
 db = SQLAlchemy()
 
-class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(120), unique=True, nullable=False)
-    password = db.Column(db.String(80), unique=False, nullable=False)
-    is_active = db.Column(db.Boolean(), unique=False, nullable=False)
-    
-    def __repr__(self):
-
-        return '<User %r>' % self.email
-
-    def serialize(self):
-        return {
-            "id": self.id,
-            "email": self.email,
-            "is_active" : self.is_active,
-            # do not serialize the password, its a security breach
-        }
-
 class Foundation(db.Model):
     __tablename__ = 'foundation'
     id = db.Column(Integer, primary_key=True)
@@ -42,7 +24,7 @@ class Foundation(db.Model):
 
     # donor = db.relationship('Donor', back_populates='foundation', lazy='dynamic')
 
-    donor_id = db.Column(db.Integer, ForeignKey('donor.id'), nullable=False)
+    donor_id = db.Column(db.Integer, ForeignKey('donor.id'), nullable=True)
 
     def __repr__(self):
         return '<Foundation %r>' % self.name
@@ -88,9 +70,8 @@ class Beneficiary(db.Model):
 class Donor(db.Model): 
     __tablename__ = 'donor'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(255), nullable=True)
+    first_name = db.Column(db.String(255), nullable=True)
     last_name = db.Column(db.String(255), nullable=True)  
-    image_url = db.Column(db.String(250), nullable=True)  # Definición correcta de `image`
     email = db.Column(db.String(255), unique=True, nullable=False) 
     password = db.Column(db.String(255), nullable=False) 
     is_active = db.Column(db.Boolean(), default=True, nullable=False) 
@@ -103,36 +84,16 @@ class Donor(db.Model):
     # # Relationship with Foundation
     # foundation = relationship("Foundation", back_populates="donors")
 
-
     def __repr__(self):
-        return f'<Donor {self.name}>'
+        return f'<Donor {self.first_name}>'
 
     def serialize(self):
         return {
             "id": self.id,
-            "name": self.name,
+            "first_name": self.first_name,
             "last_name": self.last_name,
             "email": self.email,
-            "image_url": self.image_url,
             "is_active": self.is_active
-        }
-    
-
-class PostHelp(db.Model):  
-    __tablename__ = 'post_help'
-    id = db.Column(Integer, primary_key=True)
-    id_foundation = db.Column(Integer, ForeignKey('foundation.id'))
-    id_beneficiary = db.Column(Integer, ForeignKey('beneficiary.id'))
-
-    def __repr__(self):
-        return f'<Donor {self.name}>'
-
-    def serialize(self):
-        return {
-            "id": self.id,
-            "id_foundation": self.id_foundation,
-            "id_beneficiary": self.id_beneficiary,
-
         }
     
 
