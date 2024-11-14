@@ -36,17 +36,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 				getActions().changeColor(0, "green");
 			},
 
-			getMessage: async () => {
-				try {
-					const resp = await fetch(process.env.BACKEND_URL + "/api/hello");
-					const data = await resp.json();
-					setStore({ message: data.message });
-					return data;
-				} catch (error) {
-					console.error("Error loading message from backend", error);
-				}
-			},
-
 			logout: () => {
 				localStorage.removeItem("token");
 				setStore({ foundation: false });
@@ -274,7 +263,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					headers: { 'Content-Type': 'application/json' },
 					body: JSON.stringify(formData)
 				};
-				const response = await fetch(process.env.BACKEND_URL + "/api/signup/donor", requestOptions)
+				const response = await fetch(process.env.BACKEND_URL + "/api/signup-donor", requestOptions)
 				const data = await response.json()
 
 				if (response.ok) {
@@ -297,7 +286,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 							'password': password
 						})
 					};
-					const response = await fetch(process.env.BACKEND_URL + "/api/login/donor", requestOptions);
+					const response = await fetch(process.env.BACKEND_URL + "/api/login-donor", requestOptions);
 
 					if (!response.ok) {
 						console.error("Login failed:", response.statusText);

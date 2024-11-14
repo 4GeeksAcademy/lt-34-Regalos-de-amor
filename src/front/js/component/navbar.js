@@ -3,18 +3,19 @@ import { Link, useNavigate } from "react-router-dom";
 
 export const Navbar = () => {
 	const navigate = useNavigate();
+	const token = localStorage.getItem("token"); // Check if token exists
 
 	// Logout function to remove token and redirect
 	const handleLogout = () => {
 		localStorage.removeItem("token"); // Remove token from localStorage
-		navigate("/login/foundation"); // Redirect to login page
+		navigate("/"); // Redirect to home page
 	};
 
 	return (
-		<nav className="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+		<nav className="navbar navbar-expand-lg navbar-dark bg-primary shadow">
 			<div className="container">
-				<Link to="/" className="navbar-brand mb-0 h1">
-					React Boilerplate
+				<Link to="/" className="navbar-brand fw-bold fs-4">
+					Donation Platform
 				</Link>
 				<button
 					className="navbar-toggler"
@@ -29,16 +30,16 @@ export const Navbar = () => {
 				</button>
 				<div className="collapse navbar-collapse" id="navbarNav">
 					<ul className="navbar-nav ms-auto">
-						<li className="nav-item">
-							<Link to="/foundation" className="nav-link">
-								Foundation
-							</Link>
-						</li>
-						<li className="nav-item">
-							<button onClick={handleLogout} className="btn btn-outline-danger ms-2">
-								Logout
-							</button>
-						</li>
+						{token && (
+							<li className="nav-item">
+								<button
+									onClick={handleLogout}
+									className="btn btn-outline-light ms-3 fw-semibold shadow-sm"
+								>
+									Logout
+								</button>
+							</li>
+						)}
 					</ul>
 				</div>
 			</div>

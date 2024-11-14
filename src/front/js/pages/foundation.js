@@ -1,15 +1,10 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
 import { Context } from "../store/appContext";
-import { Modal } from 'bootstrap';
-import { Cloudinary } from '@cloudinary/url-gen';
-import { fill } from '@cloudinary/url-gen/actions/resize';
-import { Link } from "react-router-dom";
+import { Modal } from "bootstrap";
 
 export const Foundation = () => {
     const { store, actions } = useContext(Context);
 
-
-    // Estados para el formulario de beneficiario
     const [beneficiaryData, setBeneficiaryData] = useState({
         name: "",
         wish_gift: "",
@@ -19,13 +14,16 @@ export const Foundation = () => {
         is_active: true
     });
     const [editingBeneficiaryId, setEditingBeneficiaryId] = useState(null);
-
-    // Referencia al modal
+    const [loading, setLoading] = useState(true);
     const modalRef = useRef();
 
-    // Efecto para obtener datos de beneficiarios cuando el componente se monta
     useEffect(() => {
-        actions.fetchBeneficiaryData();
+        const fetchData = async () => {
+            setLoading(true);
+            await actions.fetchBeneficiaryData();
+            setLoading(false);
+        };
+        fetchData();
     }, []);
 
     const openModal = () => {
@@ -43,18 +41,21 @@ export const Foundation = () => {
         const upLoadPreset = process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET;
 
         const formData = new FormData();
-        formData.append('file', files[0]);
-        formData.append('upload_preset', upLoadPreset);
+        formData.append("file", files[0]);
+        formData.append("upload_preset", upLoadPreset);
 
-        const response = await fetch(`https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload`, {
-            method: 'POST',
-            body: formData,
-        });
+        const response = await fetch(
+            `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload`,
+            {
+                method: "POST",
+                body: formData
+            }
+        );
 
         const data = await response.json();
         setBeneficiaryData({ ...beneficiaryData, image_url: data.secure_url });
-
     };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (editingBeneficiaryId) {
@@ -111,40 +112,66 @@ export const Foundation = () => {
     };
 
     return (
-        <div className="container">
-            <h1 className="text-danger mb-4">Foundation</h1>
-            <div className="row">
-                {store.beneficiaries && store.beneficiaries.length > 0 && store.beneficiaries.map(beneficiary => (
-                    <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-3" key={beneficiary.id}>
-                        <div className="card h-100">
-                            {beneficiary.image && (
-                                <img
-                                    src={`${beneficiary.image}`}
-                                    alt={beneficiary.name}
-                                    className="card-img-top img-fluid"
-                                />
-                            )}
-
-                            <div className="card-body">
-                                <h5 className="card-title">{beneficiary.name}</h5>
-                                <p className="card-text"><strong>Wish Gift:</strong> {beneficiary.wish_gift}</p>
-                                <p className="card-text"><strong>History:</strong> {beneficiary.history}</p>
-                                <p className="card-text"><strong>Paypal account:</strong> {beneficiary.account}</p>
-                                <button className="btn btn-primary me-2" onClick={() => handleEdit(beneficiary)}>
-                                    Edit
-                                </button>
-                                <button className="btn btn-danger" onClick={() => handleDelete(beneficiary.id)}>
-                                    Delete
-                                </button>
-                            </div>
-                        </div>
+        <div className="container my-5">
+            <h1 className="text-primary text-center fw-bold mb-5">Foundation Beneficiaries</h1>
+            <p className="text-center text-muted mb-4">
+                Welcome to the Foundation Beneficiaries management page. Here you can view, add, edit, or delete
+                beneficiaries associated with your foundation. Each beneficiary entry includes their name, wish gift,
+                and background story, along with the ability to link a PayPal account for donations.
+            </p>
+            {loading ? (
+                <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "300px" }}>
+                    <img
+                        src="https://discuss.wxpython.org/uploads/default/original/2X/6/6d0ec30d8b8f77ab999f765edd8866e8a97d59a3.gif"
+                        alt="Loading..."
+                        style={{ width: "100px", height: "100px" }}
+                    />
+                </div>
+            ) : (
+                <>
+                    <div className="row g-4">
+                        {store.beneficiaries && store.beneficiaries.length > 0 ? (
+                            store.beneficiaries.map((beneficiary) => (
+                                <div className="col-12 col-sm-6 col-md-4 col-lg-3" key={beneficiary.id}>
+                                    <div className="card h-100 shadow-sm border-0">
+                                        {beneficiary.image && (
+                                            <img
+                                                src={`${beneficiary.image}`}
+                                                alt={beneficiary.name}
+                                                className="card-img-top img-fluid"
+                                                style={{ objectFit: "cover", height: "200px" }}
+                                            />
+                                        )}
+                                        <div className="card-body">
+                                            <h5 className="card-title text-primary fw-bold">{beneficiary.name}</h5>
+                                            <p className="card-text"><strong>Wish Gift:</strong> {beneficiary.wish_gift}</p>
+                                            <p className="card-text"><strong>History:</strong> {beneficiary.history}</p>
+                                            <p className="card-text"><strong>Paypal Account:</strong> {beneficiary.account}</p>
+                                            <button
+                                                className="btn btn-outline-primary me-2 mt-3 w-100"
+                                                onClick={() => handleEdit(beneficiary)}
+                                            >
+                                                Edit Beneficiary
+                                            </button>
+                                            <button
+                                                className="btn btn-outline-danger w-100 mt-2"
+                                                onClick={() => handleDelete(beneficiary.id)}
+                                            >
+                                                Delete Beneficiary
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))
+                        ) : (
+                            <p className="text-center text-muted">No beneficiaries found.</p>
+                        )}
                     </div>
-                ))}
-            </div>
-            <button className="btn btn-success mt-3" onClick={handleAddBeneficiary}>
-                Add a beneficiary
-            </button>
-
+                    <button className="btn btn-success mt-5 w-100" onClick={handleAddBeneficiary}>
+                        Add a New Beneficiary
+                    </button>
+                </>
+            )}
             <div className="modal fade" id="beneficiaryModal" tabIndex="-1" aria-labelledby="beneficiaryModalLabel" aria-hidden="true" ref={modalRef}>
                 <div className="modal-dialog">
                     <div className="modal-content">
@@ -167,20 +194,21 @@ export const Foundation = () => {
                                     <input type="text" className="form-control" name="history" value={beneficiaryData.history} onChange={handleInputChange} />
                                 </div>
                                 <div className="mb-3">
-                                    <label className="form-label">Account</label>
+                                    <label className="form-label">PayPal Account</label>
                                     <input type="text" className="form-control" name="account" value={beneficiaryData.account} onChange={handleInputChange} required />
                                 </div>
-                                <div>
-                                    <input type="file" accept='image/*'
-                                        onChange={handleImageUpload}
-                                        className='upload-button mt-3 ' />
-                                    <div className="image-gallery">
-                                        {beneficiaryData.image_url ? <img src={beneficiaryData.image_url} className="uploaded-image " /> : null}
-                                    </div>
-                                </div>
                                 <div className="mb-3">
-                                    <label className="form-label">Active</label>
-                                    <input type="checkbox" className="form-check-input ms-2" name="is_active" checked={beneficiaryData.is_active} onChange={(e) => setBeneficiaryData({ ...beneficiaryData, is_active: e.target.checked })} />
+                                    <label className="form-label">Upload Image</label>
+                                    <input type="file" accept="image/*" onChange={handleImageUpload} className="form-control" />
+                                    {beneficiaryData.image_url && (
+                                        <div className="mt-3">
+                                            <img src={beneficiaryData.image_url} className="img-fluid rounded" alt="Beneficiary" />
+                                        </div>
+                                    )}
+                                </div>
+                                <div className="mb-3 form-check">
+                                    <input type="checkbox" className="form-check-input" name="is_active" checked={beneficiaryData.is_active} onChange={(e) => setBeneficiaryData({ ...beneficiaryData, is_active: e.target.checked })} />
+                                    <label className="form-check-label">Active</label>
                                 </div>
                                 <button type="submit" className="btn btn-primary w-100">{editingBeneficiaryId ? "Update Beneficiary" : "Create Beneficiary"}</button>
                             </form>

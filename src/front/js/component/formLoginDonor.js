@@ -17,7 +17,7 @@ export const Form = () => {
         const response = await actions.loginDonor(email, password)
         if (response) {
             navigate("/donorform")
-        }else{
+        } else {
             navigate("/donors")
         }
 
@@ -31,13 +31,13 @@ export const Form = () => {
                     'Content-Type': 'application/json'
                 }
             });
-    
+
             if (!response.ok) {
                 throw new Error(`Error: ${response.status}`);
             }
-    
+
             const data = await response.json();
-    
+
             // Suponiendo que data.profileCompleted es una propiedad que indica si el perfil está completo
             if (data.profileCompleted) {
                 // Redirigir a la página del Donor
@@ -65,7 +65,7 @@ export const Form = () => {
                 </div>
                 <button type="submit" className="btn btn-primary">Login</button>
             </form>
-            <Link to="/signup/donor" className="my-link">Signup</Link>
+            <Link to="/signup-donor" className="my-link">Signup</Link>
 
         </div>
     );

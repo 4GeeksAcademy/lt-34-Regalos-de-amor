@@ -1,3 +1,26 @@
 /* 
     General Styles used on every website (Don't Repeat Yourself)
 */
+.parallax-container {
+    position: relative;
+    height: 100vh;
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.parallax-container .bg-white {
+    backdrop-filter: blur(5px);
+}
+
+.hover-shadow {
+    transition: box-shadow 0.3s ease;
+}
+
+.hover-shadow:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}

@@ -5,12 +5,20 @@ import { Context } from "../store/appContext";
 export const FoundationList = () => {
     const { store, actions } = useContext(Context);
     const [foundations, setFoundations] = useState([]);
+    const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
     useEffect(() => {
         const fetchFoundations = async () => {
-            const data = await actions.fetchAllFoundations();
-            setFoundations(data || []);
+            setLoading(true);
+            try {
+                const data = await actions.fetchAllFoundations();
+                setFoundations(data || []);
+            } catch (error) {
+                console.error("Error fetching foundations:", error);
+            } finally {
+                setLoading(false);
+            }
         };
         fetchFoundations();
     }, [actions]);
@@ -20,26 +28,46 @@ export const FoundationList = () => {
     };
 
     return (
-        <div className="container mx-auto mt-8">
-            <h2 className="text-4xl font-bold text-center mb-10 text-indigo-600">Our Foundations</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-4">
-                {foundations.map((foundation) => (
-                    <div
-                        key={foundation.id}
-                        onClick={() => handleFoundationClick(foundation.id)}
-                        className="cursor-pointer transform transition-all hover:scale-105 hover:shadow-xl p-6 rounded-lg bg-gradient-to-br from-indigo-50 to-indigo-100 shadow-lg border border-indigo-200 group"
-                        style={{ padding: '1rem', cursor: 'pointer' }}
-                    >
-                        <h3 className="text-2xl font-semibold text-indigo-800 mb-3 group-hover:text-indigo-600">
-                            {foundation.name}
-                        </h3>
-                        <p className="text-gray-700 mb-4">{foundation.description}</p>
-                        <p className="text-gray-600 mt-1">Country: {foundation.country}</p>
-                        <p className="text-gray-600 mb-4">Email: {foundation.email}</p>
-                        <p className="text-indigo-500 font-medium text-sm mt-6">Click to see beneficiaries list</p>
-                    </div>
-                ))}
-            </div>
+        <div className="container my-5">
+            <h2 className="display-5 text-center text-primary fw-bold mb-4">Our Foundations</h2>
+            <p className="lead text-muted text-center mb-5">
+                Discover and support foundations making a difference in communities around the world.
+            </p>
+            {loading ? (
+                <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '300px' }}>
+                    <img
+                        src="https://discuss.wxpython.org/uploads/default/original/2X/6/6d0ec30d8b8f77ab999f765edd8866e8a97d59a3.gif"
+                        alt="Loading..."
+                        style={{ width: '100px', height: '100px' }}
+                    />
+                </div>
+            ) : (
+                <div className="row g-4">
+                    {foundations.map((foundation) => (
+                        <div key={foundation.id} className="col-12 col-md-6 col-lg-4">
+                            <div
+                                className="card h-100 shadow-sm border-0 hover-shadow"
+                                onClick={() => handleFoundationClick(foundation.id)}
+                                style={{ cursor: "pointer" }}
+                            >
+                                <div className="card-body">
+                                    <h3 className="card-title text-primary fw-bold">{foundation.name}</h3>
+                                    <p className="card-text text-secondary mt-3 mb-4">{foundation.description}</p>
+                                    <p className="text-muted small mb-1">
+                                        <strong>Country:</strong> {foundation.country}
+                                    </p>
+                                    <p className="text-muted small mb-3">
+                                        <strong>Email:</strong> {foundation.email}
+                                    </p>
+                                    <span className="badge bg-primary text-white py-2 px-3">
+                                        Click to see beneficiaries
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            )}
         </div>
     );
 };

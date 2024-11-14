@@ -400,7 +400,7 @@ def execute_payment():
     return jsonify(response.json())
 
 
-@api.route("/login/donor", methods=["POST"])
+@api.route("/login-donor", methods=["POST"])
 def login_donor():
     try:
         # Extract email and password from request
@@ -500,7 +500,7 @@ def signup():
         print(f"Error during signup: {e}")
         return jsonify({"error": "An error occurred during signup.", "details": str(e)}), 500
 
-@api.route("/signup/donor", methods=["POST"])
+@api.route("/signup-donor", methods=["POST"])
 def signup_donor():
     try:
         body = request.get_json()

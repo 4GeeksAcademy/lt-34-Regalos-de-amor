@@ -66,7 +66,7 @@ export const LoginFoundation = () => {
 				</form>
 				<div className="text-center mt-3">
 					<p>
-						Don’t have an account? <Link to="/signup/foundation" className="text-decoration-none">Sign Up</Link>
+						Don’t have an account? <Link to="/signup-foundation" className="text-decoration-none">Sign Up</Link>
 					</p>
 				</div>
 			</div>

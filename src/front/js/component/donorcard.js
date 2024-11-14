@@ -8,27 +8,27 @@ export const DonorCard = ({ donor }) => {
     const navigate = useNavigate();
 
 
-    function handleLogout(){
-		actions.logoutDonor()
-		navigate("/login/donor")
-	}
+    function handleLogout() {
+        actions.logoutDonor()
+        navigate("/login-donor")
+    }
 
     const handleEdit = () => {
-        navigate(`/donorform/${donor.id}`); 
+        navigate(`/donorform/${donor.id}`);
     };
 
     const handleDelete = () => {
-        actions.deleteDonor(donor.id); 
+        actions.deleteDonor(donor.id);
     };
 
     return (
 
         <div className="card mb-3">
             <div className="nav-item mt-2 mb-2">
-                    <button onClick={handleLogout} className="btn btn-outline-danger ms-2">
-                        Logout
-                    </button>
-				</div>
+                <button onClick={handleLogout} className="btn btn-outline-danger ms-2">
+                    Logout
+                </button>
+            </div>
             <div className="card-body">
                 <h5 className="card-title">{donor.name} {donor.last_name}</h5>
                 <p className="card-text"><strong>Email: </strong>{donor.email}</p>
@@ -44,9 +44,9 @@ export const DonorCard = ({ donor }) => {
                         Eliminar
                     </button>
                 </div>
-             
+
             </div>
-                
+
         </div>
     );
 };

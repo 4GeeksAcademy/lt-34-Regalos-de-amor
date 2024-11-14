@@ -65,7 +65,7 @@ export const LoginDonor = () => {
                 </form>
                 <div className="text-center mt-3">
                     <p>
-                        Don’t have an account? <Link to="/signup/donor" className="text-decoration-none">Sign Up</Link>
+                        Don’t have an account? <Link to="/signup-donor" className="text-decoration-none">Sign Up</Link>
                     </p>
                 </div>
             </div>
