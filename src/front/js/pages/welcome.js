@@ -10,7 +10,7 @@ export const Welcome = () => {
 
 	return (
 		<div className="container ">
-			{!store.user ? <Navigate to="/login/donor" /> : <>
+			{!store.user ? <Navigate to="/login-donor" /> : <>
 				<DonorForm donor={store.user} />
 			</>}
 		</div>

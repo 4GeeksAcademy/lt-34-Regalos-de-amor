@@ -29,7 +29,7 @@ export const SignupDonor = () => {
             const response = await actions.signupDonor(formData);
 
             if (response) {
-                navigate("/login/donor");
+                navigate("/login-donor");
             } else {
                 setErrorMessage("This email is already registered.");
             }
@@ -77,7 +77,7 @@ export const SignupDonor = () => {
                 </form>
                 <div className="text-center mt-3">
                     <p>
-                        Already have an account? <Link to="/login/donor" className="text-decoration-none">Login</Link>
+                        Already have an account? <Link to="/login-donor" className="text-decoration-none">Login</Link>
                     </p>
                 </div>
             </div>

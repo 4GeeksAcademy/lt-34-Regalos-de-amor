@@ -6,10 +6,10 @@ import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
 export const FoundationBeneficiaries = () => {
     const { id } = useParams();
     const [beneficiaries, setBeneficiaries] = useState([]);
+    const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [selectedBeneficiary, setSelectedBeneficiary] = useState(null);
     const { actions } = useContext(Context);
-
     const [{ options }, dispatch] = usePayPalScriptReducer();
     const [currency, setCurrency] = useState(options.currency);
     const [amount, setAmount] = useState("");
@@ -17,8 +17,15 @@ export const FoundationBeneficiaries = () => {
     useEffect(() => {
         const fetchBeneficiaries = async () => {
             if (!id) return;
-            const beneficiaries = await actions.fetchBeneficiariesByFoundationId(id);
-            setBeneficiaries(beneficiaries);
+            try {
+                setLoading(true);
+                const beneficiaries = await actions.fetchBeneficiariesByFoundationId(id);
+                setBeneficiaries(beneficiaries);
+            } catch (error) {
+                setError("Failed to load beneficiaries.");
+            } finally {
+                setLoading(false);
+            }
         };
         fetchBeneficiaries();
     }, [id]);
@@ -64,68 +71,70 @@ export const FoundationBeneficiaries = () => {
     };
 
     return (
-        <div className="container mx-auto mt-8">
-            <h2 className="text-3xl font-bold text-center mb-6 text-indigo-600">Beneficiaries</h2>
-            {error && <p className="text-red-500 text-center">{error}</p>}
-            <div className="justify-center gap-6" style={{ display: 'flex' }}>
-                {beneficiaries.map((beneficiary) => (
-                    <div
-                        key={beneficiary.id}
-                        className="cursor-pointer transform transition-all hover:scale-105 hover:shadow-lg p-4 rounded-lg bg-white shadow-md border border-gray-200"
-                        style={{ width: 'auto', margin: '1rem', maxWidth: '10remDescripBenef' }} // Keeps cards smaller and consistent in width
-                    >
-                        <img
-                            src={beneficiary.image || "https://via.placeholder.com/150"}
-                            alt={beneficiary.name}
-                            className="w-full h-40 object-cover rounded-lg mb-3"
-                            style={{ maxWidth: '8rem', height: 'auto' }}
-                        />
-                        <h3 className="text-lg font-semibold text-indigo-800 mb-1">{beneficiary.name}</h3>
-                        <p className="text-gray-600 text-sm mb-1">Wish: {beneficiary.wish_gift}</p>
-                        <p className="text-gray-500 text-sm mb-3">History: {beneficiary.history}</p>
-                        <button
-                            onClick={() => handleDonateClick(beneficiary)}
-                            style={{
-                                width: '100%',
-                                height: '6rem',
-                                margin: '0 auto',
-                                backgroundImage: `url("https://i0.wp.com/blog.mightycause.com/wp-content/uploads/2019/06/paypal-donate-button-high-quality-png.png?w=500&ssl=1")`,
-                                backgroundSize: 'contain',
-                                backgroundRepeat: 'no-repeat',
-                                backgroundColor: 'transparent',
-                                border: 0,
-                            }}
-                        >
-                        </button>
-                        {selectedBeneficiary && selectedBeneficiary.id === beneficiary.id && (
-                            <div className="mt-4 p-4 border-t border-gray-300">
-                                <h4 className="text-indigo-700 text-center font-semibold mb-2">
-                                    Donate to {selectedBeneficiary.name}
-                                </h4>
-                                <div className="flex items-center justify-between mb-2">
-                                    <select value={currency} onChange={onCurrencyChange} className="border rounded p-1">
-                                        <option value="USD">USD</option>
-                                        <option value="EUR">EUR</option>
-                                    </select>
-                                    <input
-                                        type="number"
-                                        value={amount}
-                                        onChange={(e) => setAmount(e.target.value)}
-                                        placeholder="Enter amount"
-                                        className="border rounded p-1 w-24 ml-2"
-                                    />
-                                </div>
-                                <PayPalButtons
-                                    style={{ layout: "vertical" }}
-                                    createOrder={(data, actions) => onCreateOrder(data, actions)}
-                                    onApprove={(data, actions) => onApproveOrder(data, actions)}
-                                    forceReRender={[amount, currency]}
+        <div className="container my-5">
+            <h2 className="display-5 text-center text-primary fw-bold mb-4">Beneficiaries</h2>
+            {loading ? (
+                <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '300px' }}>
+                    <img
+                        src="https://discuss.wxpython.org/uploads/default/original/2X/6/6d0ec30d8b8f77ab999f765edd8866e8a97d59a3.gif"
+                        alt="Loading..."
+                        style={{ width: '100px', height: '100px' }}
+                    />
+                </div>
+            ) : error ? (
+                <p className="text-danger text-center">{error}</p>
+            ) : (
+                <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                    {beneficiaries.map((beneficiary) => (
+                        <div key={beneficiary.id} className="col">
+                            <div className="card h-100 shadow-sm">
+                                <img
+                                    src={beneficiary.image || "https://via.placeholder.com/150"}
+                                    alt={beneficiary.name}
+                                    className="card-img-top"
+                                    style={{ objectFit: 'cover', height: '200px' }}
                                 />
+                                <div className="card-body d-flex flex-column">
+                                    <h5 className="card-title text-primary fw-bold">{beneficiary.name}</h5>
+                                    <p className="card-text text-muted">{beneficiary.wish_gift}</p>
+                                    <p className="card-text small text-secondary mb-4">{beneficiary.history}</p>
+                                    <button
+                                        onClick={() => handleDonateClick(beneficiary)}
+                                        className="btn btn-outline-primary mt-auto"
+                                    >
+                                        Donate
+                                    </button>
+                                </div>
+                                {selectedBeneficiary && selectedBeneficiary.id === beneficiary.id && (
+                                    <div className="card-footer">
+                                        <h6 className="text-center text-secondary fw-semibold">Donate to {selectedBeneficiary.name}</h6>
+                                        <div className="d-flex justify-content-between align-items-center mb-2">
+                                            <select value={currency} onChange={onCurrencyChange} className="form-select">
+                                                <option value="USD">USD</option>
+                                                <option value="EUR">EUR</option>
+                                            </select>
+                                            <input
+                                                type="number"
+                                                value={amount}
+                                                onChange={(e) => setAmount(e.target.value)}
+                                                placeholder="Enter amount"
+                                                className="form-control ms-2"
+                                                style={{ maxWidth: '100px' }}
+                                            />
+                                        </div>
+                                        <PayPalButtons
+                                            style={{ layout: "vertical" }}
+                                            createOrder={(data, actions) => onCreateOrder(data, actions)}
+                                            onApprove={(data, actions) => onApproveOrder(data, actions)}
+                                            forceReRender={[amount, currency]}
+                                        />
+                                    </div>
+                                )}
                             </div>
-                        )}
-                    </div>
-                ))}
-            </div>
+                        </div>
+                    ))}
+                </div>
+            )}
         </div>
     );
 };

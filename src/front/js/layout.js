@@ -47,11 +47,11 @@ const Layout = () => {
                             <Route element={<Home />} path="/" />
                             <Route element={<Foundation />} path="/foundation" />
                             <Route element={<Demo />} path="/demo" />
-                            <Route element={<LoginFoundation />} path="/login/foundation" />
-                            <Route element={<LoginDonor />} path="/login/donor" />
+                            <Route element={<LoginFoundation />} path="/login-foundation" />
+                            <Route element={<LoginDonor />} path="/login-donor" />
                             <Route element={<PostHelper />} path="/post" />
-                            <Route element={<SignupFoundation />} path="/signup/foundation" />
-                            <Route element={<SignupDonor />} path="/signup/donor" />
+                            <Route element={<SignupFoundation />} path="/signup-foundation" />
+                            <Route element={<SignupDonor />} path="/signup-donor" />
                             <Route element={<Welcome />} path="/welcome" />
                             <Route element={<DescripBenef />} path="/description/:id" />
                             <Route element={<Beneficiary />} path="/beneficiary" />
