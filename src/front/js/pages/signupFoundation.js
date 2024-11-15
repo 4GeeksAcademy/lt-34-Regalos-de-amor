@@ -44,37 +44,37 @@ export const SignupFoundation = () => {
 
     return (
         <div>
-            <section class="vh-xxl-100">
-	<div class="container h-100 d-flex px-0 px-sm-4">
-		<div class="row justify-content-center align-items-center m-auto">
-			<div class="col-12">
-				<div class="bg-mode shadow rounded-3 overflow-hidden">
-					<div class="row g-0">
+            <section className="vh-xxl-100">
+	<div className="container h-100 d-flex px-0 px-sm-4">
+		<div className="row justify-content-center align-items-center m-auto">
+			<div className="col-12">
+				<div className="bg-mode shadow rounded-3 overflow-hidden">
+					<div className="row g-0">
 						{/* <!-- Vector Image --> */}
-						<div class="col-lg-6 d-flex align-items-center order-2 order-lg-1">
-							<div class="p-3 p-lg-5">
+						<div className="col-lg-6 d-flex align-items-center order-2 order-lg-1">
+							<div className="p-3 p-lg-5">
 								<img src="https://www.shutterstock.com/image-vector/logo-template-foundation-charity-260nw-2478837205.jpg" alt="imagen"/>
 							</div>
 							{/* <!-- Divider --> */}
-							<div class="vr opacity-1 d-none d-lg-block"></div>
+							<div className="vr opacity-1 d-none d-lg-block"></div>
 						</div>
 		
 						{/* <!-- Information --> */}
-						<div class="col-lg-6 order-1">
-							<div class="p-4 p-sm-7">
+						<div className="col-lg-6 order-1">
+							<div className="p-4 p-sm-7">
 								{/* <!-- Logo --> */}
 								{/* <a href="index.html">
 									<img class="h-50px mb-4" src" alt="logo"/>
 								</a> */}
 								{/* <!-- Title --> */}
-								<h1 class="mb-2 h3">Create new account</h1>
-								<p class="mb-0">Already member?<a href="/login-foundation"> Login</a></p>
+								<h1 className="mb-2 h3">Create new account</h1>
+								<p className="mb-0">Already member?<a href="/login-foundation"> Login</a></p>
 		
 								{/* <!-- Form START --> */}
-								<form class="mt-4 text-start" onSubmit={handleSubmit}>
+								<form className="mt-4 text-start" onSubmit={handleSubmit}>
 									{/* <!-- Email --> */}
-									<div class="mb-3">
-										<label class="form-label">Enter Name</label>
+									<div className="mb-3">
+										<label className="form-label">Enter Name</label>
 										<input
                                         name="name"
                                         value={formData.name}
@@ -85,8 +85,8 @@ export const SignupFoundation = () => {
                                         required
                                         />
 									</div>
-                                    <div class="mb-3">
-										<label class="form-label">Enter description</label>
+                                    <div className="mb-3">
+										<label className="form-label">Enter description</label>
 										<input
                                             name="description"
                                             value={formData.description}
@@ -97,7 +97,7 @@ export const SignupFoundation = () => {
                                             required
                                         />
 									</div>
-                                    <div class= "mb-3">
+                                    <div className= "mb-3">
                                     <label htmlFor="inputCountry" className="form-label">Country</label>
                                      <select
                                         name="country"
@@ -113,8 +113,8 @@ export const SignupFoundation = () => {
                                         ))}
                                     </select>
                                     </div>
-                                    <div class="mb-3">
-										<label class="form-label">Enter email</label>
+                                    <div className="mb-3">
+										<label className="form-label">Enter email</label>
 										<input
                                             name="email"
                                             value={formData.email}
@@ -126,8 +126,8 @@ export const SignupFoundation = () => {
                                         />
 									</div>
 									{/* <!-- Password --> */}
-									<div class="mb-3 position-relative">
-										<label class="form-label">Enter password</label>
+									<div className="mb-3 position-relative">
+										<label className="form-label">Enter password</label>
 										<input
                                             name="password"
                                             value={formData.password}
@@ -137,12 +137,12 @@ export const SignupFoundation = () => {
                                             id="inputPassword"
                                             required
                                         />
-										<span class="position-absolute top-50 end-0 translate-middle-y p-0 mt-3">
-											<i class="fakepasswordicon fas fa-eye-slash cursor-pointer p-2"></i>
+										<span className="position-absolute top-50 end-0 translate-middle-y p-0 mt-3">
+											<i className="fakepasswordicon fas fa-eye-slash cursor-pointer p-2"></i>
 										</span>
 									</div>
 									{/* <!-- Button --> */}
-									<div><button type="submit" class="btn btn-primary w-100 mb-0">Sign Up</button></div>			
+									<div><button type="submit" className="btn btn-primary w-100 mb-0">Sign Up</button></div>			
 								</form>
 							</div>		
 						</div>
