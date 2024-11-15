@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
 import { Context } from "../store/appContext";
-import { Modal } from 'bootstrap';
+// import { Modal } from 'bootstrap';
 import { Cloudinary } from '@cloudinary/url-gen';
 import { fill } from '@cloudinary/url-gen/actions/resize';
 import { Link } from "react-router-dom";
@@ -29,7 +29,7 @@ export const Foundation = () => {
     }, []);
 
     const openModal = () => {
-        const modalInstance = new Modal(modalRef.current);
+        // const modalInstance = new Modal(modalRef.current);
         modalInstance.show();
     };
 
