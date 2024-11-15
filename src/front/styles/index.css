@@ -24,3 +24,8 @@
 .hover-shadow:hover {
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
+
+.btn-purple {
+    background-color: #6f42c1; /* Cambia a cualquier tono de morado */
+    color: white;
+}
