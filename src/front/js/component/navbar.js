@@ -12,7 +12,7 @@ export const Navbar = () => {
 	};
 
 	return (
-		<nav className="navbar navbar-expand-lg navbar-dark bg-primary shadow">
+		<nav className="navbar navbar-expand-lg navbar-dark btn btn-purple">
 			<div className="container">
 				<Link to="/" className="navbar-brand fw-bold fs-4">
 					Donation Platform

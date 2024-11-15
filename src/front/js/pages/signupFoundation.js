@@ -52,8 +52,8 @@ export const SignupFoundation = () => {
 					<div className="row g-0">
 						{/* <!-- Vector Image --> */}
 						<div className="col-lg-6 d-flex align-items-center order-2 order-lg-1">
-							<div className="p-3 p-lg-5">
-								<img src="https://www.shutterstock.com/image-vector/logo-template-foundation-charity-260nw-2478837205.jpg" alt="imagen"/>
+							<div className="p-3 p-lg-7">
+								<img src="https://booking.webestica.com/assets/images/element/signin.svg" alt="imagen"/>
 							</div>
 							{/* <!-- Divider --> */}
 							<div className="vr opacity-1 d-none d-lg-block"></div>
@@ -67,7 +67,7 @@ export const SignupFoundation = () => {
 									<img class="h-50px mb-4" src" alt="logo"/>
 								</a> */}
 								{/* <!-- Title --> */}
-								<h1 className="mb-2 h3">Create new account</h1>
+								<h1 className="mb-2 h3">Create a New Foundation Account</h1>
 								<p className="mb-0">Already member?<a href="/login-foundation"> Login</a></p>
 		
 								{/* <!-- Form START --> */}
@@ -142,7 +142,7 @@ export const SignupFoundation = () => {
 										</span>
 									</div>
 									{/* <!-- Button --> */}
-									<div><button type="submit" className="btn btn-primary w-100 mb-0">Sign Up</button></div>			
+									<div><button type="submit" className="btn btn-purple w-100 mb-0">Sign Up</button></div>			
 								</form>
 							</div>		
 						</div>
