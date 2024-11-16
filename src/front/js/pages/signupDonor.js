@@ -41,37 +41,37 @@ export const SignupDonor = () => {
 
     return (
         <div>
-            <section class="vh-xxl-100">
-                <div class="container h-100 d-flex px-0 px-sm-4 ">
-                    <div class="row justify-content-center align-items-center m-auto">
-                        <div class="col-12">
-                            <div class="bg-mode shadow rounded-3 overflow-hidden">
-                                <div class="row g-0">
+            <section className="vh-xxl-100">
+                <div className="container h-100 d-flex px-0 px-sm-4 ">
+                    <div className="row justify-content-center align-items-center m-auto">
+                        <div className="col-12">
+                            <div className="bg-mode shadow rounded-3 overflow-hidden">
+                                <div className="row g-0">
                                     {/* <!-- Vector Image --> */}
-                                    <div class="col-lg-6 d-md-flex align-items-center order-2 order-lg-1">
-                                        <div class="p-3 p-lg-7">
+                                    <div className="col-lg-6 d-md-flex align-items-center order-2 order-lg-1">
+                                        <div className="p-3 p-lg-7">
                                             <img src="https://booking.webestica.com/assets/images/element/signin.svg" alt=""/>
                                         </div>
                                         {/* <!-- Divider --> */}
-                                        <div class="vr opacity-1 d-none d-lg-block"></div>
+                                        <div className="vr opacity-1 d-none d-lg-block"></div>
                                     </div>
 
                                     {/* <!-- Information --> */}
-                                    <div class="col-lg-6 order-1">
-                                        <div class="p-4 p-sm-6">
+                                    <div className="col-lg-6 order-1">
+                                        <div className="p-4 p-sm-6">
                                             {/* <!-- Logo --> */}
                                             {/* <a href="index.html">
                                                 <img class="h-50px mb-4" src="assets/images/logo-icon.svg" alt="logo"/>
                                             </a> */}
                                             {/* <!-- Title --> */}
-                                            <h1 class="mb-2 h3">Create a New Donor Account</h1>
-                                            <p class="mb-0">Already a member?<a href="/login-donor"> Log in</a></p>
+                                            <h1 className="mb-2 h3">Create a New Donor Account</h1>
+                                            <p className="mb-0">Already a member?<a href="/login-donor"> Log in</a></p>
 
                                             {/* <!-- Form START --> */}
-                                            <form class="mt-4 text-start" onSubmit={handleSubmit}>
+                                            <form className="mt-4 text-start" onSubmit={handleSubmit}>
                                                 {/* <!-- Email --> */}
-                                                <div class="mb-3">
-                                                    <label class="form-label">Enter email</label>
+                                                <div className="mb-3">
+                                                    <label className="form-label">Enter email</label>
                                                     <input
                                                         name="email"
                                                         value={formData.email}
@@ -83,8 +83,8 @@ export const SignupDonor = () => {
                                                     />
                                                 </div>
                                                 {/* <!-- Password --> */}
-                                                <div class="mb-3 position-relative">
-                                                    <label class="form-label">Enter password</label>
+                                                <div className="mb-3 position-relative">
+                                                    <label className="form-label">Enter password</label>
                                                     <input
                                                         name="password"
                                                         value={formData.password}
@@ -94,12 +94,12 @@ export const SignupDonor = () => {
                                                         id="inputPassword"
                                                         required
                                                     />
-                                                        <span class="position-absolute top-50 end-0 translate-middle-y p-0 mt-3">
-                                                            <i class="fakepasswordicon fas fa-eye-slash cursor-pointer p-2"></i>
+                                                        <span className="position-absolute top-50 end-0 translate-middle-y p-0 mt-3">
+                                                            <i className="fakepasswordicon fas fa-eye-slash cursor-pointer p-2"></i>
                                                         </span>
                                                 </div>                                            
                                                 {/* <!-- Button --> */}
-                                                <div><button type="submit" class="btn btn-purple w-100 mb-0">Sign up</button></div>
+                                                <div><button type="submit" className="btn btn-purple w-100 mb-0">Sign up</button></div>
 
                                             </form>
                                             {/* <!-- Form END --> */}
