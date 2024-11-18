@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
+import logo from "../../img/logo.png"
 
 export const Navbar = () => {
 	const navigate = useNavigate();
@@ -14,9 +15,8 @@ export const Navbar = () => {
 		<nav className="navbar navbar-expand-md">
 		  <div className="container-fluid">
 			<Link className="navbar-brand" to="/">
-			  <img src="/workspaces/lt-34-Regalos-de-amor/src/front/img/logo.png" alt="Regalos de amor" style={{ height: "100px" }} />
+			  <img src={logo} alt="Regalos de amor" style={{ height: "100px" }} />
 			</Link>
-	
 			<div className="navbar-collapse collapse" id="navbarCollapse">
 			  <ul className="navbar-nav navbar-nav-scroll ms-auto">
 				<li className="nav-item">
