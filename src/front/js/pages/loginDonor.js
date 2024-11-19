@@ -3,6 +3,7 @@ import { Context } from "../store/appContext";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
+
 export const LoginDonor = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -65,7 +66,7 @@ export const LoginDonor = () => {
                 </form>
                 <div className="text-center mt-3">
                     <p>
-                        Don’t have an account? <Link to="/signup/donor" className="text-decoration-none">Sign Up</Link>
+                        Don’t have an account? <Link to="/signup-donor" className="text-decoration-none">Sign Up</Link>
                     </p>
                 </div>
             </div>

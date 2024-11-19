@@ -30,21 +30,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 				image_url: [],
 			},
 			donors: [],
+			foundation: [],
 		},
 		actions: {
 			exampleFunction: () => {
 				getActions().changeColor(0, "green");
-			},
-
-			getMessage: async () => {
-				try {
-					const resp = await fetch(process.env.BACKEND_URL + "/api/hello");
-					const data = await resp.json();
-					setStore({ message: data.message });
-					return data;
-				} catch (error) {
-					console.error("Error loading message from backend", error);
-				}
 			},
 
 			logout: () => {
@@ -78,6 +68,21 @@ const getState = ({ getStore, getActions, setStore }) => {
 				} catch (error) {
 					console.error("Error during login:", error);
 					return false;
+				}
+			},
+
+			getCurrentFoundation: async () => {
+				try {
+					const response = await fetch(`${process.env.BACKEND_URL}/api/current_foundation`, {
+						headers: { "Authorization": "Bearer " + localStorage.getItem("token") }
+					});
+					if (!response.ok) {
+						throw new Error(`Error: ${response.status}`);
+					}
+					const data = await response.json();
+					setStore({ foundation: data });
+				} catch (error) {
+					console.error('Failed to fetch foundation data:', error);
 				}
 			},
 
@@ -274,7 +279,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					headers: { 'Content-Type': 'application/json' },
 					body: JSON.stringify(formData)
 				};
-				const response = await fetch(process.env.BACKEND_URL + "/api/signup/donor", requestOptions)
+				const response = await fetch(process.env.BACKEND_URL + "/api/signup-donor", requestOptions)
 				const data = await response.json()
 
 				if (response.ok) {
@@ -297,7 +302,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 							'password': password
 						})
 					};
-					const response = await fetch(process.env.BACKEND_URL + "/api/login/donor", requestOptions);
+					const response = await fetch(process.env.BACKEND_URL + "/api/login-donor", requestOptions);
 
 					if (!response.ok) {
 						console.error("Login failed:", response.statusText);
@@ -326,6 +331,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						headers: { "Authorization": "Bearer " + localStorage.getItem("token") },
 					});
 					const data = await response.json();
+					setStore({foundation: data});
 					return data;
 				} catch (error) {
 					console.error("Error fetching donors:", error);

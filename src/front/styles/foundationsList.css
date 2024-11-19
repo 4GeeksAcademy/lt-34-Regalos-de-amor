@@ -1,0 +1,11 @@
+/* styles.css */
+body.light-theme {
+background-color: white;
+color: black;
+}
+
+body.dark-theme {
+background-color: black;
+color: white;
+}
+  

@@ -1,0 +1,138 @@
+/* sidebar.css */
+.navbar {
+  /* Estilos para la barra de navegación */
+  color: black;
+
+}
+
+.sidebar {
+  /* Estilos específicos para la barra lateral */
+}
+
+.navbar-expand-xl {
+  /* Estilos para la expansión de la barra de navegación en pantallas extra grandes */
+}
+
+.navbar-light {
+  /* Estilos para la barra de navegación con tema claro */
+}
+
+.d-flex {
+  display: flex !important;
+}
+
+.align-items-center {
+  align-items: center !important;
+}
+
+.navbar-brand-item {
+  /* Estilos para los elementos de la marca de la barra de navegación */
+}
+
+.offcanvas {
+  /* Estilos para el offcanvas */
+}
+
+.custom-scrollbar {
+  /* Estilos para la barra de desplazamiento personalizada */
+}
+
+.os-host {
+  /* Estilos para el host del scrollbar */
+}
+
+.os-theme-dark {
+  /* Estilos para el tema oscuro del scrollbar */
+}
+
+.os-host-overflow {
+  /* Estilos para el overflow del host */
+}
+
+.os-host-resize-disabled {
+  /* Estilos para deshabilitar el resize del host */
+}
+
+.os-host-scrollbar-horizontal-hidden {
+  /* Estilos para ocultar el scrollbar horizontal */
+}
+
+.os-host-transition {
+  /* Estilos para la transición del host */
+}
+
+.os-resize-observer-host {
+  /* Estilos para el host del resize observer */
+}
+
+.os-size-auto-observer {
+  /* Estilos para el auto observer del tamaño */
+}
+
+.os-content-glue {
+  /* Estilos para el glue del contenido */
+}
+
+.os-padding {
+  /* Estilos para el padding */
+}
+
+.os-viewport {
+  /* Estilos para el viewport */
+}
+
+.os-content {
+  /* Estilos para el contenido */
+}
+
+.offcanvas-body {
+  /* Estilos para el cuerpo del offcanvas */
+}
+
+.sidebar-content {
+  /* Estilos para el contenido de la barra lateral */
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.pt-4 {
+  padding-top: 1.5rem;
+}
+
+.navbar-nav {
+  /* Estilos para la navegación de la barra de navegación */
+}
+
+.nav-item {
+  /* Estilos para los ítems de la navegación */
+}
+
+.nav-link {
+  /* Estilos para los enlaces de la navegación */
+}
+
+.nav-link.active {
+  /* Estilos para el enlace activo */
+}
+
+.ms-2 {
+  margin-left: 0.5rem;
+}
+
+.my-2 {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.collapse {
+  /* Estilos para el colapso */
+}
+
+.sidebar {
+  position: relative;
+  padding: 0;
+  border-right: 1px solid var(--bs-border-color);
+}
