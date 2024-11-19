@@ -1,48 +1,42 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
+import logo from "../../img/logo-logo.png";
+
 
 export const Navbar = () => {
-	const navigate = useNavigate();
-	const token = localStorage.getItem("token"); // Check if token exists
+ const navigate = useNavigate();
 
-	// Logout function to remove token and redirect
-	const handleLogout = () => {
-		localStorage.removeItem("token"); // Remove token from localStorage
-		navigate("/"); // Redirect to home page
-	};
 
-	return (
-		<nav className="navbar navbar-expand-lg navbar-dark btn btn-purple">
-			<div className="container">
-				<Link to="/" className="navbar-brand fw-bold fs-4">
-					Donation Platform
-				</Link>
-				<button
-					className="navbar-toggler"
-					type="button"
-					data-bs-toggle="collapse"
-					data-bs-target="#navbarNav"
-					aria-controls="navbarNav"
-					aria-expanded="false"
-					aria-label="Toggle navigation"
-				>
-					<span className="navbar-toggler-icon"></span>
-				</button>
-				<div className="collapse navbar-collapse" id="navbarNav">
-					<ul className="navbar-nav ms-auto">
-						{token && (
-							<li className="nav-item">
-								<button
-									onClick={handleLogout}
-									className="btn btn-outline-light ms-3 fw-semibold shadow-sm"
-								>
-									Logout
-								</button>
-							</li>
-						)}
-					</ul>
-				</div>
-			</div>
-		</nav>
-	);
+ // Logout function to remove token and redirect
+ const handleLogout = () => {
+   const confirmLogout = window.confirm("Are you sure you want to log out?");
+   if (confirmLogout) {
+     localStorage.removeItem("token"); // Remove token from localStorage
+     navigate("/login/foundation"); // Redirect to login page
+   }
+ };
+
+
+ return (
+   <nav className="navbar navbar-expand-xl">
+     <div className="container">
+       <Link className="navbar-brand" to="/">
+         <img
+           className="light-mode-item navbar-brand-item"
+           src={logo}
+           alt="logo"
+           style={{ width: "80px", height: "80px", borderRadius: "50%" }}
+         /> Regalos de amor
+       </Link>
+       <Link className="navbar-brand" to="/">Team
+       </Link>
+       <Link className="navbar-brand" to="/login-donor">Donor
+       </Link>
+       <Link className="navbar-brand" to="/login-foundation">Foundation
+       </Link>
+     </div>
+   </nav>
+ );
 };
+
+
