@@ -115,15 +115,15 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.error("Error loading message from backend", error);
 				}
 			},
-			fetchDonorData: async () => {
-				try {
-					const response = await fetch(`${process.env.BACKEND_URL}/api/donor`);
-					const data = await response.json();
-					setStore({ donors: data });
-				} catch (error) {
-					console.error("Error fetching donors:", error);
-				}
-			},
+			// fetchDonorData: async () => {
+			// 	try {
+			// 		const response = await fetch(`${process.env.BACKEND_URL}/api/donor`);
+			// 		const data = await response.json();
+			// 		setStore({ donors: data });
+			// 	} catch (error) {
+			// 		console.error("Error fetching donors:", error);
+			// 	}
+			// },
 
 			fetchDonorData: async () => {
 				try {

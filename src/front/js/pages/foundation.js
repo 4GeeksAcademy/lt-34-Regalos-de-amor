@@ -22,6 +22,7 @@ export const Foundation = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        console.log("fetch Foundation")
         const fetchData = async () => {
             setLoading(true);
             await actions.fetchBeneficiaryData();
@@ -29,7 +30,7 @@ export const Foundation = () => {
         };
         fetchData();
     }, []);
-
+    
 
 
     const handleInputChange = (e) => {
