@@ -17,12 +17,19 @@ export const DonorProfile = () => {
     const [error, setError] = useState(null);
 
     // Fetch donor data by ID if editing an existing donor
-    useEffect(async () => {
-        const donorData = await actions.fetchDonorData();
-        if (donorData) {
-            setFormData(donorData);
+    useEffect( () => {
+        async function fetchData(){
+            const donorData = await actions.fetchDonorData();
+            if (donorData) {
+                setFormData(donorData);
+            }
+
         }
+        fetchData()
     }, []);
+
+
+   
 
     // Handle input change
     const handleChange = (e) => {
