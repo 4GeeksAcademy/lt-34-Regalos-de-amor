@@ -115,7 +115,7 @@ export const Foundation = () => {
         <div className="container my-5">
             <NavbarDashboard/>
             {/* <TopBar/> */}
-            <h1 className="text-primary text-center fw-bold mb-5">Foundation Beneficiaries</h1>
+            <h1 className="text-black text-center fw-bold mb-5">Foundation Beneficiaries</h1>
             <p className="text-center text-muted mb-4">
                 Welcome to the Foundation Beneficiaries management page. Here you can view, add, edit, or delete
                 beneficiaries associated with your foundation. Each beneficiary entry includes their name, wish gift,
@@ -145,12 +145,12 @@ export const Foundation = () => {
                                             />
                                         )}
                                         <div className="card-body">
-                                            <h5 className="card-title text-primary fw-bold">{beneficiary.name}</h5>
+                                            <h5 className="card-title text-black fw-bold">{beneficiary.name}</h5>
                                             <p className="card-text"><strong>Wish Gift:</strong> {beneficiary.wish_gift}</p>
                                             <p className="card-text"><strong>History:</strong> {beneficiary.history}</p>
                                             <p className="card-text"><strong>Paypal Account:</strong> {beneficiary.account}</p>
                                             <button
-                                                className="btn btn-outline-primary me-2 mt-3 w-100"
+                                                className="btn btn-purple me-2 mt-3 w-100"
                                                 data-bs-toggle="modal" data-bs-target="#exampleModal"
                                                 onClick={() => handleEdit(beneficiary)}
                                             >
@@ -170,7 +170,7 @@ export const Foundation = () => {
                             <p className="text-center text-muted">No beneficiaries found.</p>
                         )}
                     </div>
-                    <button type="button" className="btn btn-success mt-5 w-100" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <button type="button" className="btn btn-purple mt-5 w-100" data-bs-toggle="modal" data-bs-target="#exampleModal">
                         Add a New Beneficiary
                     </button>
                 </>
@@ -214,7 +214,7 @@ export const Foundation = () => {
                                     <input type="checkbox" className="form-check-input" name="is_active" checked={beneficiaryData.is_active} onChange={(e) => setBeneficiaryData({ ...beneficiaryData, is_active: e.target.checked })} />
                                     <label className="form-check-label">Active</label>
                                 </div>
-                                <button type="submit" className="btn btn-primary w-100 " data-bs-dismiss="modal">{editingBeneficiaryId ? "Update Beneficiary" : "Create Beneficiary"}</button>
+                                <button type="submit" className="btn btn-purple w-100 " data-bs-dismiss="modal">{editingBeneficiaryId ? "Update Beneficiary" : "Create Beneficiary"}</button>
                             </form>
                         </div>
                     </div>

@@ -1,4 +1,17 @@
 import React from "react";
+import five from "../../../img/five.jpg";
+import fourt from "../../../img/fourt.jpg";
+import three from "../../../img/three.jpg";
+import two from "../../../img/two.jpg";
+import one from "../../../img/fourt.jpg";
+import cat1 from "../../../img/cat1.png";
+import chiguagua from "../../../img/chiguagua.png";
+import dog2 from "../../../img/dog2.jpg";
+import dog3 from "../../../img/dog3.jpg";
+import littlecat from "../../../img/littlecat.png";
+
+
+
 
 
 
@@ -113,7 +126,7 @@ export const Cake = () => {
           <div className="card shadow h-100">
 
             <div className="card-header border-bottom d-flex justify-content-between align-items-center">
-              <h5 className="card-header-title">Room Notifications</h5>
+              <h5 className="card-header-title">What inspired you to become a donar?</h5>
               <a href="#" className="btn btn-link p-0 mb-0">View all</a>
             </div>
 
@@ -124,7 +137,7 @@ export const Cake = () => {
                 <div className="d-sm-flex align-items-center mb-1 mb-sm-0">
 
                   <div className="flex-shrink-0">
-                    <img src="assets/images/category/hotel/4by3/04.jpg" className="rounded h-60px" alt="" />
+                    <img  src={cat1} className="rounded h-60px" alt="" style={{width: "100px", height:"auto"}} />
                   </div>
 
                   <div className="ms-sm-3 mt-2 mt-sm-0">
@@ -146,7 +159,7 @@ export const Cake = () => {
                 <div className="d-sm-flex align-items-center mb-1 mb-sm-0">
 
                   <div className="flex-shrink-0">
-                    <img src="assets/images/category/hotel/4by3/05.jpg" className="rounded h-60px" alt="" />
+                    <img src={chiguagua} className="rounded h-60px" alt="" style={{width: "100px", height:"auto"}} />
                   </div>
 
                   <div className="ms-sm-3 mt-2 mt-sm-0">
@@ -166,7 +179,7 @@ export const Cake = () => {
                 <div className="d-sm-flex align-items-center mb-1 mb-sm-0">
 
                   <div className="flex-shrink-0">
-                    <img src="assets/images/category/hotel/4by3/06.jpg" className="rounded h-60px" alt="" />
+                    <img src={dog2} className="rounded h-60px" alt="" style={{width: "100px", height:"auto"}} />
                   </div>
 
                   <div className="ms-sm-3 mt-2 mt-sm-0">
@@ -188,7 +201,7 @@ export const Cake = () => {
                 <div className="d-sm-flex align-items-center mb-1 mb-sm-0">
 
                   <div className="flex-shrink-0">
-                    <img src="assets/images/category/hotel/4by3/08.jpg" className="rounded h-60px" alt="" />
+                    <img src={littlecat} className="rounded h-60px" alt="" style={{width: "100px", height:"auto"}} />
                   </div>
 
                   <div className="ms-sm-3 mt-2 mt-sm-0">
@@ -210,7 +223,7 @@ export const Cake = () => {
                 <div className="d-sm-flex align-items-center mb-1 mb-sm-0">
 
                   <div className="flex-shrink-0">
-                    <img src="assets/images/category/hotel/4by3/02.jpg" className="rounded h-60px" alt="" />
+                    <img src={dog3} className="rounded h-60px" alt="" style={{width: "100px", height:"auto"}} />
                   </div>
 
                   <div className="ms-sm-3 mt-2 mt-sm-0">
@@ -234,7 +247,7 @@ export const Cake = () => {
           <div className="card shadow h-100">
 
             <div className="card-header border-bottom d-flex justify-content-between align-items-center p-3">
-              <h5 className="card-header-title">Upcoming Arrivals</h5>
+              <h5 className="card-header-title">Hear my testimonial</h5>
               <a href="#" className="btn btn-link p-0 mb-0">View all</a>
             </div>
 
@@ -245,7 +258,7 @@ export const Cake = () => {
                 <div className="d-sm-flex align-items-center mb-1 mb-sm-0">
 
                   <div className="avatar avatar-md flex-shrink-0">
-                    <img className="avatar-img rounded-circle" src="assets/images/avatar/09.jpg" alt="avatar" />
+                    <img className="avatar-img rounded-circle" src={one} alt="avatar" style={{width: "45px", height:"auto"}} />
                   </div>
 
                   <div className="ms-sm-2 mt-2 mt-sm-0">
@@ -267,7 +280,7 @@ export const Cake = () => {
                 <div className="d-sm-flex align-items-center mb-1 mb-sm-0">
 
                   <div className="avatar avatar-md flex-shrink-0">
-                    <img className="avatar-img rounded-circle" src="assets/images/avatar/03.jpg" alt="avatar" />
+                    <img className="avatar-img rounded-circle" src={two} alt="avatar" style={{width: "45px", height:"auto"}} />
                   </div>
 
                   <div className="ms-sm-2 mt-2 mt-sm-0">
@@ -289,7 +302,7 @@ export const Cake = () => {
                 <div className="d-sm-flex align-items-center mb-1 mb-sm-0">
 
                   <div className="avatar avatar-md flex-shrink-0">
-                    <img className="avatar-img rounded-circle" src="assets/images/avatar/01.jpg" alt="avatar" />
+                    <img className="avatar-img rounded-circle" src={three} alt="avatar" style={{width: "45px", height:"auto"}}/>
                   </div>
 
                   <div className="ms-sm-2 mt-2 mt-sm-0">
@@ -311,7 +324,7 @@ export const Cake = () => {
                 <div className="d-sm-flex align-items-center mb-1 mb-sm-0">
 
                   <div className="avatar avatar-md flex-shrink-0">
-                    <img className="avatar-img rounded-circle" src="assets/images/avatar/04.jpg" alt="avatar" />
+                    <img className="avatar-img rounded-circle" src={fourt} alt="avatar" style={{width: "45px", height:"auto"}} />
                   </div>
 
                   <div className="ms-sm-2 mt-2 mt-sm-0">
@@ -333,7 +346,7 @@ export const Cake = () => {
                 <div className="d-sm-flex align-items-center mb-1 mb-sm-0">
 
                   <div className="avatar avatar-md flex-shrink-0">
-                    <img className="avatar-img rounded-circle" src="assets/images/avatar/05.jpg" alt="avatar" />
+                    <img className="avatar-img rounded-circle" src={five} alt="avatar" style={{width: "45px", height:"auto"}} />
                   </div>
 
                   <div className="ms-sm-2 mt-2 mt-sm-0">
@@ -350,31 +363,12 @@ export const Cake = () => {
 
               <hr />
 
-              <div className="d-flex justify-content-between align-items-center">
-
-                <div className="d-sm-flex align-items-center mb-1 mb-sm-0">
-
-                  <div className="avatar avatar-md flex-shrink-0">
-                    <img className="avatar-img rounded-circle" src="assets/images/avatar/08.jpg" alt="avatar" />
-                  </div>
-
-                  <div className="ms-sm-2 mt-2 mt-sm-0">
-                    <h6 className="mb-1">Dennis Barrett</h6>
-                    <ul className="nav nav-divider small">
-                      <li className="nav-item">Room 10</li>
-                      <li className="nav-item">11Nov - 12Nov</li>
-                    </ul>
-                  </div>
-                </div>
-
-                <a href="#" className="btn btn-sm btn-light mb-0 ms-3 px-2"><i className="fa-solid fa-chevron-right fa-fw"></i></a>
-              </div>
             </div>
 
           </div>
         </div>
 
-        <div className="col-lg-6 col-xxl-4">
+        <div className="col-lg-6 col-xxl-4 my-5">
           <div className="card shadow h-100">
 
             <div className="card-header border-bottom d-flex justify-content-between align-items-center p-3">

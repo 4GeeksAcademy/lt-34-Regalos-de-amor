@@ -44,9 +44,8 @@ export const FoundationList = () => {
     <main className="d-flex dashboard container-fluid">
       <NavbarDashboard />
       <div className="page-content-wrapper p-xxl-4">
-      
         <div className="page-content-wrapper p-xxl-4">
-        <TopBar/>
+          <TopBar />
 
           {/* // <!-- Title --> */}
           <div className="row">
@@ -119,7 +118,7 @@ export const FoundationList = () => {
             </div>
           </div>
 
-          <h2 className="display-5 text-center text-primary fw-bold mb-4">Our Foundations</h2>
+          <h2 className="display-5 text-center text-black fw-bold mb-4">Our Foundations</h2>
           <p className="lead text-muted text-center mb-5">
             Discover and support foundations making a difference in communities around the world.
           </p>
@@ -133,10 +132,8 @@ export const FoundationList = () => {
 
 
         </div>
+        <Cake />
 
-       <Cake/>
- 
-       
         {/* <!-- Widget END --> */}
       </div>
     </main>
