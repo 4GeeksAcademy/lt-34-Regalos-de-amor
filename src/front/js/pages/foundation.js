@@ -112,9 +112,15 @@ export const Foundation = () => {
     };
 
     return (
-        <div className="container my-5">
-            <NavbarDashboard/>
-            {/* <TopBar/> */}
+
+
+       <main className="d-flex dashboard container-fluid">
+      <NavbarDashboard />
+      <div className="page-content-wrapper p-xxl-4">
+        <div className="page-content-wrapper p-xxl-4">
+
+          <TopBar />
+
             <h1 className="text-black text-center fw-bold mb-5">Foundation Beneficiaries</h1>
             <p className="text-center text-muted mb-4">
                 Welcome to the Foundation Beneficiaries management page. Here you can view, add, edit, or delete
@@ -170,7 +176,7 @@ export const Foundation = () => {
                             <p className="text-center text-muted">No beneficiaries found.</p>
                         )}
                     </div>
-                    <button type="button" className="btn btn-purple mt-5 w-100" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <button type="button" className="btn btn-purple my-5 w-100" data-bs-toggle="modal" data-bs-target="#exampleModal">
                         Add a New Beneficiary
                     </button>
                 </>
@@ -220,7 +226,9 @@ export const Foundation = () => {
                     </div>
                 </div>
             </div>
+</div>
 
         </div>
+        </main>
     );
 };

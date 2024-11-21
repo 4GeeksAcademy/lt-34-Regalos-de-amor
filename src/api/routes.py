@@ -13,7 +13,7 @@ import cloudinary.uploader
 import cloudinary.api
 import os
 import requests
-from api.models import db, Beneficiary, Donor, Foundation, Transaction
+from api.models import db, Beneficiary, Donor, Foundation, Donation, Notification, Transaction
 from api.utils import generate_sitemap, APIException
 
 api = Blueprint('api', __name__)
@@ -534,3 +534,55 @@ def signup_donor():
     except Exception as e:
         print(f"Error during donor signup: {e}")
         return jsonify({"error": "An error occurred during signup.", "details": str(e)}), 500
+    
+@api.route('/donations', methods=["POST"])
+@jwt_required()
+def create_donations():
+    try:
+        data = request.get_json()
+        new_donation = Donation(
+            donor_id =data['donor_id'],
+            foundation_id =data['foundation_id'],
+            amount =data['amount']
+        )
+
+        db.session.add(new_donation)
+        db.session.commit()
+        
+        return jsonify(new_donation.serialize()), 201
+
+    except Exception as e:
+        print(f"Error during making Donation: {e}")
+        return jsonify({"error": "An error occurred during donation.", "details": str(e)}), 500
+    
+
+@api.route('/donations', methods=["GET"])
+@jwt_required()
+def get_donations():
+    donations = Donation.query.all()
+    return jsonify([donation.serialize() for donation in donations]), 200
+
+@api.route('/notifications', methods=["POST"])
+@jwt_required()
+def create_notifications():
+    try:
+        data = request.get_json()
+        new_notification = Notification(
+            foundation_id =data['foundation_id'],
+            message =data['data']  
+        )
+
+        db.session.add(new_notification)
+        db.session.commit()
+
+        return jsonify(new_notification.serialize()), 201
+
+    except Exception as e:
+        print(f"Error during making notification : {e}")
+        return jsonify({"error": "An error occurred during notification.", "details": str(e)}), 500
+
+@api.route('/notifications', methods=["GET"])
+@jwt_required()
+def get_notification():
+    notifications = Notification.query.all()
+    return jsonify([notification.serialize() for notification in notifications]), 200
