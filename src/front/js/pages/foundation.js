@@ -3,6 +3,8 @@ import { Context } from "../store/appContext";
 import { Cloudinary } from '@cloudinary/url-gen';
 import { fill } from '@cloudinary/url-gen/actions/resize';
 import { Link } from "react-router-dom";
+import { NavbarDashboard } from "../component/navbarDashboard";
+import { TopBar } from "./foundationList/topBar";
 
 
 export const Foundation = () => {
@@ -110,6 +112,8 @@ export const Foundation = () => {
 
     return (
         <div className="container my-5">
+            <NavbarDashboard/>
+            {/* <TopBar/> */}
             <h1 className="text-primary text-center fw-bold mb-5">Foundation Beneficiaries</h1>
             <p className="text-center text-muted mb-4">
                 Welcome to the Foundation Beneficiaries management page. Here you can view, add, edit, or delete

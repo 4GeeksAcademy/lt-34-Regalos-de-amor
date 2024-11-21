@@ -18,8 +18,8 @@ return (
 					Learn More
 				</Link>
 				{isFavorite
-					? <button className='btn btn-warning text-white' onClick={() => actions.removeFavorite(props.name)}><i class="fa fa-heart"></i></button>
-					: <button className='btn btn-outline-warning' onClick={() => actions.addFavorite(props)}><i class="fa fa-heart"></i></button>
+					? <button className='btn btn-warning text-white' onClick={() => actions.removeFavorite(props.name)}><i className="fa fa-heart"></i></button>
+					: <button className='btn btn-outline-warning' onClick={() => actions.addFavorite(props)}><i className="fa fa-heart"></i></button>
 				}
 			</div>
 		</div>

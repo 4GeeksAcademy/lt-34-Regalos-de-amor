@@ -463,15 +463,6 @@ def login_v2():
         
         # Return a generic error response
         return jsonify({"error": "An error occurred during login.", "details": str(e)}), 500
-    
-@api.route("/current_foundation", methods=["GET"])
-@jwt_required()
-def get_current_foundation():
-    foundation_id = get_jwt_identity()
-    current_foundation= Foundation.query.get(foundation_id)
-    if not current_foundation:
-        return jsonify({"msg": "Foundation not found"})
-    return jsonify(current_foundation.serialize())
 
 @api.route("/signup", methods=["POST"])
 def signup():

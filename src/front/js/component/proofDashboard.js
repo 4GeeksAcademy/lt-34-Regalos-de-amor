@@ -493,7 +493,7 @@ export const ProofDashboard = () => {
                                 
                                 <div id="ChartGuesttraffic" className="mt-2" style={{ minHeight: "365px" }}>
   <div id="apexcharts9lxde2yj" className="apexcharts-canvas apexcharts9lxde2yj apexcharts-theme-light" style={{ width: "1001px", height: "350px" }}>
-    <svg id="SvgjsSvg1295" width="1001" height="350" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlnsXlink="http://www.w3.org/1999/xlink" xmlnsSvgjs="http://svgjs.dev" className="apexcharts-svg apexcharts-zoomable" transform="translate(0, 0)" style={{ background: "transparent" }}>
+    <svg id="SvgjsSvg1295" width="1001" height="350" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlnsXlink="http://www.w3.org/1999/xlink" xmlnssvgjs="http://svgjs.dev" className="apexcharts-svg apexcharts-zoomable" transform="translate(0, 0)" style={{ background: "transparent" }}>
       <foreignObject x="0" y="0" width="1001" height="350">
         <div className="apexcharts-legend apexcharts-align-center apx-legend-position-bottom" xmlns="http://www.w3.org/1999/xhtml" style={{ inset: "auto 0px 1px", position: "absolute", maxHeight: "175px" }}>
           <div className="apexcharts-legend-series" rel="1" seriesname="Check-in" data-collapsed="false" style={{ margin: "2px 5px" }}>
@@ -803,7 +803,7 @@ export const ProofDashboard = () => {
                                 <div className="col-sm-6 mx-auto">
                                     <div className="d-flex justify-content-center" id="ChartTrafficRooms" style="min-height: 296.9px;">
                                         <div id="apexcharts2t10rb34" className="apexcharts-canvas apexcharts2t10rb34 apexcharts-theme-light" style={{width: "300px", height: "296.9px"}}>
-                                        <svg id="SvgjsSvg1415" width="300" height="296.9" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlnsXlink="http://www.w3.org/1999/xlink" xmlnsSvgjs="http://svgjs.dev" className="apexcharts-svg" xmlnsData="ApexChartsNS" transform="translate(0, 0)" style="background: transparent;">
+                                        <svg id="SvgjsSvg1415" width="300" height="296.9" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlnsXlink="http://www.w3.org/1999/xlink" xmlnssvgjs="http://svgjs.dev" className="apexcharts-svg" xmlnsData="ApexChartsNS" transform="translate(0, 0)" style="background: transparent;">
                                         <foreignObject x="0" y="0" width="300" height="296.9">
                                             <div className="apexcharts-legend" xmlns="http://www.w3.org/1999/xhtml">
                                             </div>

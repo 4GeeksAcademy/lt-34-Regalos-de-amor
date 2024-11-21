@@ -34,9 +34,9 @@ export const BeneficiaryList = () => {
                             <div className="row g-4">
                                 <div className="col-md-3">
 
-                                    <img src={item.image_url}
+                                    {/* <img src={item.image_url}
                                         alt="Loading..."
-                                        style={{ width: '100px', height: '100px' }} />
+                                        style={{ width: '100px', height: '100px' }} /> */}
                                 </div>
 
                                 <div className="col-md-9">
@@ -49,7 +49,7 @@ export const BeneficiaryList = () => {
                                             </ul>
                                         </div>
 
-                                        <h5 className="card-title mb-0 me-5"><a href="hotel-detail.html">{item.name}</a></h5>
+                                        <h5 className="card-title mb-0 me-5"><a href="#">{item.name}</a></h5>
                                         <small><i className="bi bi-geo-alt me-2"></i>{item.description}</small>
 
                                         <div className=" align-items-center">

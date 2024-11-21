@@ -7,14 +7,14 @@ export const Graphics = () => {
             <div className="col-xxl-8">
               <div className="card shadow h-100">
                 <div className="card-header border-bottom">
-                  <h5 className="card-header-title">Guest Activity</h5>
+                  <h5 className="card-header-title">Foundations Activity</h5>
                 </div>
 
                 {/* <!-- Card body --> */}
                 <div className="card-body">
                   <div className="d-flex gap-4 mb-3">
-                    <h6><span className="fw-light"><i className="bi bi-square-fill text-primary"></i> Check-in:</span> 475 Guests</h6>
-                    <h6><span className="fw-light"><i className="bi bi-square-fill text-info"></i> Check-out:</span> 157 Guests</h6>
+                    <h6><span className="fw-light"><i className="bi bi-square-fill text-primary"></i> Check-in:</span> 475 Donors</h6>
+                    <h6><span className="fw-light"><i className="bi bi-square-fill text-info"></i> Check-out:</span> 157 Donors</h6>
                   </div>
                   {/* <!-- Apex chart --> */}
                   <div id="ChartGuesttraffic" className="mt-2" style={{ minHeight: "365px" }}>
@@ -35,7 +35,7 @@ export const Graphics = () => {
 
                           <div id="ChartGuesttraffic" className="mt-2" style={{ minHeight: "365px" }}>
                             <div id="apexcharts9lxde2yj" className="apexcharts-canvas apexcharts9lxde2yj apexcharts-theme-light" style={{ width: "1001px", height: "350px" }}>
-                              <svg id="SvgjsSvg1295" width="1001" height="350" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlnsXlink="http://www.w3.org/1999/xlink" xmlnsSvgjs="http://svgjs.dev" className="apexcharts-svg apexcharts-zoomable" transform="translate(0, 0)" style={{ background: "transparent" }}>
+                              <svg id="SvgjsSvg1295" width="1001" height="350" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlnsXlink="http://www.w3.org/1999/xlink" xmlnssvgjs="http://svgjs.dev" className="apexcharts-svg apexcharts-zoomable" transform="translate(0, 0)" style={{ background: "transparent" }}>
                                 <foreignObject x="0" y="0" width="1001" height="350">
                                   <div className="apexcharts-legend apexcharts-align-center apx-legend-position-bottom" xmlns="http://www.w3.org/1999/xhtml" style={{ inset: "auto 0px 1px", position: "absolute", maxHeight: "175px" }}>
                                     <div className="apexcharts-legend-series" rel="1" seriesname="Check-in" data-collapsed="false" style={{ margin: "2px 5px" }}>
@@ -51,9 +51,6 @@ export const Graphics = () => {
                               </svg>
                             </div>
                           </div>
-
-
-
 
                         </foreignObject>
                         <rect id="SvgjsRect1300" width="0" height="0" x="0" y="0" rx="0" ry="0" opacity="1" strokeWidth="0" stroke="none" strokeDasharray="0" fill="#fefefe">

@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import { Context } from "../store/appContext";
 import { useNavigate, Link } from "react-router-dom";
 import { COUNTRIES } from "../constants/constants";
+import { Format } from "@cloudinary/url-gen/qualifiers";
 
 export const SignupFoundation = () => {
     const [formData, setFormData] = useState({
@@ -14,7 +15,7 @@ export const SignupFoundation = () => {
     const [errorMessage, setErrorMessage] = useState('');
     const { actions } = useContext(Context);
     const navigate = useNavigate();
-
+   
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
@@ -41,6 +42,8 @@ export const SignupFoundation = () => {
             setErrorMessage("An error occurred. Please try again later.");
         }
     };
+
+   
 
     return (
         <div>
@@ -141,6 +144,7 @@ export const SignupFoundation = () => {
 											<i className="fakepasswordicon fas fa-eye-slash cursor-pointer p-2"></i>
 										</span>
 									</div>
+                            
 									{/* <!-- Button --> */}
 									<div><button type="submit" className="btn btn-purple w-100 mb-0">Sign Up</button></div>			
 								</form>
