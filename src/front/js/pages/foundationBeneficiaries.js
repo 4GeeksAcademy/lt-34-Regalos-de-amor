@@ -2,6 +2,8 @@ import React, { useState, useContext, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Context } from "../store/appContext";
 import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
+import { TopBar } from "./foundationList/topBar";
+import { NavbarDashboard } from "../component/navbarDashboard";
 
 export const FoundationBeneficiaries = () => {
     const { id } = useParams();
@@ -71,6 +73,13 @@ export const FoundationBeneficiaries = () => {
     };
 
     return (
+
+        <main className="d-flex dashboard container-fluid">
+        <NavbarDashboard />
+        <div className="page-content-wrapper p-xxl-4">
+        
+          <div className="page-content-wrapper p-xxl-4">
+          <TopBar/>
         <div className="container my-5">
             <h2 className="display-5 text-center text-primary fw-bold mb-4">Beneficiaries</h2>
             {loading ? (
@@ -135,6 +144,9 @@ export const FoundationBeneficiaries = () => {
                     ))}
                 </div>
             )}
+            </div>
         </div>
+        </div>
+        </main>
     );
 };

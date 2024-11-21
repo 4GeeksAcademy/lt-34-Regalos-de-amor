@@ -3,6 +3,7 @@ import { Context } from "../store/appContext";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
+
 export const LoginDonor = () => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
@@ -28,7 +29,7 @@ export const LoginDonor = () => {
 
 	return (
 		<div>
-			<section class="vh-xxl-100">
+			<section className="vh-xxl-100">
 				<div className="container h-100 d-flex px-0 px-sm-4">
 					<div className="row justify-content-center align-items-center m-auto">
 						<div className="col-12">
@@ -48,7 +49,7 @@ export const LoginDonor = () => {
 										<div className="p-4 p-sm-7">
 											{/* <!-- Logo -->
 								<a href="index.html">
-									<img class="h-50px mb-4" src="assets/images/logo-icon.svg" alt="logo">
+									<img className="h-50px mb-4" src="assets/images/logo-icon.svg" alt="logo">
 								</a> */}
 											{/* <!-- Title --> */}
 											<h1 className="mb-2 h3">Welcome back, Donor</h1>
@@ -90,7 +91,7 @@ export const LoginDonor = () => {
 												)}
 
 												{/* <!-- Button --> */}
-												<div><button type="submit" class="btn btn-purple w-100 mb-0">Login</button></div>
+												<div><button type="submit" className="btn btn-purple w-100 mb-0">Login</button></div>
 											</form>
 										</div>
 									</div>

@@ -1,6 +1,11 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
 import { Context } from "../store/appContext";
-import { Modal } from "bootstrap";
+import { Cloudinary } from '@cloudinary/url-gen';
+import { fill } from '@cloudinary/url-gen/actions/resize';
+import { Link } from "react-router-dom";
+import { NavbarDashboard } from "../component/navbarDashboard";
+import { TopBar } from "./foundationList/topBar";
+
 
 export const Foundation = () => {
     const { store, actions } = useContext(Context);
@@ -15,7 +20,6 @@ export const Foundation = () => {
     });
     const [editingBeneficiaryId, setEditingBeneficiaryId] = useState(null);
     const [loading, setLoading] = useState(true);
-    const modalRef = useRef();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -26,10 +30,7 @@ export const Foundation = () => {
         fetchData();
     }, []);
 
-    const openModal = () => {
-        const modalInstance = new Modal(modalRef.current);
-        modalInstance.show();
-    };
+
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -74,8 +75,6 @@ export const Foundation = () => {
             is_active: true
         });
 
-        const modalInstance = Modal.getInstance(modalRef.current);
-        modalInstance.hide();
     };
 
     const handleAddBeneficiary = () => {
@@ -88,7 +87,7 @@ export const Foundation = () => {
             image_url: "",
             is_active: true
         });
-        openModal();
+
     };
 
     const handleEdit = (beneficiary) => {
@@ -101,7 +100,7 @@ export const Foundation = () => {
             image_url: beneficiary.image_url,
             is_active: beneficiary.is_active
         });
-        openModal();
+
     };
 
     const handleDelete = async (id) => {
@@ -113,6 +112,8 @@ export const Foundation = () => {
 
     return (
         <div className="container my-5">
+            <NavbarDashboard/>
+            {/* <TopBar/> */}
             <h1 className="text-primary text-center fw-bold mb-5">Foundation Beneficiaries</h1>
             <p className="text-center text-muted mb-4">
                 Welcome to the Foundation Beneficiaries management page. Here you can view, add, edit, or delete
@@ -149,6 +150,7 @@ export const Foundation = () => {
                                             <p className="card-text"><strong>Paypal Account:</strong> {beneficiary.account}</p>
                                             <button
                                                 className="btn btn-outline-primary me-2 mt-3 w-100"
+                                                data-bs-toggle="modal" data-bs-target="#exampleModal"
                                                 onClick={() => handleEdit(beneficiary)}
                                             >
                                                 Edit Beneficiary
@@ -167,16 +169,17 @@ export const Foundation = () => {
                             <p className="text-center text-muted">No beneficiaries found.</p>
                         )}
                     </div>
-                    <button className="btn btn-success mt-5 w-100" onClick={handleAddBeneficiary}>
+                    <button type="button" className="btn btn-success mt-5 w-100" data-bs-toggle="modal" data-bs-target="#exampleModal">
                         Add a New Beneficiary
                     </button>
                 </>
             )}
-            <div className="modal fade" id="beneficiaryModal" tabIndex="-1" aria-labelledby="beneficiaryModalLabel" aria-hidden="true" ref={modalRef}>
+
+            <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div className="modal-dialog">
                     <div className="modal-content">
                         <div className="modal-header">
-                            <h5 className="modal-title" id="beneficiaryModalLabel">{editingBeneficiaryId ? "Edit Beneficiary" : "Add a Beneficiary"}</h5>
+                            <h5 className="modal-title fs-5" id="exampleModalLabel">{editingBeneficiaryId ? "Edit Beneficiary" : "Add a Beneficiary"}</h5>
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div className="modal-body">
@@ -210,12 +213,13 @@ export const Foundation = () => {
                                     <input type="checkbox" className="form-check-input" name="is_active" checked={beneficiaryData.is_active} onChange={(e) => setBeneficiaryData({ ...beneficiaryData, is_active: e.target.checked })} />
                                     <label className="form-check-label">Active</label>
                                 </div>
-                                <button type="submit" className="btn btn-primary w-100">{editingBeneficiaryId ? "Update Beneficiary" : "Create Beneficiary"}</button>
+                                <button type="submit" className="btn btn-primary w-100 " data-bs-dismiss="modal">{editingBeneficiaryId ? "Update Beneficiary" : "Create Beneficiary"}</button>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
+
         </div>
     );
 };

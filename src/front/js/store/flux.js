@@ -16,20 +16,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 				},
 			],
 			user: {
-				name: [],
-				wishGift: [],
-				history: [],
-				account: [],
-				isActive: null,
-				beneficiaries: [],
-				last_name: [],
-				email: [],
-				// picture: []
-				message: [],
-				password: [],
-				image_url: [],
+				
+				
 			},
+			beneficiaries: [],
 			donors: [],
+			foundation: [],
 		},
 		actions: {
 			exampleFunction: () => {
@@ -62,13 +54,28 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 					const data = await response.json();
 					localStorage.setItem("token", data.access_token);
-					setStore({ foundation: data.user });  // Update as necessary for your app
+					setStore({ user: data.user });  // Update as necessary for your app
 					return true;
 				} catch (error) {
 					console.error("Error during login:", error);
 					return false;
 				}
 			},
+
+			// getCurrentUser: async () => {
+			// 	try {
+			// 		const response = await fetch(`${process.env.BACKEND_URL}/api/current_user`, {
+			// 			headers: { "Authorization": "Bearer " + localStorage.getItem("token") }
+			// 		});
+			// 		if (!response.ok) {
+			// 			throw new Error(`Error: ${response.status}`);
+			// 		}
+			// 		const data = await response.json();
+			// 		setStore({ user: data });
+			// 	} catch (error) {
+			// 		console.error('Failed to fetch foundation data:', error);
+			// 	}
+			// },
 
 			changeColor: (index, color) => {
 				const store = getStore();
@@ -315,6 +322,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						headers: { "Authorization": "Bearer " + localStorage.getItem("token") },
 					});
 					const data = await response.json();
+					setStore({foundation: data});
 					return data;
 				} catch (error) {
 					console.error("Error fetching donors:", error);

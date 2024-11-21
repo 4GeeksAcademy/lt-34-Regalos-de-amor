@@ -61,7 +61,7 @@ export const SignupDonor = () => {
                                         <div className="p-4 p-sm-6">
                                             {/* <!-- Logo --> */}
                                             {/* <a href="index.html">
-                                                <img class="h-50px mb-4" src="assets/images/logo-icon.svg" alt="logo"/>
+                                                <img className="h-50px mb-4" src="assets/images/logo-icon.svg" alt="logo"/>
                                             </a> */}
                                             {/* <!-- Title --> */}
                                             <h1 className="mb-2 h3">Create a New Donor Account</h1>

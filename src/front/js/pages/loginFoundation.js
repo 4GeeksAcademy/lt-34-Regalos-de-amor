@@ -15,7 +15,7 @@ export const LoginFoundation = () => {
 		if (store.user.email && token) {
 			navigate("/foundation");
 		}
-	}, [store.user, navigate]);
+	}, [store.user]);
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -90,7 +90,7 @@ export const LoginFoundation = () => {
 												</div>
 											)}
 											{/* <!-- Button --> */}
-											<div><button type="submit" class="btn btn-purple w-100 mb-0">Login</button></div>
+											<div><button type="submit" className="btn btn-purple w-100 mb-0">Login</button></div>
 										</form>
 										{/* <!-- Form END --> */}
 									</div>
