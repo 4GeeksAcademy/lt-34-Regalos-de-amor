@@ -26,6 +26,7 @@ import { Payment } from "./pages/paypal";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import { DescripBenef } from "./pages/descripBenef";
 import { AboutUs } from "./pages/aboutUs";
+import { OurTeam } from "./pages/team";
 
 
 const Layout = () => {
@@ -47,6 +48,7 @@ const Layout = () => {
                         <Routes>
                             <Route element={<Home />} path="/" />
                             <Route element={<AboutUs />} path="/aboutUs" />
+                            <Route element={<OurTeam />} path="/ourteam" />
                             <Route element={<Foundation />} path="/foundation" />
                             <Route element={<Demo />} path="/demo" />
                             <Route element={<LoginFoundation />} path="/login-foundation" />

@@ -28,7 +28,7 @@ export const Navbar = () => {
             style={{ width: "80px", height: "80px", borderRadius: "50%" }}
           /> Regalos de amor
         </Link>
-        <Link className="navbar-brand" to="/">Team
+        <Link className="navbar-brand" to="/ourteam">Team
         </Link>
         <Link className="navbar-brand" to="/aboutUs">About us
         </Link>
