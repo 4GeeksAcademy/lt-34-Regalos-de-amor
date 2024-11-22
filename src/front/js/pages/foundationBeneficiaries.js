@@ -145,7 +145,7 @@ export const FoundationBeneficiaries = () => {
                                                         onApprove={(data, actions) => onApproveOrder(data, actions)}
                                                         forceReRender={[amount, currency]}
                                                     />
-                                        {/* <Notifications/> */}
+                                        {/* <Donations/> */}
                                       
                                                 </div>
                                                 

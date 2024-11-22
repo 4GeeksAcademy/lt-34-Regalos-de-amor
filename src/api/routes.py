@@ -384,6 +384,10 @@ def create_payment():
 def execute_payment():
     payment_id = request.json['paymentID']
     payer_id = request.json['payerID']
+    donor_id = request.json['donor_id']
+    foundation_id = request.json['foundation_id']
+    amount = request.json['amount']
+    
     headers = {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + os.getenv("PAYPAL_CLIENT_ID")
@@ -393,7 +397,7 @@ def execute_payment():
     }
     response = requests.post(f'https://api.sandbox.paypal.com/v1/payments/payment/{payment_id}/execute', json=data, headers=headers)
     if response.status_code == 200:
-        transaction = Transaction(payment_id=payment_id, payer_id=payer_id, amount=response.json()['transactions'][0]['amount']['total'])
+        transaction = Transaction(payment_id=payment_id, payer_id=payer_id, donor_id=donor_id,foundation_id=foundation_id, amount=amount)
         db.session.add(transaction)
         db.session.commit()
 

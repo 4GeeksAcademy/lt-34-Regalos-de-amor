@@ -132,7 +132,7 @@ export const Cake = () => {
 
         {/* {photos start} */}
 
-        <div className="col-lg-6 col-xxl-4 my-2">
+        <div className="col-lg-6 col-xxl-4 mb-2">
           <div className="card shadow h-100">
 
             <div className="card-header border-bottom d-flex justify-content-between align-items-center">
@@ -253,7 +253,7 @@ export const Cake = () => {
           </div>
         </div>
 
-        <div className="col-lg-6 col-xxl-4">
+        <div className="col-lg-6 col-xxl-4 my-2">
           <div className="card shadow h-100">
 
             <div className="card-header border-bottom d-flex justify-content-between align-items-center p-3">
@@ -521,9 +521,7 @@ export const Cake = () => {
 
         </div>
         </div>
-   
-
-
+  
     </>
   );
 };

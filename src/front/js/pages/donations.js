@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
+import { PayPalButtons } from '@paypal/react-paypal-js';
 
-export const Donations = () => {
+export const Donations = ({ selectedBeneficiary }) => {
     const [donations, setDonations] = useState([]);
     const [newDonation, setNewDonation] = useState({
         donor_id: '',
-        foundation_id: '',
+        foundation_id: selectedBeneficiary.id,
         amount: ''
     });
+    const [currency, setCurrency] = useState('USD');
+    const [amount, setAmount] = useState('');
 
     useEffect(() => {
         fetchDonations();
@@ -30,7 +32,19 @@ export const Donations = () => {
         setNewDonation({ ...newDonation, [name]: value });
     };
 
-    const handlePaymentSuccess = async (details, data) => {
+    const onCreateOrder = (data, actions) => {
+        return actions.order.create({
+            purchase_units: [{
+                amount: {
+                    value: amount,
+                    currency_code: currency
+                }
+            }]
+        });
+    };
+
+    const onApproveOrder = async (data, actions) => {
+        const details = await actions.order.capture();
         const token = localStorage.getItem('token');
         const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/execute-payment`, {
             method: 'POST',
@@ -39,11 +53,11 @@ export const Donations = () => {
                 'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify({
-                paymentID: data.paymentID,
-                payerID: data.payerID,
+                paymentID: data.orderID,
+                payerID: details.payer.payer_id,
                 donor_id: newDonation.donor_id,
                 foundation_id: newDonation.foundation_id,
-                amount: newDonation.amount
+                amount: amount
             })
         });
         if (response.ok) {
@@ -59,26 +73,31 @@ export const Donations = () => {
                     <li key={donation.id}>{donation.donor_id} donated ${donation.amount} to foundation {donation.foundation_id}</li>
                 ))}
             </ul>
-            <form>
-                <input type="text" name="donor_id" value={newDonation.donor_id} onChange={handleInputChange} placeholder="Donor ID" required />
-                <input type="text" name="foundation_id" value={newDonation.foundation_id} onChange={handleInputChange} placeholder="Foundation ID" required />
-                <input type="number" name="amount" value={newDonation.amount} onChange={handleInputChange} placeholder="Amount" required />
-                <input
-                                                            type="number"
-                                                            value={amount}
-                                                            onChange={(e) => setAmount(e.target.value)}
-                                                            placeholder="Enter amount"
-                                                            className="form-control ms-2"
-                                                            style={{ maxWidth: '100px' }}
-                                                        />
-            <PayPalButtons
-                style={{ layout: "vertical" }}
-                createOrder={(data, actions) => onCreateOrder(data, actions)}
-                onApprove={(data, actions) => onApproveOrder(data, actions)}
-                forceReRender={[amount, currency]}
-            />
-            </form>
+            <div className="card-footer">
+                <h6 className="text-center text-secondary fw-semibold">Donate to {selectedBeneficiary.name}</h6>
+                <div className="d-flex justify-content-between align-items-center mb-2">
+                    <select value={currency} onChange={(e) => setCurrency(e.target.value)} className="form-select">
+                        <option value="USD">USD</option>
+                        <option value="EUR">EUR</option>
+                    </select>
+                    <input
+                        type="number"
+                        value={amount}
+                        onChange={(e) => setAmount(e.target.value)}
+                        placeholder="Enter amount"
+                        className="form-control ms-2"
+                        style={{ maxWidth: '100px' }}
+                    />
+                </div>
+                <PayPalButtons
+                    style={{ layout: "vertical" }}
+                    createOrder={(data, actions) => onCreateOrder(data, actions)}
+                    onApprove={(data, actions) => onApproveOrder(data, actions)}
+                    forceReRender={[amount, currency]}
+                />
+            </div>
         </div>
     );
 };
+
 
