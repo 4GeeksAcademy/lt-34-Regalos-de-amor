@@ -19,6 +19,7 @@ export const BeneficiaryList = () => {
     return (
         <>
             {/* <!-- Hotel grid START --> */}
+            
             <div className="row g-4 mb-5">
                 <div className="col-12">
                     <div className="d-flex justify-content-between">
@@ -67,6 +68,7 @@ export const BeneficiaryList = () => {
                     </div>
                 ))}
             </div>
+            
         </>
     );
 };

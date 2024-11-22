@@ -3,6 +3,7 @@ import React from "react";
 export const Graphics = () => {
     return(
         <>
+        
         <div className="row g-4">
             <div className="col-xxl-8">
               <div className="card shadow h-100">
@@ -251,7 +252,7 @@ export const Graphics = () => {
               </div>
 
 
-              <div className="apexcharts-tooltip apexcharts-theme-light">
+              {/* <div className="apexcharts-tooltip apexcharts-theme-light">
                 <div className="apexcharts-tooltip-title" style={{ fontFamily: "Helvetica, Arial, sans-serif; fontSize: 12px" }}>
                 </div>
                 <div className="apexcharts-tooltip-series-group" style={{ order: "1" }}>
@@ -299,6 +300,7 @@ export const Graphics = () => {
                 </div>
               </div>
               <div className="apexcharts-toolbar" style={{ top: "0px", right: "3px" }}>
+
                 <div className="apexcharts-zoomin-icon" title="Zoom In">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                     <path d="M0 0h24v24H0z" fill="none"></path>
@@ -339,7 +341,10 @@ export const Graphics = () => {
                   <div className="apexcharts-menu-item exportPNG" title="Download PNG">Download PNG</div>
                   <div className="apexcharts-menu-item exportCSV" title="Download CSV">Download CSV</div>
                 </div>
-              </div>
+              </div> */}
+
+
+
             </div>
           </div>
         

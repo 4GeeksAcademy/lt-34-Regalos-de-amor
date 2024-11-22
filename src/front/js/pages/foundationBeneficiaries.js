@@ -4,6 +4,9 @@ import { Context } from "../store/appContext";
 import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
 import { TopBar } from "./foundationList/topBar";
 import { NavbarDashboard } from "../component/navbarDashboard";
+import { Notifications } from "./notifications";
+import { Donations } from "././donations";
+
 
 export const FoundationBeneficiaries = () => {
     const { id } = useParams();
@@ -77,10 +80,14 @@ export const FoundationBeneficiaries = () => {
         <main className="d-flex dashboard container-fluid ">
             <NavbarDashboard />
             <div className="page-content-wrapper p-xxl-4">
-                <div className="page-content-wrapper p-xxl-4">
+        <div className="page-content-wrapper p-xxl-4">
+
                     <TopBar />
-                    <div className="row">
-                        <h2 className="display-5 text-center text-black fw-bold mb-4">Beneficiaries</h2>
+                    <h1 className="text-black text-center fw-bold mb-5"></h1>
+                    <p className="text-center text-muted mb-4"></p>
+                    
+                  
+                        <h2 className="text-center text-black fw-bold mb-4">Beneficiaries</h2>
                         {loading ? (
                             <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '300px' }}>
                                 <img
@@ -93,7 +100,7 @@ export const FoundationBeneficiaries = () => {
                         ) : error ? (
                             <p className="text-danger text-center">{error}</p>
                         ) : (
-                            <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                            <div className="row ">
                                 {beneficiaries.map((beneficiary) => (
                                     <div key={beneficiary.id} className="col">
                                         <div className="card h-100 shadow-sm">
@@ -107,6 +114,7 @@ export const FoundationBeneficiaries = () => {
                                                 <h5 className="card-title text-purple fw-bold">{beneficiary.name}</h5>
                                                 <p className="card-text text-muted">{beneficiary.wish_gift}</p>
                                                 <p className="card-text small text-secondary mb-4">{beneficiary.history}</p>
+                                                <p className="card-text small text-secondary mb-4">{beneficiary.account}</p>
                                                 <button
                                                     onClick={() => handleDonateClick(beneficiary)}
                                                     className="btn btn-purple mt-auto"
@@ -137,15 +145,21 @@ export const FoundationBeneficiaries = () => {
                                                         onApprove={(data, actions) => onApproveOrder(data, actions)}
                                                         forceReRender={[amount, currency]}
                                                     />
+                                        {/* <Notifications/> */}
+                                      
                                                 </div>
+                                                
                                             )}
                                         </div>
+
                                     </div>
                                 ))}
                             </div>
                         )}
                     </div>
-                </div>
+               
+            
+           
             </div>
         </main>
     );

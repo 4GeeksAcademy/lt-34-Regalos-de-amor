@@ -132,9 +132,16 @@ export const FoundationList = () => {
 
 
         </div>
-        <Cake />
 
         {/* <!-- Widget END --> */}
+        <div className="col-lg-6 col-xxl-4 mt-2" style={{width: "100%"}}>
+          <div className="card shadow h-100">
+        <Cake />
+        </div>
+        </div>
+
+
+        
       </div>
     </main>
   );

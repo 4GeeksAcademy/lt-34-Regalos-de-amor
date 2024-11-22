@@ -9,6 +9,13 @@ import chiguagua from "../../../img/chiguagua.png";
 import dog2 from "../../../img/dog2.jpg";
 import dog3 from "../../../img/dog3.jpg";
 import littlecat from "../../../img/littlecat.png";
+import regalo from "../../../img/regalo.png";
+import huella from "../../../img/huella.png";
+import giftbox from "../../../img/giftbox.png";
+import foundation from "../../../img/foundation.png";
+import whale from "../../../img/whale.png";
+
+
 
 
 
@@ -16,9 +23,12 @@ import littlecat from "../../../img/littlecat.png";
 
 
 export const Cake = () => {
-    return(
-        <>
-          <div className="col-lg-6 col-xxl-4">
+  return (
+    <>
+  
+      <div className="page-content">
+        <div className="row">
+        <div className="col-lg-6 col-xxl-4">
           <div className="card shadow h-100">
 
             <div className="card-header border-bottom">
@@ -117,12 +127,12 @@ export const Cake = () => {
               </ul>
             </div>
           </div>
-        </div> 
+        </div>
 
 
+        {/* {photos start} */}
 
-
-        <div className="col-lg-6 col-xxl-4">
+        <div className="col-lg-6 col-xxl-4 my-2">
           <div className="card shadow h-100">
 
             <div className="card-header border-bottom d-flex justify-content-between align-items-center">
@@ -137,14 +147,14 @@ export const Cake = () => {
                 <div className="d-sm-flex align-items-center mb-1 mb-sm-0">
 
                   <div className="flex-shrink-0">
-                    <img  src={cat1} className="rounded h-60px" alt="" style={{width: "100px", height:"auto"}} />
+                    <img src={cat1} className="rounded h-60px" alt="" style={{ width: "100px", height: "auto" }} />
                   </div>
 
                   <div className="ms-sm-3 mt-2 mt-sm-0">
-                    <h6 className="mb-1">Deluxe Pool View with Breakfast</h6>
+                    <h6 className="mb-1"></h6>
                     <ul className="nav nav-divider small">
-                      <li className="nav-item">18 Nov to 22 Nov</li>
-                      <li className="nav-item"><span className="text-success">Booked</span></li>
+                      <li className="nav-item"></li>
+                      <li className="nav-item"><span className="text-success"></span></li>
                     </ul>
                   </div>
                 </div>
@@ -159,14 +169,14 @@ export const Cake = () => {
                 <div className="d-sm-flex align-items-center mb-1 mb-sm-0">
 
                   <div className="flex-shrink-0">
-                    <img src={chiguagua} className="rounded h-60px" alt="" style={{width: "100px", height:"auto"}} />
+                    <img src={chiguagua} className="rounded h-60px" alt="" style={{ width: "100px", height: "auto" }} />
                   </div>
 
                   <div className="ms-sm-3 mt-2 mt-sm-0">
-                    <h6 className="mb-1">Deluxe Pool View</h6>
+                    <h6 className="mb-1"></h6>
                     <ul className="nav nav-divider small">
-                      <li className="nav-item">16 Nov</li>
-                      <li className="nav-item"><span className="text-danger">Booking cancel</span></li>
+                      <li className="nav-item"></li>
+                      <li className="nav-item"><span className="text-danger"></span></li>
                     </ul>
                   </div>
                 </div>
@@ -179,36 +189,14 @@ export const Cake = () => {
                 <div className="d-sm-flex align-items-center mb-1 mb-sm-0">
 
                   <div className="flex-shrink-0">
-                    <img src={dog2} className="rounded h-60px" alt="" style={{width: "100px", height:"auto"}} />
+                    <img src={dog2} className="rounded h-60px" alt="" style={{ width: "100px", height: "auto" }} />
                   </div>
 
                   <div className="ms-sm-3 mt-2 mt-sm-0">
-                    <h6 className="mb-1">Luxury Room with Balcony</h6>
+                    <h6 className="mb-1"></h6>
                     <ul className="nav nav-divider small">
-                      <li className="nav-item">15 Nov to 20 Nov</li>
-                      <li className="nav-item"><span className="text-success">Booked</span></li>
-                    </ul>
-                  </div>
-                </div>
-
-                <a href="#" className="btn btn-sm btn-light flex-shrink-0 mb-0 ms-3">View</a>
-              </div>
-
-              <hr />
-
-              <div className="d-flex justify-content-between align-items-center">
-
-                <div className="d-sm-flex align-items-center mb-1 mb-sm-0">
-
-                  <div className="flex-shrink-0">
-                    <img src={littlecat} className="rounded h-60px" alt="" style={{width: "100px", height:"auto"}} />
-                  </div>
-
-                  <div className="ms-sm-3 mt-2 mt-sm-0">
-                    <h6 className="mb-1">Premium Room With Balcony</h6>
-                    <ul className="nav nav-divider small">
-                      <li className="nav-item">14 Nov to 16 Nov</li>
-                      <li className="nav-item"><span className="text-success">Booked</span></li>
+                      <li className="nav-item"></li>
+                      <li className="nav-item"><span className="text-success"></span></li>
                     </ul>
                   </div>
                 </div>
@@ -223,14 +211,36 @@ export const Cake = () => {
                 <div className="d-sm-flex align-items-center mb-1 mb-sm-0">
 
                   <div className="flex-shrink-0">
-                    <img src={dog3} className="rounded h-60px" alt="" style={{width: "100px", height:"auto"}} />
+                    <img src={littlecat} className="rounded h-60px" alt="" style={{ width: "100px", height: "auto" }} />
                   </div>
 
                   <div className="ms-sm-3 mt-2 mt-sm-0">
-                    <h6 className="mb-1">Rock Family Suite</h6>
+                    <h6 className="mb-1"></h6>
                     <ul className="nav nav-divider small">
-                      <li className="nav-item">13 Nov</li>
-                      <li className="nav-item"><span className="text-danger">Booking cancel</span></li>
+                      <li className="nav-item"></li>
+                      <li className="nav-item"><span className="text-success"></span></li>
+                    </ul>
+                  </div>
+                </div>
+
+                <a href="#" className="btn btn-sm btn-light flex-shrink-0 mb-0 ms-3">View</a>
+              </div>
+
+              <hr />
+
+              <div className="d-flex justify-content-between align-items-center">
+
+                <div className="d-sm-flex align-items-center mb-1 mb-sm-0">
+
+                  <div className="flex-shrink-0">
+                    <img src={dog3} className="rounded h-60px" alt="" style={{ width: "100px", height: "auto" }} />
+                  </div>
+
+                  <div className="ms-sm-3 mt-2 mt-sm-0">
+                    <h6 className="mb-1"></h6>
+                    <ul className="nav nav-divider small">
+                      <li className="nav-item"></li>
+                      <li className="nav-item"><span className="text-danger"></span></li>
                     </ul>
                   </div>
                 </div>
@@ -241,9 +251,9 @@ export const Cake = () => {
             </div>
 
           </div>
-        </div> 
+        </div>
 
-         <div className="col-lg-6 col-xxl-4">
+        <div className="col-lg-6 col-xxl-4">
           <div className="card shadow h-100">
 
             <div className="card-header border-bottom d-flex justify-content-between align-items-center p-3">
@@ -258,14 +268,14 @@ export const Cake = () => {
                 <div className="d-sm-flex align-items-center mb-1 mb-sm-0">
 
                   <div className="avatar avatar-md flex-shrink-0">
-                    <img className="avatar-img rounded-circle" src={one} alt="avatar" style={{width: "45px", height:"auto"}} />
+                    <img className="avatar-img rounded-circle" src={one} alt="avatar" style={{ width: "45px", height: "auto" }} />
                   </div>
 
                   <div className="ms-sm-2 mt-2 mt-sm-0">
                     <h6 className="mb-1">Lori Stevens</h6>
                     <ul className="nav nav-divider small">
-                      <li className="nav-item">Room 25A</li>
-                      <li className="nav-item">24Nov - 28Nov</li>
+                      <li className="nav-item"></li>
+                      <li className="nav-item"></li>
                     </ul>
                   </div>
                 </div>
@@ -280,14 +290,14 @@ export const Cake = () => {
                 <div className="d-sm-flex align-items-center mb-1 mb-sm-0">
 
                   <div className="avatar avatar-md flex-shrink-0">
-                    <img className="avatar-img rounded-circle" src={two} alt="avatar" style={{width: "45px", height:"auto"}} />
+                    <img className="avatar-img rounded-circle" src={two} alt="avatar" style={{ width: "45px", height: "auto" }} />
                   </div>
 
                   <div className="ms-sm-2 mt-2 mt-sm-0">
                     <h6 className="mb-1">Dennis Barrett</h6>
                     <ul className="nav nav-divider small">
-                      <li className="nav-item">Room 12B</li>
-                      <li className="nav-item">21Nov - 23Nov</li>
+                      <li className="nav-item"></li>
+                      <li className="nav-item"></li>
                     </ul>
                   </div>
                 </div>
@@ -302,14 +312,14 @@ export const Cake = () => {
                 <div className="d-sm-flex align-items-center mb-1 mb-sm-0">
 
                   <div className="avatar avatar-md flex-shrink-0">
-                    <img className="avatar-img rounded-circle" src={three} alt="avatar" style={{width: "45px", height:"auto"}}/>
+                    <img className="avatar-img rounded-circle" src={three} alt="avatar" style={{ width: "45px", height: "auto" }} />
                   </div>
 
                   <div className="ms-sm-2 mt-2 mt-sm-0">
                     <h6 className="mb-1">Jacqueline Miller</h6>
                     <ul className="nav nav-divider small">
-                      <li className="nav-item">Room 11A</li>
-                      <li className="nav-item">19Nov - 21Nov</li>
+                      <li className="nav-item"></li>
+                      <li className="nav-item"></li>
                     </ul>
                   </div>
                 </div>
@@ -324,14 +334,14 @@ export const Cake = () => {
                 <div className="d-sm-flex align-items-center mb-1 mb-sm-0">
 
                   <div className="avatar avatar-md flex-shrink-0">
-                    <img className="avatar-img rounded-circle" src={fourt} alt="avatar" style={{width: "45px", height:"auto"}} />
+                    <img className="avatar-img rounded-circle" src={fourt} alt="avatar" style={{ width: "45px", height: "auto" }} />
                   </div>
 
                   <div className="ms-sm-2 mt-2 mt-sm-0">
                     <h6 className="mb-1">Billy Vasquez</h6>
                     <ul className="nav nav-divider small">
-                      <li className="nav-item">Room 05A</li>
-                      <li className="nav-item">14Nov - 18Nov</li>
+                      <li className="nav-item"></li>
+                      <li className="nav-item"></li>
                     </ul>
                   </div>
                 </div>
@@ -346,14 +356,14 @@ export const Cake = () => {
                 <div className="d-sm-flex align-items-center mb-1 mb-sm-0">
 
                   <div className="avatar avatar-md flex-shrink-0">
-                    <img className="avatar-img rounded-circle" src={five} alt="avatar" style={{width: "45px", height:"auto"}} />
+                    <img className="avatar-img rounded-circle" src={five} alt="avatar" style={{ width: "45px", height: "auto" }} />
                   </div>
 
                   <div className="ms-sm-2 mt-2 mt-sm-0">
                     <h6 className="mb-1">Amanda Reed</h6>
                     <ul className="nav nav-divider small">
-                      <li className="nav-item">Room 9</li>
-                      <li className="nav-item">11Nov - 12Nov</li>
+                      <li className="nav-item"></li>
+                      <li className="nav-item"></li>
                     </ul>
                   </div>
                 </div>
@@ -368,7 +378,7 @@ export const Cake = () => {
           </div>
         </div>
 
-        <div className="col-lg-6 col-xxl-4 my-5">
+        <div className="col-lg-6 col-xxl-4 my-2">
           <div className="card shadow h-100">
 
             <div className="card-header border-bottom d-flex justify-content-between align-items-center p-3">
@@ -383,7 +393,7 @@ export const Cake = () => {
                 <div className="d-sm-flex align-items-center mb-1 mb-sm-0">
 
                   <div className="flex-shrink-0">
-                    <img src="assets/images/category/hotel/4by3/08.jpg" className="rounded h-60px" alt="" />
+                    <img src={huella} className="rounded h-60px" alt="" style={{ width: "50px", height: "auto" }} />
                   </div>
 
                   <div className="ms-sm-3 mt-2 mt-sm-0">
@@ -409,7 +419,7 @@ export const Cake = () => {
                 <div className="d-sm-flex align-items-center mb-1 mb-sm-0">
 
                   <div className="flex-shrink-0">
-                    <img src="assets/images/category/hotel/4by3/09.jpg" className="rounded h-60px" alt="" />
+                    <img src={giftbox} className="rounded h-60px" alt="" style={{ width: "50px", height: "auto" }} />
                   </div>
 
                   <div className="ms-sm-3 mt-2 mt-sm-0">
@@ -435,7 +445,7 @@ export const Cake = () => {
                 <div className="d-sm-flex align-items-center mb-1 mb-sm-0">
 
                   <div className="flex-shrink-0">
-                    <img src="assets/images/category/hotel/4by3/01.jpg" className="rounded h-60px" alt="" />
+                    <img src={foundation} className="rounded h-60px" alt="" style={{ width: "50px", height: "50px" }} />
                   </div>
 
                   <div className="ms-sm-3 mt-2 mt-sm-0">
@@ -461,7 +471,7 @@ export const Cake = () => {
                 <div className="d-sm-flex align-items-center mb-1 mb-sm-0">
 
                   <div className="flex-shrink-0">
-                    <img src="assets/images/category/hotel/4by3/05.jpg" className="rounded h-60px" alt="" />
+                    <img src={regalo} className="rounded h-60px" alt="" style={{ width: "50px", height: "auto" }} />
                   </div>
 
                   <div className="ms-sm-3 mt-2 mt-sm-0">
@@ -487,7 +497,7 @@ export const Cake = () => {
                 <div className="d-sm-flex align-items-center mb-1 mb-sm-0">
 
                   <div className="flex-shrink-0">
-                    <img src="assets/images/category/hotel/4by3/02.jpg" className="rounded h-60px" alt="" />
+                    <img src={whale} className="rounded h-60px" alt="" style={{ width: "50px", height: "auto" }} />
                   </div>
 
                   <div className="ms-sm-3 mt-2 mt-sm-0">
@@ -506,10 +516,14 @@ export const Cake = () => {
               </div>
             </div>
           </div>
-        </div> 
+        </div>
 
-        
 
-        </>
-    );
+        </div>
+        </div>
+   
+
+
+    </>
+  );
 };
