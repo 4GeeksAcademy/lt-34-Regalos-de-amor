@@ -21,7 +21,7 @@ export const Graphics = () => {
                   <div id="ChartGuesttraffic" className="mt-2" style={{ minHeight: "365px" }}>
                     <div id="apexcharts9lxde2yj" className="apexcharts-canvas apexcharts9lxde2yj apexcharts-theme-light" style={{ width: "1001px", height: "350px" }}>
                       <svg id="SvgjsSvg1295" width="1001" height="350" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlnsXlink="http://www.w3.org/1999/xlink" xmlnssvgjs="http://svgjs.dev" className="apexcharts-svg apexcharts-zoomable" transform="translate(0, 0)" style={{ background: "transparent" }}>
-                        <foreignObject x="0" y="0" width="1001" height="350">
+                        {/* <foreignObject x="0" y="0" width="1001" height="350">
                           <div className="apexcharts-legend apexcharts-align-center apx-legend-position-bottom" xmlns="http://www.w3.org/1999/xhtml" style={{ inset: "auto 0px 1px", position: "absolute", maxHeight: "175px" }}>
                             <div className="apexcharts-legend-series" rel="1" seriesname="Check-in" data-collapsed="false" style={{ margin: "2px 5px" }}>
                               <span className="apexcharts-legend-marker" rel="1" data-collapsed="false" style={{ background: "rgb(142, 133, 230) !important", color: "rgb(142, 133, 230)", height: "12px", width: "12px", left: "0px", top: "0px", borderWidth: "0px", borderColor: "rgb(255, 255, 255)", borderRadius: "12px" }}></span>
@@ -53,7 +53,7 @@ export const Graphics = () => {
                             </div>
                           </div>
 
-                        </foreignObject>
+                        </foreignObject> */}
                         <rect id="SvgjsRect1300" width="0" height="0" x="0" y="0" rx="0" ry="0" opacity="1" strokeWidth="0" stroke="none" strokeDasharray="0" fill="#fefefe">
                         </rect><g id="SvgjsG1373" className="apexcharts-yaxis" rel="0" transform="translate(14.546875, 0)">
                           <g id="SvgjsG1374" className="apexcharts-yaxis-texts-g">

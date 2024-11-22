@@ -32,7 +32,7 @@ export const Cake = () => {
           <div className="card shadow h-100">
 
             <div className="card-header border-bottom">
-              <h5 className="card-header-title">Room Availability</h5>
+              <h5 className="card-header-title">Distribution of Donations by Foundation</h5>
             </div>
 
             <div className="card-body p-3">
@@ -115,14 +115,14 @@ export const Cake = () => {
               </div>
 
 
-              <ul className="list-group list-group-borderless mb-0">
+              <ul className="list-group list-group-borderless mb-0 mt-5">
                 <li className="list-group-item d-flex justify-content-between">
-                  <span className="h6 fw-light mb-0"><i className="text-success fas fa-circle me-2"></i> Available</span>
-                  <span className="h6 fw-light mb-0">73 Rooms</span>
+                  <span className="h6 fw-light mb-0"><i className="text-success fas fa-circle me-2"></i>Donations Received by Foundation</span>
+                  <span className="h6 fw-light mb-0">836 236$</span>
                 </li>
                 <li className="list-group-item d-flex justify-content-between">
-                  <span className="h6 fw-light mb-0"><i className="text-danger fas fa-circle me-2"></i> Sold Out</span>
-                  <span className="h6 fw-light mb-0">245 Rooms</span>
+                  <span className="h6 fw-light mb-0"><i className="text-danger fas fa-circle me-2"></i>Foundation Fundraising</span>
+                  <span className="h6 fw-light mb-0">345 689$</span>
                 </li>
               </ul>
             </div>
@@ -397,7 +397,7 @@ export const Cake = () => {
                   </div>
 
                   <div className="ms-sm-3 mt-2 mt-sm-0">
-                    <h6 className="mb-1">Deluxe Pool View with Breakfast</h6>
+                    <h6 className="mb-1">Paws & Claws Sanctuary</h6>
                     <ul className="list-inline smaller mb-0">
                       <li className="list-inline-item me-0"><i className="fas fa-star text-warning"></i></li>
                       <li className="list-inline-item me-0"><i className="fas fa-star text-warning"></i></li>
@@ -423,7 +423,7 @@ export const Cake = () => {
                   </div>
 
                   <div className="ms-sm-3 mt-2 mt-sm-0">
-                    <h6 className="mb-1">Deluxe Pool View</h6>
+                    <h6 className="mb-1">Hope Haven Foundation</h6>
                     <ul className="list-inline smaller mb-0">
                       <li className="list-inline-item me-0"><i className="fas fa-star text-warning"></i></li>
                       <li className="list-inline-item me-0"><i className="fas fa-star text-warning"></i></li>
@@ -449,7 +449,7 @@ export const Cake = () => {
                   </div>
 
                   <div className="ms-sm-3 mt-2 mt-sm-0">
-                    <h6 className="mb-1">Luxury Room with Balcony</h6>
+                    <h6 className="mb-1">Bright Future Fund</h6>
                     <ul className="list-inline smaller mb-0">
                       <li className="list-inline-item me-0"><i className="fas fa-star text-warning"></i></li>
                       <li className="list-inline-item me-0"><i className="fas fa-star text-warning"></i></li>
@@ -475,7 +475,7 @@ export const Cake = () => {
                   </div>
 
                   <div className="ms-sm-3 mt-2 mt-sm-0">
-                    <h6 className="mb-1">Premium Room With Balcony</h6>
+                    <h6 className="mb-1">EmpowerU Philanthropy</h6>
                     <ul className="list-inline smaller mb-0">
                       <li className="list-inline-item me-0"><i className="fas fa-star text-warning"></i></li>
                       <li className="list-inline-item me-0"><i className="fas fa-star text-warning"></i></li>
@@ -501,7 +501,7 @@ export const Cake = () => {
                   </div>
 
                   <div className="ms-sm-3 mt-2 mt-sm-0">
-                    <h6 className="mb-1">Rock Family Suite</h6>
+                    <h6 className="mb-1">Ocean Guardians Foundation</h6>
                     <ul className="list-inline smaller mb-0">
                       <li className="list-inline-item me-0"><i className="fas fa-star text-warning"></i></li>
                       <li className="list-inline-item me-0"><i className="fas fa-star text-warning"></i></li>
