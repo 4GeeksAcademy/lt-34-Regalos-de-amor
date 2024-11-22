@@ -32,27 +32,6 @@ export const FoundationForm = (props) => {
     }, [store.foundations, params]);
 
 
-    // const fetchBeneficiaryData = async () => {
-    //     try {
-    //         const response = await fetch(`${process.env.BACKEND_URL}/api/foundations`, {
-    //             method: 'GET',
-    //             headers: {
-    //                 'Content-Type': 'application/json',
-    //                 'Authorization': 'Bearer YOUR_TOKEN' // Solo si es requerido
-    //             }
-    //         });
-    
-    //         if (!response.ok) {
-    //             throw new Error(`Error: ${response.status}`);
-    //         }
-    
-    //         const data = await response.json();
-    //         console.log(data);
-    //     } catch (error) {
-    //         console.error("Failed to fetch beneficiary data:", error);
-    //     }
-    // };
-
     const Foundation = async () => {
         const Foundation = {
             name,
@@ -175,7 +154,7 @@ export const FoundationForm = (props) => {
                     />
                 </div>
 
-                <button type="submit" className="btn btn-primary">Send</button>
+                <button type="submit" className="btn btn-purple">Send</button>
             </form>
         </div>
     );

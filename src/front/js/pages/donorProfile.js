@@ -29,8 +29,6 @@ export const DonorProfile = () => {
     }, []);
 
 
-   
-
     // Handle input change
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -134,7 +132,7 @@ export const DonorProfile = () => {
                             {error}
                         </div>
                     )}
-                    <button type="submit" className="btn btn-primary w-100 mt-3">Save</button>
+                    <button type="submit" className="btn btn-purple w-100 mt-3">Save</button>
                 </form>
             </div>
         </div>

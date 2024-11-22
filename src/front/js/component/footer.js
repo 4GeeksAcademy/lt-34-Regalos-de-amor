@@ -1,10 +1,9 @@
-
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
 
 export const Footer = () => (
-   <footer className="bg-dark pt-5">
+   <footer className="bg-dark pt-3">
        <div className="container">
            <div className="row g-4">
                <div className="col-lg-3">
@@ -42,7 +41,7 @@ export const Footer = () => (
            </div>
            <hr className="mt-4 mb-0" />
            <div className="row">
-               <div className="container">
+               <div className="container ">
                    <div className="d-lg-flex justify-content-between align-items-center py-3 text-center text-lg-start">
 
 

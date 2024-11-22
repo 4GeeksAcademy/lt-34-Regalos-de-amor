@@ -4,6 +4,8 @@ from sqlalchemy import Column, ForeignKey, Integer, String
 from base64 import b64decode
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship
+from datetime import datetime
+
 
 
 db = SQLAlchemy()
@@ -78,11 +80,6 @@ class Donor(db.Model):
 
     # Relationship with Foundation
     foundation = relationship("Foundation", backref="related_donor", cascade="all, delete-orphan")
-    # Foreign Key to Foundation
-    # foundation_id = db.Column(Integer, ForeignKey('foundation.id'), nullable=True)
-
-    # # Relationship with Foundation
-    # foundation = relationship("Foundation", back_populates="donors")
 
     def __repr__(self):
         return f'<Donor {self.first_name}>'
@@ -96,7 +93,6 @@ class Donor(db.Model):
             "is_active": self.is_active
         }
     
-
 class Transaction(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     payment_id = db.Column(db.String(100), nullable=False)
@@ -114,6 +110,48 @@ class Transaction(db.Model):
             "payer_id" : self.payer_id,
             "amount" : self.amount         
         }
+    
+class Donation(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    donor_id = db.Column(db.Integer, db.ForeignKey('donor.id'), nullable=False)
+    foundation_id = db.Column(db.Integer, db.ForeignKey('foundation.id'), nullable=False)
+    amount = db.Column(db.Float, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
+    donor = db.relationship('Donor', backref=db.backref('donations', lazy=True))
+    foundation = db.relationship('Foundation', backref=db.backref('donations', lazy=True))
+
+    def __repr__(self):
+        return f'<Donation {self.donor.name}'
+    
+    def serialize(self):
+        return {
+            "id": self.id,
+            "donor_id": self.donor_id,
+            "foundation_id": self.foundation_id,
+            "amount": self.amount,
+            "created_at": self.created_at
+        }
+
+
+class Notification(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    foundation_id = db.Column(db.Integer, db.ForeignKey('foundation.id'), nullable=False)
+    message = db.Column(db.String(255), nullable=False)
+    is_read = db.Column(db.Boolean, default=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    foundation = db.relationship('Foundation', backref=db.backref('notifications', lazy=True))
+
+    def __repr__(self):
+        return f'<Notification for {self.foundation.name}'
     
     
+    def serialize(self):
+        return {
+            "id": self.id,
+            "foundation_id": self.foundation_id,
+            "message": self.message,
+            "is_read": self.is_read,
+            "created_at": self.created_at
+        }

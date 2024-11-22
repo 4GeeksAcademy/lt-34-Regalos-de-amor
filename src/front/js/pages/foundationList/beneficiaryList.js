@@ -19,6 +19,7 @@ export const BeneficiaryList = () => {
     return (
         <>
             {/* <!-- Hotel grid START --> */}
+            
             <div className="row g-4 mb-5">
                 <div className="col-12">
                     <div className="d-flex justify-content-between">
@@ -49,7 +50,7 @@ export const BeneficiaryList = () => {
                                             </ul>
                                         </div>
 
-                                        <h5 className="card-title mb-0 me-5"><a href="#">{item.name}</a></h5>
+                                        <h5 className="card-title  mb-0 me-5"><a href="#">{item.name}</a></h5>
                                         <small><i className="bi bi-geo-alt me-2"></i>{item.description}</small>
 
                                         <div className=" align-items-center">
@@ -57,7 +58,7 @@ export const BeneficiaryList = () => {
                                             <p className="mb-0 me-2">Email: {item.email}</p>
                                         </div>
                                         <div>
-                                            <button className="btn btn-primary" onClick={() => handleFoundationClick(item.id)} >See Beneficiary</button>
+                                            <button className="btn btn-purple" onClick={() => handleFoundationClick(item.id)} >See Beneficiary</button>
                                         </div>
                                     </div>
                                 </div>
@@ -67,6 +68,7 @@ export const BeneficiaryList = () => {
                     </div>
                 ))}
             </div>
+            
         </>
     );
 };

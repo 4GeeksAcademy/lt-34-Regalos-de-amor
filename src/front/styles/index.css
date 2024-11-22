@@ -1,6 +1,25 @@
 /* 
     General Styles used on every website (Don't Repeat Yourself)
 */
+/* .sidebar.navbar-expand-xl {
+    position: fixed;
+    z-index: 1030;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-align: stretch;
+    -ms-flex-align: stretch;
+    align-items: stretch;
+}
+ */
+
 .parallax-container {
     position: relative;
     height: 100vh;
@@ -32,7 +51,7 @@
 
 
 .page-content {
-    margin-left: 16.25rem;
+    /* margin-left: 16.25rem; */
     position: relative;
     height: 100%;
     display: block;
@@ -67,16 +86,29 @@
 
 
 
-/* 
+.apexcharts-toolbar {
+    top: 0px;
+    right: 3px;
+    position: absolute;
+    z-index: 11;
+    max-width: 176px;
+    text-align: right;
+    border-radius: 3px;
+    padding: 0 6px 2px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
-.col-lg-6 {
+/*Cake*/
+/* .col-lg-6 {
     -webkit-box-flex: 0;
     -ms-flex: 0 0 auto;
     flex: 0 0 auto;
     width: 50%;
-}
+} */
 
-.row   {
+/* .row   {
     -ms-flex-negative: 0;
     flex-shrink: 0;
     width: 100%;
@@ -84,7 +116,7 @@
     padding-right: calc(var(--bs-gutter-x)* 0.5);
     padding-left: calc(var(--bs-gutter-x)* 0.5);
     margin-top: var(--bs-gutter-y);
-}
+} */
 
 *, *::before, *::after {
     -webkit-box-sizing: border-box;
@@ -113,4 +145,5 @@
     flex: 1 1 auto;
     padding: var(--bs-card-spacer-y) var(--bs-card-spacer-x);
     color: var(--bs-card-color);
-} */
+
+}

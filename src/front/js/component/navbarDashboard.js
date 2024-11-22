@@ -62,14 +62,14 @@ export const NavbarDashboard = () => {
                                             
                                                 <li className="av-link" data-bs-toggle="collapse" href="#collapsebooking" role="button" aria-expanded="false" aria-controls="collapsebooking" onClick={handleFoundationClick}>Foundations</li>
                                             
-
+{/* 
                                                 <li className="nav-item">
                                                     <a className="nav-link" data-bs-toggle="collapse" href="#collapsebooking" role="button" aria-expanded="false" aria-controls="collapsebooking">
                                                         My Profile
                                                     </a>
 
                     
-                                                </li>
+                                                </li> */}
 
                                             </ul>
 
