@@ -15,10 +15,10 @@ export const OurTeam = () => {
                           Our Team
                       </h1>
                       <p className="mb-4">
-                        Somos Maria, Juan y Barbara, estudiantes de 4Geeks que decidimos crear esta página como una iniciativa para ayudar a todas las personas que lo necesitan, conectando a quienes desean apoyar causas importantes con quienes realmente lo requieren.
+                      We are Maria, Juan and Barbara, 4Geeks students who decided to create this page as an initiative to help all the people who need it, connecting those who want to support important causes with those who really need it.
                       </p>
                       <p className="mb-4">
-                        Unidos por la empatía y el deseo de marcar la diferencia, creemos que cada contribución puede generar un impacto positivo en las vidas de las personas. Este proyecto es nuestra manera de combinar tecnología con compasión, para construir un futuro más solidario.
+                      United by empathy and the desire to make a difference, we believe that every contribution can make a positive impact on people's lives. This project is our way of combining technology with compassion, to build a more caring future.
                       </p>
                   </div>
 

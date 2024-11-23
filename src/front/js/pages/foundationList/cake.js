@@ -136,7 +136,7 @@ export const Cake = () => {
           <div className="card shadow h-100">
 
             <div className="card-header border-bottom d-flex justify-content-between align-items-center">
-              <h5 className="card-header-title">What inspired you to become a donar?</h5>
+              <h5 className="card-header-title">What inspired you to become a donor?</h5>
               <a href="#" className="btn btn-link p-0 mb-0">View all</a>
             </div>
 

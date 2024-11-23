@@ -76,91 +76,92 @@ export const FoundationBeneficiaries = () => {
     };
 
     return (
+        <>
+            <div className="page-content-wrapper p-xxl-4" style={{}}>
+                <TopBar />
+            </div>
+            <main className="d-flex dashboard container-fluid ">
+                <NavbarDashboard />
 
-        <main className="d-flex dashboard container-fluid ">
-            <NavbarDashboard />
-            <div className="page-content-wrapper p-xxl-4">
-        <div className="page-content-wrapper p-xxl-4">
+                <div className="page-content-wrapper p-xxl-4" >
 
-                    <TopBar />
                     <h1 className="text-black text-center fw-bold mb-5"></h1>
                     <p className="text-center text-muted mb-4"></p>
-                    
-                  
-                        <h2 className="text-center text-black fw-bold mb-4">Beneficiaries</h2>
-                        {loading ? (
-                            <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '300px' }}>
-                                <img
-                                    src="https://discuss.wxpython.org/uploads/default/original/2X/6/6d0ec30d8b8f77ab999f765edd8866e8a97d59a3.gif"
-                                    alt="Loading..."
-                                    style={{ width: '100px', height: '100px' }}
-                                />
-                            </div>
 
-                        ) : error ? (
-                            <p className="text-danger text-center">{error}</p>
-                        ) : (
-                            <div className="row ">
-                                {beneficiaries.map((beneficiary) => (
-                                    <div key={beneficiary.id} className="col">
-                                        <div className="card h-100 shadow-sm">
-                                            <img
-                                                src={beneficiary.image || "https://via.placeholder.com/150"}
-                                                alt={beneficiary.name}
-                                                className="card-img-top"
-                                                style={{ objectFit: 'cover', height: '200px' }}
-                                            />
-                                            <div className="card-body d-flex flex-column">
-                                                <h5 className="card-title text-purple fw-bold">{beneficiary.name}</h5>
-                                                <p className="card-text text-muted">{beneficiary.wish_gift}</p>
-                                                <p className="card-text small text-secondary mb-4">{beneficiary.history}</p>
-                                                <p className="card-text small text-secondary mb-4">{beneficiary.account}</p>
-                                                <button
-                                                    onClick={() => handleDonateClick(beneficiary)}
-                                                    className="btn btn-purple mt-auto"
-                                                >
-                                                    Donate
-                                                </button>
-                                            </div>
-                                            {selectedBeneficiary && selectedBeneficiary.id === beneficiary.id && (
-                                                <div className="card-footer">
-                                                    <h6 className="text-center text-secondary fw-semibold">Donate to {selectedBeneficiary.name}</h6>
-                                                    <div className="d-flex justify-content-between align-items-center mb-2">
-                                                        <select value={currency} onChange={onCurrencyChange} className="form-select">
-                                                            <option value="USD">USD</option>
-                                                            <option value="EUR">EUR</option>
-                                                        </select>
-                                                        <input
-                                                            type="number"
-                                                            value={amount}
-                                                            onChange={(e) => setAmount(e.target.value)}
-                                                            placeholder="Enter amount"
-                                                            className="form-control ms-2"
-                                                            style={{ maxWidth: '100px' }}
-                                                        />
-                                                    </div>
-                                                    <PayPalButtons
-                                                        style={{ layout: "vertical" }}
-                                                        createOrder={(data, actions) => onCreateOrder(data, actions)}
-                                                        onApprove={(data, actions) => onApproveOrder(data, actions)}
-                                                        forceReRender={[amount, currency]}
-                                                    />
-                                        {/* <Donations/> */}
-                                      
-                                                </div>
-                                                
-                                            )}
+
+                    <h2 className="text-center text-black fw-bold mb-4">Beneficiaries</h2>
+                    {loading ? (
+                        <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '300px' }}>
+                            <img
+                                src="https://discuss.wxpython.org/uploads/default/original/2X/6/6d0ec30d8b8f77ab999f765edd8866e8a97d59a3.gif"
+                                alt="Loading..."
+                                style={{ width: '100px', height: '100px' }}
+                            />
+                        </div>
+
+                    ) : error ? (
+                        <p className="text-danger text-center">{error}</p>
+                    ) : (
+                        <div className="row ">
+                            {beneficiaries.map((beneficiary) => (
+                                <div key={beneficiary.id} className="col">
+                                    <div className="card h-100 shadow-sm">
+                                        <img
+                                            src={beneficiary.image || "https://via.placeholder.com/150"}
+                                            alt={beneficiary.name}
+                                            className="card-img-top"
+                                            style={{ objectFit: 'cover', height: '200px' }}
+                                        />
+                                        <div className="card-body d-flex flex-column">
+                                            <h5 className="card-title text-purple fw-bold">{beneficiary.name}</h5>
+                                            <p className="card-text text-muted">{beneficiary.wish_gift}</p>
+                                            <p className="card-text small text-secondary mb-4">{beneficiary.history}</p>
+                                            <p className="card-text small text-secondary mb-4">{beneficiary.account}</p>
+                                            <button
+                                                onClick={() => handleDonateClick(beneficiary)}
+                                                className="btn btn-purple mt-auto"
+                                            >
+                                                Donate
+                                            </button>
                                         </div>
+                                        {selectedBeneficiary && selectedBeneficiary.id === beneficiary.id && (
+                                            <div className="card-footer">
+                                                <h6 className="text-center text-secondary fw-semibold">Donate to {selectedBeneficiary.name}</h6>
+                                                <div className="d-flex justify-content-between align-items-center mb-2">
+                                                    <select value={currency} onChange={onCurrencyChange} className="form-select">
+                                                        <option value="USD">USD</option>
+                                                        <option value="EUR">EUR</option>
+                                                    </select>
+                                                    <input
+                                                        type="number"
+                                                        value={amount}
+                                                        onChange={(e) => setAmount(e.target.value)}
+                                                        placeholder="Enter amount"
+                                                        className="form-control ms-2"
+                                                        style={{ maxWidth: '100px' }}
+                                                    />
+                                                </div>
+                                                <PayPalButtons
+                                                    style={{ layout: "vertical" }}
+                                                    createOrder={(data, actions) => onCreateOrder(data, actions)}
+                                                    onApprove={(data, actions) => onApproveOrder(data, actions)}
+                                                    forceReRender={[amount, currency]}
+                                                />
+                                                {/* <Donations/> */}
 
+                                            </div>
+
+                                        )}
                                     </div>
-                                ))}
-                            </div>
-                        )}
-                    </div>
-               
-            
-           
-            </div>
-        </main>
+
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
+
+
+            </main>
+        </>
     );
 };
